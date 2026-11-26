@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f7dce8"><meta name="description" content="My Little Wallet - private offline money tracker">
+<link rel="manifest" href="manifest.json"><link rel="icon" href="icon.svg">
+<title>My Little Wallet 🐼</title>
+<style>
+:root{--pink:#f7dce8;--rose:#d879a2;--cream:#fffaf4;--lav:#eee8fb;--ink:#51434b;--muted:#8b7d85;--line:#f0dce5}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font:15px system-ui,-apple-system,Segoe UI,sans-serif}
+header{background:linear-gradient(120deg,#f8dce8,#eee8fb);padding:22px 17px 18px;border-radius:0 0 24px 24px}
+h1{margin:0;font-size:24px}header p{margin:5px 0 0;color:#755f6b;font-size:13px}
+main{max-width:760px;margin:auto;padding:14px 13px 90px}
+.nav{display:flex;gap:7px;overflow:auto;padding:5px 0 12px;position:sticky;top:0;background:var(--cream);z-index:2}
+.nav button{border:1px solid var(--line);background:white;border-radius:999px;padding:9px 13px;white-space:nowrap;color:var(--ink)}
+.nav button.active{background:var(--rose);color:white;border-color:var(--rose)}
+.card{background:white;border:1px solid var(--line);border-radius:18px;padding:15px;margin:10px 0;box-shadow:0 3px 12px #7b52600c}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.metric{background:#fff7fa;border-radius:14px;padding:12px}.metric small{color:var(--muted)}.metric strong{display:block;font-size:20px;margin-top:4px}
+h2{font-size:18px;margin:4px 0 12px}h3{font-size:15px;margin:0 0 8px}
+label{display:block;font-size:12px;color:var(--muted);margin:9px 0 4px}
+input,select,textarea{width:100%;border:1px solid var(--line);border-radius:11px;padding:11px;background:#fffdfd;color:var(--ink);font:inherit}
+textarea{min-height:65px}button.primary{background:var(--rose);color:white;border:0;border-radius:12px;padding:11px 15px;font-weight:650;margin-top:10px}
+button.secondary{background:var(--lav);border:0;border-radius:10px;padding:9px 12px;color:var(--ink);margin:4px 4px 4px 0}
+.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}
+.item{padding:10px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px}.item:last-child{border:0}
+.muted{color:var(--muted);font-size:12px}.hidden{display:none!important}.progress{height:9px;background:#f4eaf0;border-radius:99px;overflow:hidden;margin:7px 0}.progress span{display:block;height:100%;background:var(--rose)}
+.notice{background:#fff6dc;padding:11px;border-radius:12px;font-size:12px;line-height:1.5}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
+@media(min-width:600px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.forms{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}}
+</style></head>
+<body>
+<header><h1>🐼 My Little Wallet</h1><p>Your little money buddy · private · offline-first</p></header>
+<main>
+<div class="nav" id="nav">
+<button class="active" data-tab="home">Home</button><button data-tab="personal">Personal</button><button data-tab="savings">Savings</button><button data-tab="goals">Panda Race</button><button data-tab="repay">Repayments</button><button data-tab="apartment">Apartment</button><button data-tab="backup">Backup</button>
+</div>
+<section id="home" class="panel">
+<div class="card"><h2>Welcome back! 🌷</h2><div class="grid">
+<div class="metric"><small>Personal income</small><strong id="mIncome">₱0.00</strong></div>
+<div class="metric"><small>Personal spending</small><strong id="mSpend">₱0.00</strong></div>
+<div class="metric"><small>Total savings</small><strong id="mSavings">₱0.00</strong></div>
+<div class="metric"><small>Apartment collected</small><strong id="mRent">₱0.00</strong></div>
+</div></div>
+<div class="notice">🔒 Your records are stored in this browser on this device. They are not automatically uploaded or synced. Export a backup regularly. Clearing browser data can erase your records.</div>
+<div class="card"><h2>Recent activity</h2><div id="recent" class="muted">No entries yet. Add your first record in a section above.</div></div>
+</section>
+<section id="personal" class="panel hidden"><div class="card"><h2>Personal money</h2>
+<div class="forms">
+<div><label>Entry type</label><select id="pType"><option>Income</option><option>Expense</option></select></div>
+<div><label>Date</label><input id="pDate" type="date"></div>
+<div><label>Description</label><input id="pDesc" placeholder="e.g. Salary, groceries"></div>
+<div><label>Category / income source</label><select id="pCat"><option>Salary</option><option>Overtime</option><option>Night differential</option><option>Holiday pay</option><option>Other income</option><option>Groceries</option><option>Bills / subscriptions</option><option>Motorcycle</option><option>Shopping</option><option>Personal spending</option><option>Date money</option><option>Gifts</option><option>Debt / installments</option><option>Transport</option><option>Healthcare</option><option>Household</option><option>Other</option></select></div>
+<div><label>Cutoff</label><select id="pCut"><option>15th</option><option>End-month</option><option>Other</option></select></div>
+<div><label>Amount (₱)</label><input id="pAmount" type="number" min="0" step=".01" placeholder="0.00"></div>
+<div><label>Payment method</label><input id="pMethod" placeholder="Cash, bank, e-wallet"></div>
+</div><label>Notes</label><textarea id="pNotes" placeholder="Optional"></textarea><button class="primary" onclick="addPersonal()">Save personal entry</button></div><div class="card"><h3>Personal history</h3><div id="pList"></div></div></section>
+<section id="savings" class="panel hidden"><div class="card"><h2>Savings accounts & transactions</h2>
+<label>Institution / account name</label><input id="sAccount" placeholder="e.g. Bank, cooperative, cash wallet">
+<div class="row"><div><label>Transaction</label><select id="sType"><option>Deposit</option><option>Withdrawal</option><option>Transfer in</option><option>Transfer out</option></select></div><div><label>Date</label><input id="sDate" type="date"></div></div>
+<div class="row"><div><label>Amount (₱)</label><input id="sAmount" type="number" min="0" step=".01"></div><div><label>Goal (optional)</label><input id="sGoal" placeholder="e.g. Emergency fund"></div></div>
+<label>Reason / where spent / notes</label><input id="sNote" placeholder="Required for withdrawals: what was it used for?">
+<button class="primary" onclick="addSaving()">Save savings transaction</button></div>
+<div class="card"><h3>Balances by account</h3><div id="sAccounts"></div></div><div class="card"><h3>Savings history</h3><div id="sList"></div></div></section>
+<section id="goals" class="panel hidden"><div class="card"><h2>🐼 Panda Race savings goals</h2><label>Goal name</label><input id="gName" placeholder="e.g. Phone fund"><div class="row"><div><label>Target (₱)</label><input id="gTarget" type="number" min="1"></div><div><label>Deadline</label><input id="gDate" type="date"></div></div><button class="primary" onclick="addGoal()">Create goal</button></div><div class="card"><div id="gList"></div></div></section>
+<section id="repay" class="panel hidden"><div class="card"><h2>Savings used & repayments</h2><p class="muted">Track money taken from savings and how much you have returned. If you physically put the money back into an account, also record a deposit in Savings.</p><label>Withdrawal / reason reference</label><input id="rRef" placeholder="e.g. Used ₱2,000 for repair"><div class="row"><div><label>Type</label><select id="rType"><option>Amount used</option><option>Repayment</option></select></div><div><label>Date</label><input id="rDate" type="date"></div></div><label>Amount (₱)</label><input id="rAmount" type="number" min="0" step=".01"><button class="primary" onclick="addRepay()">Save repayment record</button></div><div class="card"><div id="rList"></div></div></section>
+<section id="apartment" class="panel hidden"><div class="card"><h2>🏡 Apartment manager</h2><div class="notice">Apartment records are separate from your personal money and savings. Excess rent is not automatically allocated. Choose the purpose for each payment.</div>
+<label>Tenant name / unit</label><input id="tName" placeholder="e.g. Tenant A - Unit 1"><div class="row"><div><label>Monthly rent (₱)</label><input id="tRent" type="number" min="0" step=".01"></div><div><label>Previous balance (₱)</label><input id="tOld" type="number" min="0" step=".01"></div></div><button class="primary" onclick="addTenant()">Add tenant</button></div><div class="card"><h3>Record tenant payment</h3><label>Tenant</label><select id="payTenant"></select><div class="row"><div><label>Date</label><input id="payDate" type="date"></div><div><label>Amount (₱)</label><input id="payAmount" type="number" min="0" step=".01"></div></div><div class="row"><div><label>Purpose</label><select id="payPurpose"><option>Monthly rent</option><option>Old balance</option><option>Advance rent</option><option>Other</option></select></div><div><label>Rent month (if monthly rent)</label><input id="rentMonth" type="month"></div></div><label>Notes</label><input id="payNote"><button class="primary" onclick="addPayment()">Save tenant payment</button></div><div class="card"><h3>Tenants & payment history</h3><div id="tList"></div></div><div class="card"><h3>Rental expenses</h3><label>Description</label><input id="eDesc" placeholder="Repairs, utilities, cleaning"><div class="row"><div><label>Date</label><input id="eDate" type="date"></div><div><label>Amount (₱)</label><input id="eAmount" type="number" min="0" step=".01"></div></div><button class="primary" onclick="addRentalExpense()">Save rental expense</button><div id="eList"></div></div></section>
+<section id="backup" class="panel hidden"><div class="card"><h2>Backup & restore</h2><p>Export a copy of all your records regularly. Keep it somewhere private.</p><button class="primary" onclick="exportData()">Export backup file</button><label>Restore from a previous My Little Wallet backup</label><input id="importFile" type="file" accept="application/json"><button class="secondary" onclick="importData()">Restore backup</button><p class="muted">Restoring replaces the current records on this device. Export your current data first.</p></div></section>
+<footer>Made with care for your little money goals 🐼🌸</footer>
+</main>
+<script>
+const KEY='myLittleWalletDataV1';
+let db=JSON.parse(localStorage.getItem(KEY)||'{"personal":[],"savings":[],"goals":[],"repay":[],"tenants":[],"payments":[],"rentalExpenses":[]}');
+const money=n=>'₱'+Number(n||0).toLocaleString('en-PH',{minimumFractionDigits:2,maximumFractionDigits:2});
+const val=id=>document.getElementById(id).value;
+const today=new Date().toISOString().slice(0,10);
+['pDate','sDate','rDate','payDate','eDate'].forEach(id=>document.getElementById(id).value=today);
+function save(){localStorage.setItem(KEY,JSON.stringify(db));render()}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function line(title,sub,amount){return `<div class="item"><div><b>${esc(title)}</b><div class="muted">${esc(sub||'')}</div></div><b>${money(amount)}</b></div>`}
+function addPersonal(){let a=+val('pAmount');if(!a||!val('pDesc'))return alert('Please enter a description and amount.');db.personal.unshift({type:val('pType'),date:val('pDate'),desc:val('pDesc'),cat:val('pCat'),cut:val('pCut'),amount:a,method:val('pMethod'),notes:val('pNotes')});save();['pDesc','pAmount','pMethod','pNotes'].forEach(x=>document.getElementById(x).value='')}
+function addSaving(){let a=+val('sAmount'),n=val('sAccount').trim();if(!a||!n)return alert('Enter an account name and amount.');if(val('sType')==='Withdrawal'&&!val('sNote').trim())return alert('Please enter where or what the withdrawal was spent on.');db.savings.unshift({account:n,type:val('sType'),date:val('sDate'),amount:a,goal:val('sGoal'),note:val('sNote')});save();['sAmount','sGoal','sNote'].forEach(x=>document.getElementById(x).value='')}
+function addGoal(){let n=val('gName').trim(),t=+val('gTarget');if(!n||!t)return alert('Enter a goal name and target.');db.goals.push({name:n,target:t,deadline:val('gDate')});save();document.getElementById('gName').value='';document.getElementById('gTarget').value=''}
+function goalAmount(name){return db.savings.filter(x=>x.goal===name).reduce((s,x)=>s+((x.type==='Deposit'||x.type==='Transfer in')?x.amount:-x.amount),0)}
+function addRepay(){let a=+val('rAmount');if(!a||!val('rRef'))return alert('Enter a reference and amount.');db.repay.unshift({ref:val('rRef'),type:val('rType'),date:val('rDate'),amount:a});save();document.getElementById('rAmount').value=''}
+function addTenant(){let n=val('tName').trim();if(!n)return alert('Enter a tenant name or unit.');db.tenants.push({name:n,rent:+val('tRent')||0,old:+val('tOld')||0,advance:0});save();document.getElementById('tName').value=''}
+function addPayment(){let t=db.tenants[+val('payTenant')],a=+val('payAmount');if(!t||!a)return alert('Choose a tenant and enter an amount.');let purpose=val('payPurpose');if(purpose==='Monthly rent'&&!val('rentMonth'))return alert('Choose the rent month.');db.payments.unshift({tenant:t.name,date:val('payDate'),amount:a,purpose,month:val('rentMonth'),note:val('payNote')});if(purpose==='Old balance')t.old=Math.max(0,t.old-a);if(purpose==='Advance rent')t.advance+=a;save();document.getElementById('payAmount').value=''}
+function addRentalExpense(){let a=+val('eAmount');if(!a||!val('eDesc'))return alert('Enter an expense and amount.');db.rentalExpenses.unshift({desc:val('eDesc'),date:val('eDate'),amount:a});save();document.getElementById('eAmount').value=''}
+function exportData(){let b=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download='my-little-wallet-backup-'+today+'.json';a.click();URL.revokeObjectURL(u)}
+function importData(){let f=document.getElementById('importFile').files[0];if(!f)return alert('Choose a backup file first.');let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result);if(!d.personal||!d.savings||!d.tenants)throw 0;if(!confirm('Replace the records currently on this device with this backup?'))return;db=d;save();alert('Backup restored.')}catch(e){alert('That file does not look like a valid My Little Wallet backup.')}};r.readAsText(f)}
+function render(){
+let inc=db.personal.filter(x=>x.type==='Income').reduce((s,x)=>s+x.amount,0),sp=db.personal.filter(x=>x.type==='Expense').reduce((s,x)=>s+x.amount,0);
+let bal={};db.savings.forEach(x=>{bal[x.account]=(bal[x.account]||0)+((x.type==='Deposit'||x.type==='Transfer in')?x.amount:-x.amount)});
+let sav=Object.values(bal).reduce((s,x)=>s+x,0),rent=db.payments.reduce((s,x)=>s+x.amount,0);
+mIncome.textContent=money(inc);mSpend.textContent=money(sp);mSavings.textContent=money(sav);mRent.textContent=money(rent);
+pList.innerHTML=db.personal.map(x=>line(x.desc,x.date+' · '+x.type+' · '+x.cat,(x.type==='Expense'?-1:1)*x.amount)).join('')||'<span class="muted">No personal entries yet.</span>';
+sAccounts.innerHTML=Object.keys(bal).map(k=>line(k,'Current tracked balance',bal[k])).join('')||'<span class="muted">No accounts yet.</span>';
+sList.innerHTML=db.savings.map(x=>line(x.account,x.date+' · '+x.type+' · '+(x.note||x.goal),x.amount)).join('')||'<span class="muted">No savings entries yet.</span>';
+gList.innerHTML=db.goals.map(g=>{let a=goalAmount(g.name),p=Math.max(0,Math.min(100,a/g.target*100));return `<div class="item"><div style="width:100%"><b>🐼 ${esc(g.name)}</b><div class="muted">${money(a)} of ${money(g.target)} · ${p.toFixed(0)}% ${g.deadline?'· Due '+esc(g.deadline):''}</div><div class="progress"><span style="width:${p}%"></span></div>${p>=100?'🎉 Goal reached!':''}</div></div>`}).join('')||'<span class="muted">Create your first goal.</span>';
+let used=db.repay.filter(x=>x.type==='Amount used').reduce((s,x)=>s+x.amount,0),paid=db.repay.filter(x=>x.type==='Repayment').reduce((s,x)=>s+x.amount,0);
+rList.innerHTML=`<div class="grid"><div class="metric"><small>Total used</small><strong>${money(used)}</strong></div><div class="metric"><small>Repaid</small><strong>${money(paid)}</strong></div><div class="metric"><small>Still to repay</small><strong>${money(Math.max(0,used-paid))}</strong></div></div>`+db.repay.map(x=>line(x.ref,x.date+' · '+x.type,x.amount)).join('');
+payTenant.innerHTML=db.tenants.map((t,i)=>`<option value="${i}">${esc(t.name)}</option>`).join('');
+tList.innerHTML=db.tenants.map(t=>{let pays=db.payments.filter(p=>p.tenant===t.name);return `<div class="card"><b>${esc(t.name)}</b><div class="muted">Monthly rent ${money(t.rent)} · Old balance remaining ${money(t.old)} · Advance credit ${money(t.advance)}</div>${pays.map(p=>line(p.purpose+' '+(p.month||''),p.date+' · '+(p.note||''),p.amount)).join('')}</div>`}).join('')||'<span class="muted">Add your first tenant.</span>';
+eList.innerHTML=db.rentalExpenses.map(x=>line(x.desc,x.date,x.amount)).join('')||'<span class="muted">No rental expenses yet.</span>';
+recent.innerHTML=[...db.personal.slice(0,3).map(x=>line(x.desc,x.date+' · Personal',x.amount)),...db.savings.slice(0,2).map(x=>line(x.account,x.date+' · Savings '+x.type,x.amount))].join('')||'No entries yet.';
+}
+document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.panel').forEach(x=>x.classList.add('hidden'));document.getElementById(b.dataset.tab).classList.remove('hidden')}));
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+render();
+</script></body></html>
