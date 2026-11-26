@@ -293,6 +293,38 @@ footer {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-5px); }
 }
+/* 🎀 PINK PANDA CLICKABLE TILES UPGRADE */
+
+.dream-action {
+  cursor: pointer;
+  min-height: 105px;
+  box-shadow: 0 4px 12px #d99aba18;
+  transition: transform 0.2s ease,
+              box-shadow 0.2s ease,
+              background 0.2s ease;
+}
+
+.dream-action:active {
+  transform: scale(0.94);
+  background: #fff0f7;
+  box-shadow: 0 2px 7px #d99aba25;
+}
+
+.dream-action small {
+  display: block;
+  margin-top: 5px;
+  color: #ad8a9f;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.dream-action span {
+  transition: transform 0.2s ease;
+}
+
+.dream-action:active span {
+  transform: scale(1.2);
+}
 
 @media (prefers-reduced-motion: reduce) {
   .penny-face { animation: none; }
