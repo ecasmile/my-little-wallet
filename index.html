@@ -643,6 +643,30 @@ footer {
 #reports #chartCats {
   height: 280px;
 }
+/* 🐼 HOME YEARLY CHART */
+#home .chart-card {
+  background: linear-gradient(145deg,#fff,#fff2f8);
+  border: 1px solid #f3d5e6;
+  border-radius: 23px;
+  padding: 17px;
+  margin: 12px 0;
+  box-shadow: 0 6px 18px #d99aba18;
+}
+#home .chart-card h3 {
+  color: #b75d8d;
+  margin-bottom: 5px;
+}
+#home .chart-note {
+  color: #a18b98;
+  font-size: 11px;
+  margin: 0 0 12px;
+}
+#home .report-chart {
+  display: block;
+  width: 100%;
+  height: 230px;
+}
+
 </style></head>
 <body>
 <header>
@@ -936,7 +960,7 @@ if($('repMonth'))renderReports();
 
   drawReportCharts(m,y);
   /* 🎀 PINK PANDA REPORT CHART ENGINE */
-
+ 
 function chartCanvas(id,height=230){
   let canvas=$(id);
   if(!canvas)return null;
@@ -1160,45 +1184,42 @@ function drawReportCharts(month,year){
     ).reduce((s,x)=>s+x.amount,0)
   );
 
-  drawBarChart('chartYear',months,incomes,expenses);
-  }
   
-  // Home yearly chart
-  let homeYear = String($('homeChartYear')?.value || year);
-  let homeYearRows = db.personal.filter(x =>
-    (x.date || '').startsWith(homeYear)
-  );
 
-  let homeIncomes = months.map((_, i) =>
-    homeYearRows.filter(x =>
-      (x.date || '').slice(5, 7) === String(i + 1).padStart(2, '0')
-      && x.type === 'Income'
-    ).reduce((s, x) => s + x.amount, 0)
-  );
+drawBarChart('chartYear',months,incomes,expenses);
 
-  let homeExpenses = months.map((_, i) =>
-    homeYearRows.filter(x =>
-      (x.date || '').slice(5, 7) === String(i + 1).padStart(2, '0')
-      && x.type === 'Expense'
-    ).reduce((s, x) => s + x.amount, 0)
-  );
+// Home yearly chart
+let homeYear = String($('homeChartYear')?.value || year);
 
-  drawBarChart('chartHomeYear', months, homeIncomes, homeExpenses);
-  
+let homeYearRows = db.personal.filter(x =>
+  (x.date || '').startsWith(homeYear)
+);
+
+let homeIncomes = months.map((_, i) =>
+  homeYearRows.filter(x =>
+    (x.date || '').slice(5, 7) === String(i + 1).padStart(2, '0')
+    && x.type === 'Income'
+  ).reduce((s, x) => s + x.amount, 0)
+);
+
+let homeExpenses = months.map((_, i) =>
+  homeYearRows.filter(x =>
+    (x.date || '').slice(5, 7) === String(i + 1).padStart(2, '0')
+    && x.type === 'Expense'
+  ).reduce((s, x) => s + x.amount, 0)
+);
+
+drawBarChart('chartHomeYear', months, homeIncomes, homeExpenses);
+}
                                                                                                                                                                                                                                                                                                                    }
 function exportCSV(key){let rows=db[key]||[];if(!rows.length)return alert('No records in this section yet.');let cols=[...new Set(rows.flatMap(x=>Object.keys(x)))],quote=x=>'"'+String(x??'').replace(/"/g,'""')+'"';let csv=[cols.map(quote).join(','),...rows.map(r=>cols.map(c=>quote(r[c])).join(','))].join('\n');let blob=new Blob([csv],{type:'text/csv'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='my-little-wallet-'+key+'.csv';a.click();URL.revokeObjectURL(url);}
 if(!$('bpDate').value)$('bpDate').value=today;if(!$('repMonth').value)$('repMonth').value=today.slice(0,7);if(!$('repYear').value)$('repYear').value=today.slice(0,4);
 render();
-
 if ($('homeChartYear')) {
   $('homeChartYear').value = new Date().getFullYear();
 
   $('homeChartYear').addEventListener('change', () => {
-    drawReportCharts(
-      val('repMonth'),
-      val('repYear')
-    );
+    renderReports();
   });
-  }
-  
+}
 </script></body></html>
