@@ -920,10 +920,26 @@ render=function(){_oldRender();renderV2();};
 function addBill(){let name=val('bName').trim(),total=+val('bTotal');if(!name||!total)return alert('Enter a bill name and total amount.');db.bills.push({name,type:val('bType'),total,paid:+val('bPaid')||0,due:val('bDue'),note:val('bNote')});save();$('bName').value='';$('bTotal').value='';}
 function payBill(){let b=db.bills[+val('bSelect')],a=+val('bpAmount');if(!b||!a)return alert('Choose a bill and enter a payment.');if(a>b.total-b.paid+0.001)return alert('Payment is greater than the remaining balance.');b.paid+=a;db.billPayments.unshift({name:b.name,date:val('bpDate'),amount:a});db.personal.unshift({type:'Expense',date:val('bpDate'),desc:'Payment: '+b.name,cat:'Bills / subscriptions',cut:'Other',amount:a,method:'',notes:'Added from Bills & Debts'});save();$('bpAmount').value='';}
 function renderV2(){
-if($('bSelect')){$('bSelect').innerHTML=db.bills.map((b,i)=>`<option value="${i}">${esc(b.name)} · remaining ${money(Math.max(0,b.total-b.paid))}</option>`).join('');$('bList').innerHTML=db.bills.mapbList.innerHTML=db.bills.map((b,i)=>line(b.name,b.type+' · Due '+(b.due||'not set')+' · '+money(b.paid)+' paid of '+money(b.total),Math.max(0,b.total-b.paid),'bills',i)).join('')||'<span class="muted">No bills or debts yet.</span>';
-if($('repMonth'))renderReports();
-if($('trashList'))renderTrash();
-                }function renderTrash(){
+  if($('bSelect')){
+    $('bSelect').innerHTML=db.bills.map((b,i)=>
+      `<option value="${i}">${esc(b.name)} · remaining ${money(Math.max(0,b.total-b.paid))}</option>`
+    ).join('');
+
+    $('bList').innerHTML=db.bills.map((b,i)=>
+      line(
+        b.name,
+        b.type+' · Due '+(b.due||'not set')+' · '+money(b.paid)+' paid of '+money(b.total),
+        Math.max(0,b.total-b.paid),
+        'bills',
+        i
+      )
+    ).join('')||'<span class="muted">No bills or debts yet.</span>';
+  }
+
+  if($('repMonth'))renderReports();
+  if($('trashList'))renderTrash();
+}
+function renderTrash(){
   let box=$('trashList');
   if(!box)return;
 
