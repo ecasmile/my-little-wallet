@@ -27,6 +27,152 @@ button.secondary{background:var(--lav);border:0;border-radius:10px;padding:9px 1
 .notice{background:#fff6dc;padding:11px;border-radius:12px;font-size:12px;line-height:1.5}
 footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
 @media(min-width:600px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.forms{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}}
+
+/* 🎀 PINK PANDA DREAMLAND THEME */ 
+  :root {--pink: #ffe0ed;--rose: #e887b0;--cream: #fff9f5;--lav: #f0e8ff;--ink: #594653;--muted: #a18b98;--line: #f6dce8;}
+body {background:radial-gradient(circle at 10% 10%, #ffe8f1 0, transparent 30%),radial-gradient(circle at 90% 30%, #f2eaff 0, transparent 28%),var(--cream);}
+header {background: linear-gradient(135deg, #ffd6e8, #f1e5ff, #fff0e7);padding: 28px 18px 25px;border-radius: 0 0 32px 32px;box-shadow: 0 6px 22px #d88bad25;
+  animation: pandaWelcome 0.8s ease both;
+}
+
+header h1 {
+  font-size: 27px;
+  letter-spacing: -0.7px;
+}
+
+header p::after {
+  content: " ✨";
+}
+
+.card {
+  border: 1px solid #f8dfeb;
+  border-radius: 23px;
+  padding: 17px;
+  box-shadow: 0 5px 18px #bd8da315;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation: cardAppear 0.5s ease both;
+}
+
+.card:active {
+  transform: scale(0.985);
+}
+
+.metric {
+  background: linear-gradient(145deg, #fff0f6, #fff9fc);
+  border: 1px solid #f9e1ec;
+  border-radius: 19px;
+  padding: 15px;
+  transition: transform 0.2s ease;
+}
+
+.metric:active {
+  transform: scale(0.97);
+}
+
+.metric strong {
+  color: #c65f91;
+  font-size: 19px;
+  overflow-wrap: anywhere;
+}
+
+.nav {
+  padding: 10px 2px 14px;
+  scrollbar-width: none;
+}
+
+.nav::-webkit-scrollbar {
+  display: none;
+}
+
+.nav button {
+  border: 1px solid #f4d8e5;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 11px 15px;
+  font-weight: 600;
+  box-shadow: 0 2px 7px #bd8da315;
+  transition: all 0.2s ease;
+}
+
+.nav button.active {
+  background: linear-gradient(135deg, #e887b0, #c99be9);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 4px 12px #d879a255;
+}
+
+button.primary {
+  background: linear-gradient(135deg, #e887b0, #c99be9);
+  border-radius: 16px;
+  padding: 13px 18px;
+  box-shadow: 0 4px 12px #d879a244;
+  transition: transform 0.2s ease;
+}
+
+button.primary:active,
+button.secondary:active {
+  transform: scale(0.96);
+}
+
+button.secondary {
+  border-radius: 14px;
+  background: #f4edff;
+  border: 1px solid #e8dcfa;
+}
+
+input, select, textarea {
+  border: 1px solid #f1d8e5;
+  border-radius: 15px;
+  background: #fffefe;
+  padding: 13px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: #dc83ae;
+  box-shadow: 0 0 0 3px #f9ddeb;
+}
+
+.progress {
+  height: 12px;
+  background: #f7eaf1;
+  border-radius: 99px;
+}
+
+.progress span {
+  background: linear-gradient(90deg, #ed91b9, #bd9be9);
+  border-radius: 99px;
+  transition: width 0.6s ease;
+}
+
+.notice {
+  border: 1px solid #f5e2b9;
+  border-radius: 17px;
+}
+
+footer {
+  padding: 25px 12px;
+  color: #b17b98;
+}
+
+@keyframes pandaWelcome {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cardAppear {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  }
+  
 </style></head>
 <body>
 <header><h1>🐼 My Little Wallet</h1><p>Your little money buddy · private · offline-first</p></header>
