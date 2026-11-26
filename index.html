@@ -617,7 +617,32 @@ footer {
 #reports .item {
   border-bottom: 1px solid #f3dce9;
   }
-  
+  /* 🎀 PINK PANDA REPORT CHARTS */
+#reports .chart-card {
+  background: linear-gradient(145deg,#fff,#fff2f8);
+  border: 1px solid #f3d5e6;
+  border-radius: 23px;
+  padding: 17px;
+  margin: 12px 0;
+  box-shadow: 0 6px 18px #d99aba18;
+}
+#reports .chart-card h3 {
+  color: #b75d8d;
+  margin-bottom: 5px;
+}
+#reports .chart-note {
+  color: #a18b98;
+  font-size: 11px;
+  margin: 0 0 12px;
+}
+#reports .report-chart {
+  display: block;
+  width: 100%;
+  height: 230px;
+}
+#reports #chartCats {
+  height: 280px;
+}
 </style></head>
 <body>
 <header>
@@ -736,7 +761,63 @@ footer {
 <label>Name</label><input id="bName" placeholder="Netflix, Shopee, loan..."><div class="row"><div><label>Type</label><select id="bType"><option>Bill</option><option>Subscription</option><option>Installment</option><option>Debt</option></select></div><div><label>Total amount (₱)</label><input id="bTotal" type="number" min="0" step=".01"></div></div>
 <div class="row"><div><label>Due date</label><input id="bDue" type="date"></div><div><label>Already paid (₱)</label><input id="bPaid" type="number" min="0" step=".01" value="0"></div></div><label>Notes</label><input id="bNote"><button class="primary" onclick="addBill()">Add bill or debt</button></div>
 <div class="card"><h3>Record partial or full payment</h3><label>Bill / debt</label><select id="bSelect"></select><div class="row"><div><label>Date paid</label><input id="bpDate" type="date"></div><div><label>Amount (₱)</label><input id="bpAmount" type="number" min="0" step=".01"></div></div><button class="primary" onclick="payBill()">Record payment</button></div><div class="card"><h3>Outstanding balances</h3><div id="bList"></div></div></section>
-<section id="reports" class="panel hidden"><div class="card"><h2>📊 Monthly & yearly reports</h2><div class="row"><div><label>Month</label><input id="repMonth" type="month"></div><div><label>Year</label><input id="repYear" type="number" min="2000" max="2100"></div></div><button class="primary" onclick="renderReports()">Update reports</button></div><div class="card"><h3>Selected month</h3><div class="grid"><div class="metric"><small>Income</small><strong id="rmIncome">₱0</strong></div><div class="metric"><small>Spending</small><strong id="rmSpend">₱0</strong></div><div class="metric"><small>Net</small><strong id="rmNet">₱0</strong></div><div class="metric"><small>Apartment net</small><strong id="rmApartment">₱0</strong></div></div><div id="rmCats"></div></div><div class="card"><h3>Yearly totals</h3><div class="grid"><div class="metric"><small>Income</small><strong id="ryIncome">₱0</strong></div><div class="metric"><small>Spending</small><strong id="rySpend">₱0</strong></div><div class="metric"><small>Average monthly income</small><strong id="ryAvg">₱0</strong></div><div class="metric"><small>Top spending category</small><strong id="ryTop">—</strong></div></div></div></section>
+<section id="reports" class="panel hidden">
+
+  <div class="card">
+    <h2>📊 Monthly & yearly reports</h2>
+    <div class="row">
+      <div>
+        <label>Month</label>
+        <input id="repMonth" type="month">
+      </div>
+      <div>
+        <label>Year</label>
+        <input id="repYear" type="number" min="2000" max="2100">
+      </div>
+    </div>
+    <button class="primary" onclick="renderReports()">Update reports</button>
+  </div>
+
+  <div class="card">
+    <h3>Selected month</h3>
+    <div class="grid">
+      <div class="metric"><small>Income</small><strong id="rmIncome">₱0</strong></div>
+      <div class="metric"><small>Spending</small><strong id="rmSpend">₱0</strong></div>
+      <div class="metric"><small>Net</small><strong id="rmNet">₱0</strong></div>
+      <div class="metric"><small>Apartment net</small><strong id="rmApartment">₱0</strong></div>
+    </div>
+    <div id="rmCats"></div>
+  </div>
+
+  <div class="chart-card">
+    <h3>💗 Monthly Income vs Spending</h3>
+    <p class="chart-note">Compare your total income and expenses for the selected month.</p>
+    <canvas id="chartMonth" class="report-chart"></canvas>
+  </div>
+
+  <div class="chart-card">
+    <h3>🍰 Where Your Money Goes</h3>
+    <p class="chart-note">Your spending breakdown by category for the selected month.</p>
+    <canvas id="chartCats" class="report-chart"></canvas>
+  </div>
+
+  <div class="card">
+    <h3>Yearly totals</h3>
+    <div class="grid">
+      <div class="metric"><small>Income</small><strong id="ryIncome">₱0</strong></div>
+      <div class="metric"><small>Spending</small><strong id="rySpend">₱0</strong></div>
+      <div class="metric"><small>Average monthly income</small><strong id="ryAvg">₱0</strong></div>
+      <div class="metric"><small>Top spending category</small><strong id="ryTop">—</strong></div>
+    </div>
+  </div>
+
+  <div class="chart-card">
+    <h3>📈 Yearly Income vs Spending</h3>
+    <p class="chart-note">Compare your income and expenses month by month for the selected year.</p>
+    <canvas id="chartYear" class="report-chart"></canvas>
+  </div>
+
+</section>
 <section id="backup" class="panel hidden"><div class="card"><h2>Backup & restore</h2><p>Export a copy of all your records regularly. Keep it somewhere private.</p><button class="primary" onclick="exportData()">Export full backup (JSON)</button><div class="row"><button class="secondary" onclick="exportCSV('personal')">Personal CSV</button><button class="secondary" onclick="exportCSV('savings')">Savings CSV</button></div><div class="row"><button class="secondary" onclick="exportCSV('payments')">Tenant payments CSV</button><button class="secondary" onclick="exportCSV('rentalExpenses')">Rental expenses CSV</button></div><label>Restore from a previous My Little Wallet backup</label><input id="importFile" type="file" accept="application/json"><button class="secondary" onclick="importData()">Restore backup</button><p class="muted">Restoring replaces the current records on this device. Export your current data first.</p></div></section>
 <footer>Made with care for your little money goals 🐼🌸</footer>
 </main>
@@ -789,8 +870,290 @@ function payBill(){let b=db.bills[+val('bSelect')],a=+val('bpAmount');if(!b||!a)
 function renderV2(){
 if($('bSelect')){$('bSelect').innerHTML=db.bills.map((b,i)=>`<option value="${i}">${esc(b.name)} · remaining ${money(Math.max(0,b.total-b.paid))}</option>`).join('');$('bList').innerHTML=db.bills.map(b=>line(b.name,b.type+' · Due '+(b.due||'not set')+' · '+money(b.paid)+' paid of '+money(b.total),Math.max(0,b.total-b.paid))).join('')||'<span class="muted">No bills or debts yet.</span>';}
 if($('repMonth'))renderReports();
+  }function renderReports(){
+  let m=val('repMonth')||new Date().toISOString().slice(0,7);
+  let y=String(val('repYear')||new Date().getFullYear());
+
+  let rows=db.personal.filter(x=>(x.date||'').startsWith(m));
+
+  let inc=rows.filter(x=>x.type==='Income')
+    .reduce((s,x)=>s+x.amount,0);
+
+  let sp=rows.filter(x=>x.type==='Expense')
+    .reduce((s,x)=>s+x.amount,0);
+
+  $('rmIncome').textContent=money(inc);
+  $('rmSpend').textContent=money(sp);
+  $('rmNet').textContent=money(inc-sp);
+
+  let rents=db.payments.filter(x=>(x.date||'').startsWith(m))
+    .reduce((s,x)=>s+x.amount,0);
+
+  let costs=db.rentalExpenses.filter(x=>(x.date||'').startsWith(m))
+    .reduce((s,x)=>s+x.amount,0);
+
+  $('rmApartment').textContent=money(rents-costs);
+
+  let cats={};
+
+  rows.filter(x=>x.type==='Expense').forEach(x=>{
+    cats[x.cat]=(cats[x.cat]||0)+x.amount;
+  });
+
+  $('rmCats').innerHTML=Object.entries(cats)
+    .sort((a,b)=>b[1]-a[1])
+    .map(([k,a])=>line(k,'Spending this month',a))
+    .join('')||'<span class="muted">No spending this month.</span>';
+
+  let yr=db.personal.filter(x=>(x.date||'').startsWith(y));
+
+  let yi=yr.filter(x=>x.type==='Income')
+    .reduce((s,x)=>s+x.amount,0);
+
+  let ye=yr.filter(x=>x.type==='Expense')
+    .reduce((s,x)=>s+x.amount,0);
+
+  let yc={};
+
+  yr.filter(x=>x.type==='Expense').forEach(x=>{
+    yc[x.cat]=(yc[x.cat]||0)+x.amount;
+  });
+
+  $('ryIncome').textContent=money(yi);
+  $('rySpend').textContent=money(ye);
+  $('ryAvg').textContent=money(yi/12);
+  $('ryTop').textContent=Object.entries(yc)
+    .sort((a,b)=>b[1]-a[1])[0]?.[0]||'—';
+
+  drawReportCharts(m,y);
+  /* 🎀 PINK PANDA REPORT CHART ENGINE */
+
+function chartCanvas(id,height=230){
+  let canvas=$(id);
+  if(!canvas)return null;
+
+  let width=canvas.clientWidth||320;
+  let dpr=window.devicePixelRatio||1;
+
+  canvas.width=Math.round(width*dpr);
+  canvas.height=Math.round(height*dpr);
+  canvas.style.height=height+'px';
+
+  let ctx=canvas.getContext('2d');
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+
+  return {ctx,width,height};
 }
-function renderReports(){let m=val('repMonth')||new Date().toISOString().slice(0,7),y=String(val('repYear')||new Date().getFullYear());let rows=db.personal.filter(x=>(x.date||'').startsWith(m)),inc=rows.filter(x=>x.type==='Income').reduce((s,x)=>s+x.amount,0),sp=rows.filter(x=>x.type==='Expense').reduce((s,x)=>s+x.amount,0);$('rmIncome').textContent=money(inc);$('rmSpend').textContent=money(sp);$('rmNet').textContent=money(inc-sp);let rents=db.payments.filter(x=>(x.date||'').startsWith(m)).reduce((s,x)=>s+x.amount,0),costs=db.rentalExpenses.filter(x=>(x.date||'').startsWith(m)).reduce((s,x)=>s+x.amount,0);$('rmApartment').textContent=money(rents-costs);let cats={};rows.filter(x=>x.type==='Expense').forEach(x=>cats[x.cat]=(cats[x.cat]||0)+x.amount);$('rmCats').innerHTML=Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(([k,a])=>line(k,'Spending this month',a)).join('')||'<span class="muted">No spending this month.</span>';let yr=db.personal.filter(x=>(x.date||'').startsWith(y)),yi=yr.filter(x=>x.type==='Income').reduce((s,x)=>s+x.amount,0),ye=yr.filter(x=>x.type==='Expense').reduce((s,x)=>s+x.amount,0),yc={};yr.filter(x=>x.type==='Expense').forEach(x=>yc[x.cat]=(yc[x.cat]||0)+x.amount);$('ryIncome').textContent=money(yi);$('rySpend').textContent=money(ye);$('ryAvg').textContent=money(yi/12);$('ryTop').textContent=Object.entries(yc).sort((a,b)=>b[1]-a[1])[0]?.[0]||'—';}
+
+function chartMoney(n){
+  n=Number(n)||0;
+  if(n>=1000000)return '₱'+(n/1000000).toFixed(1)+'M';
+  if(n>=1000)return '₱'+(n/1000).toFixed(1)+'k';
+  return '₱'+Math.round(n);
+}
+
+function drawBarChart(id,labels,incomes,expenses){
+  let c=chartCanvas(id,250);
+  if(!c)return;
+
+  let {ctx,width:w,height:h}=c;
+  ctx.clearRect(0,0,w,h);
+
+  let left=38,right=8,top=35,bottom=45;
+  let chartH=h-top-bottom;
+  let max=Math.max(1,...incomes,...expenses)*1.15;
+
+  ctx.font='10px system-ui';
+  ctx.textAlign='right';
+  ctx.textBaseline='middle';
+
+  for(let i=0;i<=4;i++){
+    let value=max*i/4;
+    let yy=top+chartH-(chartH*i/4);
+
+    ctx.strokeStyle='#f3dce9';
+    ctx.beginPath();
+    ctx.moveTo(left,yy);
+    ctx.lineTo(w-right,yy);
+    ctx.stroke();
+
+    ctx.fillStyle='#a18b98';
+    ctx.fillText(chartMoney(value),left-5,yy);
+  }
+
+  let groupW=(w-left-right)/Math.max(labels.length,1);
+  let barW=Math.max(3,Math.min(15,groupW*.28));
+
+  labels.forEach((label,i)=>{
+    let center=left+groupW*(i+.5);
+
+    let vals=[
+      {value:incomes[i]||0,color:'#e887b0',offset:-barW*.6},
+      {value:expenses[i]||0,color:'#b99be8',offset:barW*.6}
+    ];
+
+    vals.forEach(item=>{
+      let bh=(item.value/max)*chartH;
+      ctx.fillStyle=item.color;
+      ctx.beginPath();
+      ctx.roundRect(
+        center+item.offset-barW/2,
+        top+chartH-bh,
+        barW,
+        Math.max(0,bh),
+        5
+      );
+      ctx.fill();
+    });
+
+    ctx.fillStyle='#876d80';
+    ctx.textAlign='center';
+    ctx.textBaseline='top';
+    ctx.font=labels.length>6?'9px system-ui':'11px system-ui';
+    ctx.fillText(label,center,h-bottom+12);
+  });
+
+  ctx.textAlign='left';
+  ctx.font='11px system-ui';
+
+  ctx.fillStyle='#e887b0';
+  ctx.fillRect(left,8,9,9);
+  ctx.fillStyle='#876d80';
+  ctx.fillText('Income',left+14,16);
+
+  ctx.fillStyle='#b99be8';
+  ctx.fillRect(left+75,8,9,9);
+  ctx.fillStyle='#876d80';
+  ctx.fillText('Spending',left+89,16);
+}
+
+function drawPieChart(id,entries){
+  let height=Math.max(260,Math.min(440,45+entries.length*22));
+  let c=chartCanvas(id,height);
+  if(!c)return;
+
+  let {ctx,width:w}=c;
+  ctx.clearRect(0,0,w,height);
+
+  let total=entries.reduce((s,x)=>s+x[1],0);
+
+  if(!total){
+    ctx.fillStyle='#a18b98';
+    ctx.font='13px system-ui';
+    ctx.textAlign='center';
+    ctx.fillText('No spending recorded for this month yet 💗',w/2,120);
+    return;
+  }
+
+  let colors=[
+    '#e887b0','#b99be8','#f4b7c9','#91c8c0',
+    '#f5c77e','#a9b6e8','#d9a4d1','#a8cfa0',
+    '#f09b83','#b7a0c9','#e4b4a1','#9fc6df'
+  ];
+
+  let cx=Math.min(w*.29,100);
+  let cy=height/2;
+  let radius=Math.min(82,w*.25);
+  let start=-Math.PI/2;
+
+  entries.forEach((entry,i)=>{
+    let angle=entry[1]/total*Math.PI*2;
+
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.arc(cx,cy,radius,start,start+angle);
+    ctx.closePath();
+    ctx.fillStyle=colors[i%colors.length];
+    ctx.fill();
+
+    start+=angle;
+  });
+
+  let legendX=Math.min(w*.55,cx+radius+12);
+  let legendY=cy-(entries.length*21)/2;
+
+  ctx.font='10px system-ui';
+  ctx.textAlign='left';
+  ctx.textBaseline='middle';
+
+  entries.forEach((entry,i)=>{
+    let yy=legendY+i*21;
+
+    ctx.fillStyle=colors[i%colors.length];
+    ctx.beginPath();
+    ctx.roundRect(legendX,yy-5,9,9,3);
+    ctx.fill();
+
+    ctx.fillStyle='#876d80';
+    let name=String(entry[0]);
+    let maxChars=Math.max(8,Math.floor((w-legendX-58)/6));
+
+    if(name.length>maxChars){
+      name=name.slice(0,maxChars-1)+'…';
+    }
+
+    ctx.fillText(name,legendX+14,yy);
+
+    ctx.textAlign='right';
+    ctx.fillText(chartMoney(entry[1]),w-5,yy);
+    ctx.textAlign='left';
+  });
+}
+
+function drawReportCharts(month,year){
+  let monthRows=db.personal.filter(x=>(x.date||'').startsWith(month));
+
+  let monthIncome=monthRows
+    .filter(x=>x.type==='Income')
+    .reduce((s,x)=>s+x.amount,0);
+
+  let monthSpend=monthRows
+    .filter(x=>x.type==='Expense')
+    .reduce((s,x)=>s+x.amount,0);
+
+  drawBarChart(
+    'chartMonth',
+    ['Selected month'],
+    [monthIncome],
+    [monthSpend]
+  );
+
+  let categories={};
+
+  monthRows.filter(x=>x.type==='Expense').forEach(x=>{
+    let cat=x.cat||'Other';
+    categories[cat]=(categories[cat]||0)+x.amount;
+  });
+
+  let categoryEntries=Object.entries(categories)
+    .sort((a,b)=>b[1]-a[1]);
+
+  drawPieChart('chartCats',categoryEntries);
+
+  let months=[
+    'Jan','Feb','Mar','Apr','May','Jun',
+    'Jul','Aug','Sep','Oct','Nov','Dec'
+  ];
+
+  let yearRows=db.personal.filter(x=>(x.date||'').startsWith(year));
+
+  let incomes=months.map((_,i)=>
+    yearRows.filter(x=>
+      (x.date||'').slice(5,7)===String(i+1).padStart(2,'0')
+      &&x.type==='Income'
+    ).reduce((s,x)=>s+x.amount,0)
+  );
+
+  let expenses=months.map((_,i)=>
+    yearRows.filter(x=>
+      (x.date||'').slice(5,7)===String(i+1).padStart(2,'0')
+      &&x.type==='Expense'
+    ).reduce((s,x)=>s+x.amount,0)
+  );
+
+  drawBarChart('chartYear',months,incomes,expenses);
+  }
+                                                                                                                                                                                                                                                                                                                   }
 function exportCSV(key){let rows=db[key]||[];if(!rows.length)return alert('No records in this section yet.');let cols=[...new Set(rows.flatMap(x=>Object.keys(x)))],quote=x=>'"'+String(x??'').replace(/"/g,'""')+'"';let csv=[cols.map(quote).join(','),...rows.map(r=>cols.map(c=>quote(r[c])).join(','))].join('\n');let blob=new Blob([csv],{type:'text/csv'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='my-little-wallet-'+key+'.csv';a.click();URL.revokeObjectURL(url);}
 if(!$('bpDate').value)$('bpDate').value=today;if(!$('repMonth').value)$('repMonth').value=today.slice(0,7);if(!$('repYear').value)$('repYear').value=today.slice(0,4);
 render();
