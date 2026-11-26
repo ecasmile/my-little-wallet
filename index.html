@@ -901,12 +901,24 @@ mIncome.textContent=money(inc);mSpend.textContent=money(sp);mSavings.textContent
 pList.innerHTML=db.personal.map((x,i)=>line(x.desc,x.date+' · '+x.type+' · '+x.cat,(x.type==='Expense'?-1:1)*x.amount,'personal',i)).join('')||'<span class="muted">No personal entries yet.</span>';
 sAccounts.innerHTML=Object.keys(bal).map(k=>line(k,'Current tracked balance',bal[k])).join('')||'<span class="muted">No accounts yet.</span>';
 sList.innerHTML=db.savings.map((x,i)=>line(x.account,x.date+' · '+x.type+' · '+(x.note||x.goal),x.amount,'savings',i)).join('')||'<span class="muted">No savings entries yet.</span>';
-gList.innerHTML=db.goals.map(g=>{let a=goalAmount(g.name),p=Math.max(0,Math.min(100,a/g.target*100));return `<div class="item"><div style="width:100%"><b>🐼 ${esc(g.name)}</b><div class="muted">${money(a)} of ${money(g.target)} · ${p.toFixed(0)}% ${g.deadline?'· Due '+esc(g.deadline):''}</div><div class="progress"><span style="width:${p}%"></span></div>${p>=100?'🎉 Goal reached!':''}</div></div>`}).join('')||'<span class="muted">Create your first goal.</span>';
+gList.innerHTML=db.goals.map((g,i)=>{
+  let a=goalAmount(g.name),p=Math.max(0,Math.min(100,a/g.target*100));
+  return `<div class="item" onclick="recordMenu('goals',${i})" style="cursor:pointer">
+    <div style="width:100%">
+      <b>🐼 ${esc(g.name)}</b>
+      <div class="muted">${money(a)} of ${money(g.target)} · ${p.toFixed(0)}% ${g.deadline?'· Due '+esc(g.deadline):''}</div>
+      <div class="progress"><span style="width:${p}%"></span></div>
+      ${p>=100?'🎉 Goal reached!':''}
+    </div>
+  </div>`;
+}).join('')||'<span class="muted">Create your first goal.</span>';
 let used=db.repay.filter(x=>x.type==='Amount used').reduce((s,x)=>s+x.amount,0),paid=db.repay.filter(x=>x.type==='Repayment').reduce((s,x)=>s+x.amount,0);
 rList.innerHTML=`<div class="grid"><div class="metric"><small>Total used</small><strong>${money(used)}</strong></div><div class="metric"><small>Repaid</small><strong>${money(paid)}</strong></div><div class="metric"><small>Still to repay</small><strong>${money(Math.max(0,used-paid))}</strong></div></div>`+db.repay.map((x,i)=>line(x.ref,x.date+' · '+x.type,x.amount,'repay',i)).join('');
 payTenant.innerHTML=db.tenants.map((t,i)=>`<option value="${i}">${esc(t.name)}</option>`).join('');
 tList.innerHTML=db.tenants.map(t=>{let pays=db.payments.filter(p=>p.tenant===t.name);return `<div class="card"><b>${esc(t.name)}</b><div class="muted">Monthly rent ${money(t.rent)} · Old balance remaining ${money(t.old)} · Advance credit ${money(t.advance)}</div>${pays.map(p=>line(p.purpose+' '+(p.month||''),p.date+' · '+(p.note||''),p.amount)).join('')}</div>`}).join('')||'<span class="muted">Add your first tenant.</span>';
-eList.innerHTML=db.rentalExpenses.map((x,i)=>line(x.desc,x.date,x.amount,'rentalExpenses',i)).join('')||'<span class="muted">No rental expenses yet.</span>';
+eList.innerHTML=db.rentalExpenses.map((x,i)=>
+  line(x.desc,x.date,x.amount,'rentalExpenses',i)
+).join('')||'<span class="muted">No rental expenses yet.</span>';
 recent.innerHTML=[...db.personal.slice(0,3).map(x=>line(x.desc,x.date+' · Personal',x.amount)),...db.savings.slice(0,2).map(x=>line(x.account,x.date+' · Savings '+x.type,x.amount))].join('')||'No entries yet.';
 }
 document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.panel').forEach(x=>x.classList.add('hidden'));document.getElementById(b.dataset.tab).classList.remove('hidden')}));
@@ -1020,7 +1032,8 @@ function editRecord(key,index){
     savings:['account','date','type','amount','goal','note'],
     repay:['ref','date','type','amount'],
     rentalExpenses:['desc','date','amount'],
-    bills:['name','type','total','due','note']
+    bills:['name','type','total','due','note'],
+    goals:['name','target','deadline']
   }[key];
 
   if(!fields)return;
@@ -1028,7 +1041,7 @@ function editRecord(key,index){
   for(let field of fields){
     let value=prompt('Edit '+field+':',x[field]??'');
     if(value===null)return;
-    if(['amount','total'].includes(field)){
+    if(['amount','total','target'].includes(field)){
       value=Number(value);
       if(!Number.isFinite(value)||value<=0){
         alert('Please enter a valid amount.');
@@ -1043,7 +1056,12 @@ function editRecord(key,index){
     return;
   }
 
-  Object.assign(x,changes);
+  if(key==='goals'&&changes.name!==x.name){
+  db.savings.forEach(s=>{
+    if(s.goal===x.name)s.goal=changes.name;
+  });
+}
+Object.assign(x,changes);
   document.getElementById('recordActionMenu')?.remove();
   save();
 }
