@@ -734,6 +734,15 @@ footer {
 
 <div class="notice">🔒 Your records are stored in this browser on this device. They are not automatically uploaded or synced. Export a backup regularly. Clearing browser data can erase your records.</div>
 <div class="card"><h2>Recent activity</h2><div id="recent" class="muted">No entries yet. Add your first record in a section above.</div></div>
+
+<div class="chart-card home-yearly-chart">
+  <h3>🐼 My Yearly Money Journey</h3>
+  <p class="chart-note">Your income vs spending for all 12 months.</p>
+  <label for="homeChartYear">Choose year</label>
+  <input id="homeChartYear" type="number" min="2000" max="2100">
+  <canvas id="chartHomeYear" class="report-chart"></canvas>
+</div>
+  
 </section>
 <section id="personal" class="panel hidden"><div class="card"><h2>Personal money</h2>
 <div class="forms">
@@ -1153,8 +1162,43 @@ function drawReportCharts(month,year){
 
   drawBarChart('chartYear',months,incomes,expenses);
   }
+  
+  // Home yearly chart
+  let homeYear = String($('homeChartYear')?.value || year);
+  let homeYearRows = db.personal.filter(x =>
+    (x.date || '').startsWith(homeYear)
+  );
+
+  let homeIncomes = months.map((_, i) =>
+    homeYearRows.filter(x =>
+      (x.date || '').slice(5, 7) === String(i + 1).padStart(2, '0')
+      && x.type === 'Income'
+    ).reduce((s, x) => s + x.amount, 0)
+  );
+
+  let homeExpenses = months.map((_, i) =>
+    homeYearRows.filter(x =>
+      (x.date || '').slice(5, 7) === String(i + 1).padStart(2, '0')
+      && x.type === 'Expense'
+    ).reduce((s, x) => s + x.amount, 0)
+  );
+
+  drawBarChart('chartHomeYear', months, homeIncomes, homeExpenses);
+  
                                                                                                                                                                                                                                                                                                                    }
 function exportCSV(key){let rows=db[key]||[];if(!rows.length)return alert('No records in this section yet.');let cols=[...new Set(rows.flatMap(x=>Object.keys(x)))],quote=x=>'"'+String(x??'').replace(/"/g,'""')+'"';let csv=[cols.map(quote).join(','),...rows.map(r=>cols.map(c=>quote(r[c])).join(','))].join('\n');let blob=new Blob([csv],{type:'text/csv'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='my-little-wallet-'+key+'.csv';a.click();URL.revokeObjectURL(url);}
 if(!$('bpDate').value)$('bpDate').value=today;if(!$('repMonth').value)$('repMonth').value=today.slice(0,7);if(!$('repYear').value)$('repYear').value=today.slice(0,4);
 render();
+
+if ($('homeChartYear')) {
+  $('homeChartYear').value = new Date().getFullYear();
+
+  $('homeChartYear').addEventListener('change', () => {
+    drawReportCharts(
+      val('repMonth'),
+      val('repYear')
+    );
+  });
+  }
+  
 </script></body></html>
