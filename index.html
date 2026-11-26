@@ -704,7 +704,7 @@ footer {
   
 <main>
 <div class="nav" id="nav">
-<button class="active" data-tab="home">Home</button><button data-tab="personal">Personal</button><button data-tab="savings">Savings</button><button data-tab="goals">Panda Race</button><button data-tab="repay">Repayments</button><button data-tab="apartment">Apartment</button><button data-tab="bills">Bills & Debts</button><button data-tab="reports">Reports</button><button data-tab="backup">Backup</button>
+<button class="active" data-tab="home">Home</button><button data-tab="personal">Personal</button><button data-tab="savings">Savings</button><button data-tab="goals">Panda Race</button><button data-tab="repay">Repayments</button><button data-tab="apartment">Apartment</button><button data-tab="bills">Bills & Debts</button><button data-tab="reports">Reports</button><button data-tab="backup">Backup</button><button data-tab="trash">Trash</button>
 </div>
 <section id="home" class="panel">
 <div class="card"><h2>Welcome back! 🌷</h2><div class="grid">
@@ -850,20 +850,39 @@ footer {
     <canvas id="chartYear" class="report-chart"></canvas>
   </div>
 
+</div></section>
+
+<section id="trash" class="panel hidden">
+  <div class="card">
+    <h2>🗑️ Trash Bin</h2>
+    <p class="muted">Deleted records stay here until you restore or permanently delete them.</p>
+    <div id="trashList">
+      <p class="muted">Your Trash Bin is empty. 💗</p>
+    </div>
+  </div>
 </section>
-<section id="backup" class="panel hidden"><div class="card"><h2>Backup & restore</h2><p>Export a copy of all your records regularly. Keep it somewhere private.</p><button class="primary" onclick="exportData()">Export full backup (JSON)</button><div class="row"><button class="secondary" onclick="exportCSV('personal')">Personal CSV</button><button class="secondary" onclick="exportCSV('savings')">Savings CSV</button></div><div class="row"><button class="secondary" onclick="exportCSV('payments')">Tenant payments CSV</button><button class="secondary" onclick="exportCSV('rentalExpenses')">Rental expenses CSV</button></div><label>Restore from a previous My Little Wallet backup</label><input id="importFile" type="file" accept="application/json"><button class="secondary" onclick="importData()">Restore backup</button><p class="muted">Restoring replaces the current records on this device. Export your current data first.</p></div></section>
+
 <footer>Made with care for your little money goals 🐼🌸</footer>
 </main>
 <script>
 const KEY='myLittleWalletDataV1';
 let db=JSON.parse(localStorage.getItem(KEY)||'{"personal":[],"savings":[],"goals":[],"repay":[],"tenants":[],"payments":[],"rentalExpenses":[]}');
+if(!Array.isArray(db.trash)) db.trash=[];
 const money=n=>'₱'+Number(n||0).toLocaleString('en-PH',{minimumFractionDigits:2,maximumFractionDigits:2});
 const val=id=>document.getElementById(id).value;
 const today=new Date().toISOString().slice(0,10);
 ['pDate','sDate','rDate','payDate','eDate'].forEach(id=>document.getElementById(id).value=today);
 function save(){localStorage.setItem(KEY,JSON.stringify(db));render()}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function line(title,sub,amount){return `<div class="item"><div><b>${esc(title)}</b><div class="muted">${esc(sub||'')}</div></div><b>${money(amount)}</b></div>`}
+function line(title,sub,amount,key,index){
+  let action=key!==undefined&&index!==undefined
+    ? `data-record="${key}" data-index="${index}" onclick="recordMenu('${key}',${index})" style="cursor:pointer"`
+    : '';
+  return `<div class="item" ${action}>
+    <div><b>${esc(title)}</b><div class="muted">${esc(sub||'')}</div></div>
+    <b>${money(amount)}</b>
+  </div>`;
+}
 function addPersonal(){let a=+val('pAmount');if(!a||!val('pDesc'))return alert('Please enter a description and amount.');db.personal.unshift({type:val('pType'),date:val('pDate'),desc:val('pDesc'),cat:val('pCat'),cut:val('pCut'),amount:a,method:val('pMethod'),notes:val('pNotes')});save();['pDesc','pAmount','pMethod','pNotes'].forEach(x=>document.getElementById(x).value='')}
 function addSaving(){let a=+val('sAmount'),n=val('sAccount').trim();if(!a||!n)return alert('Enter an account name and amount.');if(val('sType')==='Withdrawal'&&!val('sNote').trim())return alert('Please enter where or what the withdrawal was spent on.');db.savings.unshift({account:n,type:val('sType'),date:val('sDate'),amount:a,goal:val('sGoal'),note:val('sNote')});save();['sAmount','sGoal','sNote'].forEach(x=>document.getElementById(x).value='')}
 function addGoal(){let n=val('gName').trim(),t=+val('gTarget');if(!n||!t)return alert('Enter a goal name and target.');db.goals.push({name:n,target:t,deadline:val('gDate')});save();document.getElementById('gName').value='';document.getElementById('gTarget').value=''}
@@ -879,15 +898,15 @@ let inc=db.personal.filter(x=>x.type==='Income').reduce((s,x)=>s+x.amount,0),sp=
 let bal={};db.savings.forEach(x=>{bal[x.account]=(bal[x.account]||0)+((x.type==='Deposit'||x.type==='Transfer in')?x.amount:-x.amount)});
 let sav=Object.values(bal).reduce((s,x)=>s+x,0),rent=db.payments.reduce((s,x)=>s+x.amount,0);
 mIncome.textContent=money(inc);mSpend.textContent=money(sp);mSavings.textContent=money(sav);mRent.textContent=money(rent);
-pList.innerHTML=db.personal.map(x=>line(x.desc,x.date+' · '+x.type+' · '+x.cat,(x.type==='Expense'?-1:1)*x.amount)).join('')||'<span class="muted">No personal entries yet.</span>';
+pList.innerHTML=db.personal.map((x,i)=>line(x.desc,x.date+' · '+x.type+' · '+x.cat,(x.type==='Expense'?-1:1)*x.amount,'personal',i)).join('')||'<span class="muted">No personal entries yet.</span>';
 sAccounts.innerHTML=Object.keys(bal).map(k=>line(k,'Current tracked balance',bal[k])).join('')||'<span class="muted">No accounts yet.</span>';
-sList.innerHTML=db.savings.map(x=>line(x.account,x.date+' · '+x.type+' · '+(x.note||x.goal),x.amount)).join('')||'<span class="muted">No savings entries yet.</span>';
+sList.innerHTML=db.savings.map((x,i)=>line(x.account,x.date+' · '+x.type+' · '+(x.note||x.goal),x.amount,'savings',i)).join('')||'<span class="muted">No savings entries yet.</span>';
 gList.innerHTML=db.goals.map(g=>{let a=goalAmount(g.name),p=Math.max(0,Math.min(100,a/g.target*100));return `<div class="item"><div style="width:100%"><b>🐼 ${esc(g.name)}</b><div class="muted">${money(a)} of ${money(g.target)} · ${p.toFixed(0)}% ${g.deadline?'· Due '+esc(g.deadline):''}</div><div class="progress"><span style="width:${p}%"></span></div>${p>=100?'🎉 Goal reached!':''}</div></div>`}).join('')||'<span class="muted">Create your first goal.</span>';
 let used=db.repay.filter(x=>x.type==='Amount used').reduce((s,x)=>s+x.amount,0),paid=db.repay.filter(x=>x.type==='Repayment').reduce((s,x)=>s+x.amount,0);
-rList.innerHTML=`<div class="grid"><div class="metric"><small>Total used</small><strong>${money(used)}</strong></div><div class="metric"><small>Repaid</small><strong>${money(paid)}</strong></div><div class="metric"><small>Still to repay</small><strong>${money(Math.max(0,used-paid))}</strong></div></div>`+db.repay.map(x=>line(x.ref,x.date+' · '+x.type,x.amount)).join('');
+rList.innerHTML=`<div class="grid"><div class="metric"><small>Total used</small><strong>${money(used)}</strong></div><div class="metric"><small>Repaid</small><strong>${money(paid)}</strong></div><div class="metric"><small>Still to repay</small><strong>${money(Math.max(0,used-paid))}</strong></div></div>`+db.repay.map((x,i)=>line(x.ref,x.date+' · '+x.type,x.amount,'repay',i)).join('');
 payTenant.innerHTML=db.tenants.map((t,i)=>`<option value="${i}">${esc(t.name)}</option>`).join('');
 tList.innerHTML=db.tenants.map(t=>{let pays=db.payments.filter(p=>p.tenant===t.name);return `<div class="card"><b>${esc(t.name)}</b><div class="muted">Monthly rent ${money(t.rent)} · Old balance remaining ${money(t.old)} · Advance credit ${money(t.advance)}</div>${pays.map(p=>line(p.purpose+' '+(p.month||''),p.date+' · '+(p.note||''),p.amount)).join('')}</div>`}).join('')||'<span class="muted">Add your first tenant.</span>';
-eList.innerHTML=db.rentalExpenses.map(x=>line(x.desc,x.date,x.amount)).join('')||'<span class="muted">No rental expenses yet.</span>';
+eList.innerHTML=db.rentalExpenses.map((x,i)=>line(x.desc,x.date,x.amount,'rentalExpenses',i)).join('')||'<span class="muted">No rental expenses yet.</span>';
 recent.innerHTML=[...db.personal.slice(0,3).map(x=>line(x.desc,x.date+' · Personal',x.amount)),...db.savings.slice(0,2).map(x=>line(x.account,x.date+' · Savings '+x.type,x.amount))].join('')||'No entries yet.';
 }
 document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.panel').forEach(x=>x.classList.add('hidden'));document.getElementById(b.dataset.tab).classList.remove('hidden')}));
@@ -901,9 +920,118 @@ render=function(){_oldRender();renderV2();};
 function addBill(){let name=val('bName').trim(),total=+val('bTotal');if(!name||!total)return alert('Enter a bill name and total amount.');db.bills.push({name,type:val('bType'),total,paid:+val('bPaid')||0,due:val('bDue'),note:val('bNote')});save();$('bName').value='';$('bTotal').value='';}
 function payBill(){let b=db.bills[+val('bSelect')],a=+val('bpAmount');if(!b||!a)return alert('Choose a bill and enter a payment.');if(a>b.total-b.paid+0.001)return alert('Payment is greater than the remaining balance.');b.paid+=a;db.billPayments.unshift({name:b.name,date:val('bpDate'),amount:a});db.personal.unshift({type:'Expense',date:val('bpDate'),desc:'Payment: '+b.name,cat:'Bills / subscriptions',cut:'Other',amount:a,method:'',notes:'Added from Bills & Debts'});save();$('bpAmount').value='';}
 function renderV2(){
-if($('bSelect')){$('bSelect').innerHTML=db.bills.map((b,i)=>`<option value="${i}">${esc(b.name)} · remaining ${money(Math.max(0,b.total-b.paid))}</option>`).join('');$('bList').innerHTML=db.bills.map(b=>line(b.name,b.type+' · Due '+(b.due||'not set')+' · '+money(b.paid)+' paid of '+money(b.total),Math.max(0,b.total-b.paid))).join('')||'<span class="muted">No bills or debts yet.</span>';}
+if($('bSelect')){$('bSelect').innerHTML=db.bills.map((b,i)=>`<option value="${i}">${esc(b.name)} · remaining ${money(Math.max(0,b.total-b.paid))}</option>`).join('');$('bList').innerHTML=db.bills.mapbList.innerHTML=db.bills.map((b,i)=>line(b.name,b.type+' · Due '+(b.due||'not set')+' · '+money(b.paid)+' paid of '+money(b.total),Math.max(0,b.total-b.paid),'bills',i)).join('')||'<span class="muted">No bills or debts yet.</span>';
 if($('repMonth'))renderReports();
-  }function renderReports(){
+if($('trashList'))renderTrash();
+                }function renderTrash(){
+  let box=$('trashList');
+  if(!box)return;
+
+  if(!db.trash.length){
+    box.innerHTML='<p class="muted">Your Trash Bin is empty. 💗</p>';
+    return;
+  }
+
+  box.innerHTML=db.trash.map((x,i)=>`
+    <div class="item">
+      <div>
+        <b>${esc(x.title||'Deleted record')}</b>
+        <div class="muted">${esc(x.section||'Record')}</div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button onclick="restoreRecord(${i})">↩️ Restore</button>
+        <button onclick="permanentDelete(${i})">🗑️ Delete forever</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function restoreRecord(index){
+  let x=db.trash[index];
+  if(!x)return;
+  if(!Array.isArray(db[x.key]))return alert('Cannot restore this record.');
+  db[x.key].splice(Math.min(x.index,db[x.key].length),0,x.record);
+  db.trash.splice(index,1);
+  save();
+}
+
+function permanentDelete(index){
+  if(!confirm('Permanently delete this record? This cannot be undone.'))return;
+  db.trash.splice(index,1);
+  save();
+                                                                                                                              }
+function recordMenu(key,index){
+  let old=document.getElementById('recordActionMenu');
+  if(old)old.remove();
+
+  let menu=document.createElement('div');
+  menu.id='recordActionMenu';
+  menu.style='position:fixed;inset:0;background:#0006;z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
+  menu.innerHTML=`
+    <div style="background:#fff5fa;padding:22px;border-radius:22px;width:100%;max-width:300px;text-align:center">
+      <h3 style="color:#b75d8d">What would you like to do? 💗</h3>
+      <button class="primary" style="width:100%;margin:6px 0" onclick="editRecord('${key}',${index})">✏️ Edit</button>
+      <button style="width:100%;margin:6px 0;background:#fce4ed;color:#b75d8d" onclick="moveToTrash('${key}',${index})">🗑️ Move to Trash</button>
+      <button style="width:100%;margin:6px 0" onclick="document.getElementById('recordActionMenu').remove()">Cancel</button>
+    </div>`;
+  document.body.appendChild(menu);
+}
+
+function moveToTrash(key,index){
+  if(!confirm('Move this record to Trash? You can restore it later.'))return;
+  let record=db[key][index];
+  if(key==='bills'&&record&&record.paid>0){
+  alert('This bill has recorded payments, so it cannot be moved to Trash.');
+  return;
+  }
+  if(!record)return;
+  db.trash.unshift({
+    key:key,
+    record:record,
+    index:index,
+    title:record.desc||record.account||record.ref||record.name||'Deleted record',
+    section:key
+  });
+  db[key].splice(index,1);
+  document.getElementById('recordActionMenu')?.remove();
+  save();
+}
+function editRecord(key,index){
+  let x=db[key]?.[index];
+  if(!x)return;
+  let fields={
+    personal:['desc','date','type','cat','amount','method','notes'],
+    savings:['account','date','type','amount','goal','note'],
+    repay:['ref','date','type','amount'],
+    rentalExpenses:['desc','date','amount'],
+    bills:['name','type','total','due','note']
+  }[key];
+
+  if(!fields)return;
+  let changes={};
+  for(let field of fields){
+    let value=prompt('Edit '+field+':',x[field]??'');
+    if(value===null)return;
+    if(['amount','total'].includes(field)){
+      value=Number(value);
+      if(!Number.isFinite(value)||value<=0){
+        alert('Please enter a valid amount.');
+        return;
+      }
+    }
+    changes[field]=value;
+  }
+
+  if(key==='bills'&&changes.total<x.paid){
+    alert('Total cannot be lower than the amount already paid.');
+    return;
+  }
+
+  Object.assign(x,changes);
+  document.getElementById('recordActionMenu')?.remove();
+  save();
+}
+function renderReports(){
   let m=val('repMonth')||new Date().toISOString().slice(0,7);
   let y=String(val('repYear')||new Date().getFullYear());
 
