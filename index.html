@@ -852,6 +852,41 @@ footer {
 
 </div></section>
 
+<section id="backup" class="panel hidden">
+  <div class="card">
+    <h2>💾 Backup & Restore</h2>
+    <p class="muted">Keep a safe copy of your My Little Wallet records.</p>
+
+    <h3>📥 Export your backup</h3>
+    <p class="muted">Save all your wallet records in one JSON file.</p>
+    <button class="primary" onclick="exportData()" style="width:100%">
+      💗 Download Full Backup
+    </button>
+  </div>
+
+  <div class="card">
+    <h3>📤 Restore a backup</h3>
+    <p class="muted">Choose a previously saved JSON backup file.</p>
+    <input type="file" id="importFile" accept=".json,application/json">
+    <button class="primary" onclick="importData()" style="width:100%;margin-top:12px">
+      ♻️ Restore Backup
+    </button>
+    <p class="muted">Warning: Restoring replaces the records currently on this device.</p>
+  </div>
+
+  <div class="card">
+    <h3>📊 Export individual sections</h3>
+    <p class="muted">Download individual records as CSV files.</p>
+    <button onclick="exportCSV('personal')">Personal</button>
+    <button onclick="exportCSV('savings')">Savings</button>
+    <button onclick="exportCSV('goals')">Panda Race</button>
+    <button onclick="exportCSV('repay')">Repayments</button>
+    <button onclick="exportCSV('bills')">Bills & Debts</button>
+    <button onclick="exportCSV('tenants')">Tenants</button>
+    <button onclick="exportCSV('payments')">Tenant Payments</button>
+  </div>
+</section>
+  
 <section id="trash" class="panel hidden">
   <div class="card">
     <h2>🗑️ Trash Bin</h2>
