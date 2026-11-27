@@ -1046,6 +1046,10 @@ footer {
 <footer>Made with care for your little money goals 🐼🌸</footer>
 </main>
 <script>
+  window.addEventListener('error',function(e){
+  alert('Penny found an app error: '+e.message+
+  '\nLine: '+e.lineno);
+});
 const KEY='myLittleWalletDataV1';
 let db=JSON.parse(localStorage.getItem(KEY)||'{"personal":[],"savings":[],"goals":[],"repay":[],"tenants":[],"payments":[],"rentalExpenses":[]}');
 if(!Array.isArray(db.trash)) db.trash=[];
