@@ -339,14 +339,14 @@ main{width:min(100%,980px);padding:8px 10px 82px}
 #home .snapshot-card .metric-icon {
   display: none !important;
 }
-
-  /* Hide the small header icon */
-.brand-header .brand-inner > img {
+/* Hide navigation buttons only on Home */
+#nav:has(button[data-tab="home"].active) {
   display: none !important;
 }
-  /* Hide top navigation only on Home */
-body:has(#home.active) .nav {
-  display: none !important;
+
+/* Keep Penny visible in the header */
+.brand-header .brand-inner > img {
+  display: block !important;
 }
   
 </style></head>
