@@ -353,6 +353,30 @@ main{width:min(100%,980px);padding:8px 10px 82px}
 .brand-header .brand-inner > img {
   display: block !important;
 }
+  /* Penny's gentle welcome animation */
+.penny for mean time.gif {
+  transform-origin: 50% 85%;
+  animation: pennyWelcome 2.6s ease-in-out infinite;
+}
+
+@keyframes pennyWelcome {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  20% {
+    transform: translateY(-4px) rotate(-5deg);
+  }
+  40% {
+    transform: translateY(0) rotate(4deg);
+  }
+  60% {
+    transform: translateY(-3px) rotate(-3deg);
+  }
+  80% {
+    transform: translateY(0) rotate(2deg);
+  }
+}
+
   
 </style></head>
 <body>
@@ -378,12 +402,13 @@ main{width:min(100%,980px);padding:8px 10px 82px}
 </div>
 
 <section id="home" class="panel">
-<div class="penny-welcome">
-  <img src="./penny.png" alt="Penny the fluffy panda">
+<div class="penny-hero">
+  <img src="./penny for mean time.gif" alt="Penny welcoming you">
   <div>
     <h2>Hi! Eca🌻,Let's make your money dreams come true!✨</h2>
     <p>Penny is cheering you on 🐼, one little step at a time.🐾</p>
   </div>
+</div>
   <span class="welcome-sparkles" aria-hidden="true">♡ ✧ ♡</span>
 </div>
 <div class="card snapshot-card">
