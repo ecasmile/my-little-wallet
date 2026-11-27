@@ -915,7 +915,19 @@ gList.innerHTML=db.goals.map((g,i)=>{
 let used=db.repay.filter(x=>x.type==='Amount used').reduce((s,x)=>s+x.amount,0),paid=db.repay.filter(x=>x.type==='Repayment').reduce((s,x)=>s+x.amount,0);
 rList.innerHTML=`<div class="grid"><div class="metric"><small>Total used</small><strong>${money(used)}</strong></div><div class="metric"><small>Repaid</small><strong>${money(paid)}</strong></div><div class="metric"><small>Still to repay</small><strong>${money(Math.max(0,used-paid))}</strong></div></div>`+db.repay.map((x,i)=>line(x.ref,x.date+' · '+x.type,x.amount,'repay',i)).join('');
 payTenant.innerHTML=db.tenants.map((t,i)=>`<option value="${i}">${esc(t.name)}</option>`).join('');
-tList.innerHTML=db.tenants.map(t=>{let pays=db.payments.filter(p=>p.tenant===t.name);return `<div class="card"><b>${esc(t.name)}</b><div class="muted">Monthly rent ${money(t.rent)} · Old balance remaining ${money(t.old)} · Advance credit ${money(t.advance)}</div>${pays.map(p=>line(p.purpose+' '+(p.month||''),p.date+' · '+(p.note||''),p.amount)).join('')}</div>`}).join('')||'<span class="muted">Add your first tenant.</span>';
+tList.innerHTML=db.tenants.map((t,i)=>{
+  let pays=db.payments.filter(p=>p.tenant===t.name);
+  return `<div class="card">
+    <div class="item" onclick="recordMenu('tenants',${i})" style="cursor:pointer">
+      <div>
+        <b>${esc(t.name)}</b>
+        <div class="muted">Monthly rent ${money(t.rent)} · Old balance remaining ${money(t.old)} · Advance credit ${money(t.advance)}</div>
+      </div>
+      <span>✏️</span>
+    </div>
+    ${pays.map(p=>line(p.purpose+' '+(p.month||''),p.date+' · '+(p.note||''),p.amount)).join('')}
+  </div>`;
+}).join('')||'<span class="muted">Add your first tenant.</span>';
 eList.innerHTML=db.rentalExpenses.map((x,i)=>
   line(x.desc,x.date,x.amount,'rentalExpenses',i)
 ).join('')||'<span class="muted">No rental expenses yet.</span>';
@@ -1012,6 +1024,10 @@ function moveToTrash(key,index){
   alert('This bill has recorded payments, so it cannot be moved to Trash.');
   return;
   }
+  if(key==='tenants'&&db.payments.some(p=>p.tenant===record.name)){
+  alert('This tenant has payment history and cannot be moved to Trash.');
+  return;
+  }
   if(!record)return;
   db.trash.unshift({
     key:key,
@@ -1033,7 +1049,8 @@ function editRecord(key,index){
     repay:['ref','date','type','amount'],
     rentalExpenses:['desc','date','amount'],
     bills:['name','type','total','due','note'],
-    goals:['name','target','deadline']
+    goals:['name','target','deadline'],
+    tenants:['name','rent','old','advance']
   }[key];
 
   if(!fields)return;
@@ -1041,7 +1058,7 @@ function editRecord(key,index){
   for(let field of fields){
     let value=prompt('Edit '+field+':',x[field]??'');
     if(value===null)return;
-    if(['amount','total','target'].includes(field)){
+    if(['amount','total','target','rent','old','advance'].includes(field)){
       value=Number(value);
       if(!Number.isFinite(value)||value<=0){
         alert('Please enter a valid amount.');
