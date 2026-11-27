@@ -443,6 +443,59 @@ main{width:min(100%,980px);padding:8px 10px 82px}
   from { opacity: .4; transform: scale(.8); }
   to { opacity: 1; transform: scale(1.2); }
 }
+  /* Penny's welcome area */
+.penny-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 12px;
+  padding: 22px 16px;
+  margin: 16px auto;
+  border-radius: 26px;
+  background: linear-gradient(145deg, #fff0f7, #f3edff, #fff8fc);
+  border: 1px solid #f5d9eb;
+  box-shadow: 0 8px 24px rgba(190, 135, 180, 0.13);
+}
+
+.penny-hero img {
+  display: block;
+  width: min(75%, 260px);
+  height: 240px;
+  object-fit: contain;
+  animation: pennyFloat 3s ease-in-out infinite;
+}
+
+.penny-welcome-text h2 {
+  color: #a84f86;
+  margin: 5px 0;
+  font-size: 1.35rem;
+}
+
+.penny-welcome-text p {
+  color: #80617f;
+  margin: 6px 0;
+}
+
+.penny-cheer {
+  font-size: 0.9rem;
+}
+
+.welcome-sparkles {
+  color: #d88dbb;
+  font-size: 22px;
+  letter-spacing: 8px;
+}
+
+@keyframes pennyFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(2deg);
+  }
+}
   
 </style></head>
 <body>
@@ -469,23 +522,16 @@ main{width:min(100%,980px);padding:8px 10px 82px}
 
 <section id="home" class="panel">
 <div class="penny-hero">
-  <div class="penny-welcome-picture">
-    <img
-  src="./Penny%20for%20mean%20time.gif?v=3"
-  alt="Penny welcoming you"
-  style="display:block;width:240px;height:240px;object-fit:contain;margin:auto;"
->
-    <span class="penny-sparkle sparkle-one">✧</span>
-    <span class="penny-sparkle sparkle-two">♡</span>
-    <span class="penny-sparkle sparkle-three">✦</span>
-  </div>
+  <img
+    src="./Penny%20for%20mean%20time.gif?v=3"
+    alt="Penny welcoming you"
+  >
 
-  <div class="penny-welcome-message">
+  <div class="penny-welcome-text">
     <h2>Hi! Eca🌻,Let's make your money dreams come true!✨</h2>
 <p>Penny is cheering you on 🐼, one little step at a time.🐾</p>
   </div>
-</div>
-  <span class="welcome-sparkles" aria-hidden="true">♡ ✧ ♡</span>
+<span class="welcome-sparkles" aria-hidden="true">♡ ✧ ♡</span>
 </div>
 <div class="card snapshot-card">
   <h2>💗 Your Financial Snapshot</h2>
