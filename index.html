@@ -675,7 +675,7 @@ footer {
       <h1>🎀 My Little Wallet 💗</h1>
       <p>Your little money buddy · private · offline-first ✨</p>
       <p style="background:#fff0f7;padding:10px 13px;border-radius:18px;color:#984b79;font-weight:600">
-        Hi! Erica! I'm Penny 🐼💕
+        Hi! Erica!🐼💕
         Let's make your money dreams come true!
       </p>
     </div>
@@ -787,9 +787,150 @@ footer {
 <div class="card"><h3>Balances by account</h3><div id="sAccounts"></div></div><div class="card"><h3>Savings history</h3><div id="sList"></div></div></section>
 <section id="goals" class="panel hidden"><div class="card"><h2>🐼 Panda Race savings goals</h2><label>Goal name</label><input id="gName" placeholder="e.g. Phone fund"><div class="row"><div><label>Target (₱)</label><input id="gTarget" type="number" min="1"></div><div><label>Deadline</label><input id="gDate" type="date"></div></div><button class="primary" onclick="addGoal()">Create goal</button></div><div class="card"><div id="gList"></div></div></section>
 <section id="repay" class="panel hidden"><div class="card"><h2>Savings used & repayments</h2><p class="muted">Track money taken from savings and how much you have returned. If you physically put the money back into an account, also record a deposit in Savings.</p><label>Withdrawal / reason reference</label><input id="rRef" placeholder="e.g. Used ₱2,000 for repair"><div class="row"><div><label>Type</label><select id="rType"><option>Amount used</option><option>Repayment</option></select></div><div><label>Date</label><input id="rDate" type="date"></div></div><label>Amount (₱)</label><input id="rAmount" type="number" min="0" step=".01"><button class="primary" onclick="addRepay()">Save repayment record</button></div><div class="card"><div id="rList"></div></div></section>
-<section id="apartment" class="panel hidden"><div class="card"><h2>🏡 Apartment manager</h2><div class="notice">Apartment records are separate from your personal money and savings. Excess rent is not automatically allocated. Choose the purpose for each payment.</div>
-<label>Tenant name / unit</label><input id="tName" placeholder="e.g. Tenant A - Unit 1"><div class="row"><div><label>Monthly rent (₱)</label><input id="tRent" type="number" min="0" step=".01"></div><div><label>Previous balance (₱)</label><input id="tOld" type="number" min="0" step=".01"></div></div><button class="primary" onclick="addTenant()">Add tenant</button></div><div class="card"><h3>Record tenant payment</h3><label>Tenant</label><select id="payTenant"></select><div class="row"><div><label>Date</label><input id="payDate" type="date"></div><div><label>Amount (₱)</label><input id="payAmount" type="number" min="0" step=".01"></div></div><div class="row"><div><label>Purpose</label><select id="payPurpose"><option>Monthly rent</option><option>Old balance</option><option>Advance rent</option><option>Other</option></select></div><div><label>Rent month (if monthly rent)</label><input id="rentMonth" type="month"></div></div><label>Notes</label><input id="payNote"><button class="primary" onclick="addPayment()">Save tenant payment</button></div><div class="card"><h3>Tenants & payment history</h3><div id="tList"></div></div><div class="card"><h3>Rental expenses</h3><label>Description</label><input id="eDesc" placeholder="Repairs, utilities, cleaning"><div class="row"><div><label>Date</label><input id="eDate" type="date"></div><div><label>Amount (₱)</label><input id="eAmount" type="number" min="0" step=".01"></div></div><button class="primary" onclick="addRentalExpense()">Save rental expense</button><div id="eList"></div></div></section>
+<section id="apartment" class="panel hidden">
+  <div class="card">
+    <h2>🏡 Apartment manager</h2>
+    <div class="notice">Apartment money is tracked separately. Extra payments and credits are never automatically allocated.</div>
+  </div>
 
+  <div class="card">
+    <h3>🏠 Apartment financial summary</h3>
+    <div class="grid">
+      <div class="metric"><small>Monthly rent expected</small><strong id="apExpected">₱0.00</strong></div>
+      <div class="metric"><small>Rent collected</small><strong id="apCollected">₱0.00</strong></div>
+      <div class="metric"><small>Old balances remaining</small><strong id="apOld">₱0.00</strong></div>
+      <div class="metric"><small>Advance credits available</small><strong id="apAdvance">₱0.00</strong></div>
+      <div class="metric"><small>Tenant expense credits</small><strong id="apTenantCredits">₱0.00</strong></div>
+      <div class="metric"><small>Apartment expenses</small><strong id="apExpenses">₱0.00</strong></div>
+      <div class="metric"><small>Owner bills / withdrawals</small><strong id="apOwnerExpenses">₱0.00</strong></div>
+      <div class="metric"><small>Remaining rental cash</small><strong id="apCash">₱0.00</strong></div>
+    </div>
+    <p class="muted">Collected includes all actual tenant payments. Remaining rental cash subtracts expenses marked Yes for deduction from apartment cash.</p>
+  </div>
+
+  <div class="card">
+    <h3>➕ Add tenant</h3>
+    <label>Tenant name / unit</label>
+    <input id="tName" placeholder="e.g. Tenant A - Unit 1">
+    <div class="row">
+      <div><label>Monthly rent (₱)</label><input id="tRent" type="number" min="0" step=".01"></div>
+      <div><label>Previous balance (₱)</label><input id="tOld" type="number" min="0" step=".01"></div>
+    </div>
+    <button class="primary" onclick="addTenant()">Add tenant</button>
+  </div>
+
+  <div class="card">
+    <h3>💵 Record tenant payment</h3>
+    <label>Tenant</label><select id="payTenant"></select>
+    <div class="row">
+      <div><label>Date</label><input id="payDate" type="date"></div>
+      <div><label>Amount (₱)</label><input id="payAmount" type="number" min="0" step=".01"></div>
+    </div>
+    <div class="row">
+      <div>
+        <label>Purpose</label>
+        <select id="payPurpose">
+          <option>Monthly rent</option>
+          <option>Old balance</option>
+          <option>Advance rent</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div><label>Rent month (for monthly rent)</label><input id="rentMonth" type="month"></div>
+    </div>
+    <label>Notes</label><input id="payNote">
+    <button class="primary" onclick="addPayment()">Save tenant payment</button>
+  </div>
+
+  <div class="card">
+    <h3>👨‍👩‍👧 Tenants</h3>
+    <p class="muted">Tap a tenant to open their individual sheet.</p>
+    <div id="tList"></div>
+  </div>
+
+  <div class="card" id="tenantDetail" style="display:none">
+    <h3 id="tdTitle">Tenant details</h3>
+    <div id="tdSummary"></div>
+    <button onclick="closeTenantDetail()">← Back to tenant list</button>
+    <button onclick="editSelectedTenant()">✏️ Edit tenant</button>
+
+    <div class="divider"></div>
+    <h3>Payment history</h3>
+    <div id="tdPayments"></div>
+
+    <div class="divider"></div>
+    <h3>Apply advance rent</h3>
+    <p class="muted">Choose the future rent month and amount. This uses existing advance credit; it does not create a new cash payment.</p>
+    <label>Rent month</label><input id="advMonth" type="month">
+    <label>Amount to apply (₱)</label><input id="advApplyAmount" type="number" min="0" step=".01">
+    <label>Note</label><input id="advApplyNote">
+    <button class="primary" onclick="applyAdvance()">Apply advance to rent</button>
+    <div id="tdAdvanceApps"></div>
+
+    <div class="divider"></div>
+    <h3>Tenant expenses</h3>
+    <label>Expense description</label><input id="teDesc" placeholder="e.g. Plumbing repair">
+    <div class="row">
+      <div><label>Date</label><input id="teDate" type="date"></div>
+      <div><label>Amount (₱)</label><input id="teAmount" type="number" min="0" step=".01"></div>
+    </div>
+    <label>Category</label>
+    <select id="teCategory">
+      <option>Repair</option><option>Maintenance</option><option>Utilities</option><option>Supplies</option><option>Other</option>
+    </select>
+    <label>Who paid?</label>
+    <select id="tePaidBy"><option>Own money</option><option>Apartment rent</option></select>
+    <label>Deduct this expense from apartment rental cash?</label>
+    <select id="teDeductCash"><option value="yes">Yes</option><option value="no">No</option></select>
+    <label>Eligible for rent deduction?</label>
+    <select id="teEligible"><option value="yes">Yes</option><option value="no">No</option></select>
+    <label>Notes</label><input id="teNote">
+    <button class="primary" onclick="addTenantExpense()">Save tenant expense</button>
+    <div id="tdExpenses"></div>
+
+    <h3>Apply tenant expense credit</h3>
+    <p class="muted">Only eligible, unapplied expenses can be used. This reduces the selected month's rent due when you apply it.</p>
+    <label>Rent month</label><input id="teApplyMonth" type="month">
+    <label>Credit amount (₱)</label><input id="teApplyAmount" type="number" min="0" step=".01">
+    <label>Note</label><input id="teApplyNote">
+    <button class="primary" onclick="applyTenantExpenseCredit()">Apply expense credit to rent</button>
+    <div id="tdExpenseApps"></div>
+  </div>
+
+  <div class="card">
+    <h3>🧾 Shared apartment expenses</h3>
+    <label>Description</label><input id="eDesc" placeholder="Repairs, utilities, cleaning">
+    <div class="row">
+      <div><label>Date</label><input id="eDate" type="date"></div>
+      <div><label>Amount (₱)</label><input id="eAmount" type="number" min="0" step=".01"></div>
+    </div>
+    <label>Who paid?</label>
+    <select id="ePaidBy"><option>Apartment rent</option><option>Own money</option></select>
+    <label>Deduct this from apartment rental cash?</label>
+    <select id="eDeductCash"><option value="yes">Yes</option><option value="no">No</option></select>
+    <button class="primary" onclick="addRentalExpense()">Save shared expense</button>
+    <div id="eList"></div>
+  </div>
+
+  <div class="card">
+    <h3>💗 Owner bills / personal withdrawals</h3>
+    <p class="muted">Keep personal bills separate from tenant expenses. Choose whether each one reduces apartment rental cash.</p>
+    <label>Bill / expense description</label><input id="oeDesc" placeholder="e.g. Owner electricity bill">
+    <div class="row">
+      <div><label>Date</label><input id="oeDate" type="date"></div>
+      <div><label>Amount (₱)</label><input id="oeAmount" type="number" min="0" step=".01"></div>
+    </div>
+    <label>Category</label>
+    <select id="oeCategory"><option>Personal bill</option><option>Owner withdrawal</option><option>Other</option></select>
+    <label>Money source</label>
+    <select id="oePaidBy"><option>Apartment rent</option><option>Own money</option></select>
+    <label>Deduct this from apartment rental cash?</label>
+    <select id="oeDeductCash"><option value="yes">Yes</option><option value="no">No</option></select>
+    <label>Notes</label><input id="oeNote">
+    <button class="primary" onclick="addOwnerExpense()">Save owner bill / withdrawal</button>
+    <div id="oeList"></div>
+  </div>
+</section>
 <section id="bills" class="panel hidden"><div class="card"><h2>🧾 Bills, subscriptions & debts</h2>
 <label>Name</label><input id="bName" placeholder="Netflix, Shopee, loan..."><div class="row"><div><label>Type</label><select id="bType"><option>Bill</option><option>Subscription</option><option>Installment</option><option>Debt</option></select></div><div><label>Total amount (₱)</label><input id="bTotal" type="number" min="0" step=".01"></div></div>
 <div class="row"><div><label>Due date</label><input id="bDue" type="date"></div><div><label>Already paid (₱)</label><input id="bPaid" type="number" min="0" step=".01" value="0"></div></div><label>Notes</label><input id="bNote"><button class="primary" onclick="addBill()">Add bill or debt</button></div>
@@ -884,6 +1025,11 @@ footer {
     <button onclick="exportCSV('bills')">Bills & Debts</button>
     <button onclick="exportCSV('tenants')">Tenants</button>
     <button onclick="exportCSV('payments')">Tenant Payments</button>
+    <button onclick="exportCSV('rentalExpenses')">Shared Apartment Expenses</button>
+<button onclick="exportCSV('tenantExpenses')">Tenant Expenses</button>
+<button onclick="exportCSV('ownerExpenses')">Owner Bills / Withdrawals</button>
+<button onclick="exportCSV('advanceApplications')">Advance Applications</button>
+<button onclick="exportCSV('tenantExpenseApplications')">Tenant Expense Credits</button>
   </div>
 </section>
   
@@ -906,7 +1052,12 @@ if(!Array.isArray(db.trash)) db.trash=[];
 const money=n=>'₱'+Number(n||0).toLocaleString('en-PH',{minimumFractionDigits:2,maximumFractionDigits:2});
 const val=id=>document.getElementById(id).value;
 const today=new Date().toISOString().slice(0,10);
-['pDate','sDate','rDate','payDate','eDate'].forEach(id=>document.getElementById(id).value=today);
+['pDate','sDate','rDate','payDate','eDate','teDate','oeDate'].forEach(id=>{
+  let el=document.getElementById(id);
+  if(el)el.value=today;
+});
+  if($('advMonth'))$('advMonth').value=today.slice(0,7);
+if($('teApplyMonth'))$('teApplyMonth').value=today.slice(0,7);
 function save(){localStorage.setItem(KEY,JSON.stringify(db));render()}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function line(title,sub,amount,key,index){
@@ -924,8 +1075,56 @@ function addGoal(){let n=val('gName').trim(),t=+val('gTarget');if(!n||!t)return 
 function goalAmount(name){return db.savings.filter(x=>x.goal===name).reduce((s,x)=>s+((x.type==='Deposit'||x.type==='Transfer in')?x.amount:-x.amount),0)}
 function addRepay(){let a=+val('rAmount');if(!a||!val('rRef'))return alert('Enter a reference and amount.');db.repay.unshift({ref:val('rRef'),type:val('rType'),date:val('rDate'),amount:a});save();document.getElementById('rAmount').value=''}
 function addTenant(){let n=val('tName').trim();if(!n)return alert('Enter a tenant name or unit.');db.tenants.push({name:n,rent:+val('tRent')||0,old:+val('tOld')||0,advance:0});save();document.getElementById('tName').value=''}
-function addPayment(){let t=db.tenants[+val('payTenant')],a=+val('payAmount');if(!t||!a)return alert('Choose a tenant and enter an amount.');let purpose=val('payPurpose');if(purpose==='Monthly rent'&&!val('rentMonth'))return alert('Choose the rent month.');db.payments.unshift({tenant:t.name,date:val('payDate'),amount:a,purpose,month:val('rentMonth'),note:val('payNote')});if(purpose==='Old balance')t.old=Math.max(0,t.old-a);if(purpose==='Advance rent')t.advance+=a;save();document.getElementById('payAmount').value=''}
-function addRentalExpense(){let a=+val('eAmount');if(!a||!val('eDesc'))return alert('Enter an expense and amount.');db.rentalExpenses.unshift({desc:val('eDesc'),date:val('eDate'),amount:a});save();document.getElementById('eAmount').value=''}
+function addPayment(){
+  let t=db.tenants[+val('payTenant')];
+  let a=Number(val('payAmount'));
+
+  if(!t||!Number.isFinite(a)||a<=0)return alert('Choose a tenant and enter a valid amount.');
+
+  let purpose=val('payPurpose');
+  if(purpose==='Monthly rent'&&!val('rentMonth'))return alert('Choose the rent month.');
+
+  let record={
+    tenant:t.name,
+    date:val('payDate'),
+    amount:a,
+    purpose,
+    month:val('rentMonth'),
+    note:val('payNote')
+  };
+
+  if(purpose==='Old balance'){
+    record.appliedOldAmount=Math.min(t.old,a);
+    t.old=Math.max(0,t.old-a);
+  }
+
+  if(purpose==='Advance rent'){
+    t.advance+=a;
+  }
+
+  db.payments.unshift(record);
+  save();
+  $('payAmount').value='';
+  $('payNote').value='';
+}
+function addRentalExpense(){
+  let a=Number(val('eAmount'));
+  let desc=val('eDesc').trim();
+
+  if(!a||!desc)return alert('Enter an expense description and amount.');
+
+  db.rentalExpenses.unshift({
+    desc,
+    date:val('eDate'),
+    amount:a,
+    paidBy:val('ePaidBy'),
+    deductFromApartmentCash:val('eDeductCash')==='yes'
+  });
+
+  save();
+  $('eDesc').value='';
+  $('eAmount').value='';
+}
 function exportData(){let b=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download='my-little-wallet-backup-'+today+'.json';a.click();URL.revokeObjectURL(u)}
 function importData(){let f=document.getElementById('importFile').files[0];if(!f)return alert('Choose a backup file first.');let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result);if(!d.personal||!d.savings||!d.tenants)throw 0;if(!confirm('Replace the records currently on this device with this backup?'))return;db=d;save();alert('Backup restored.')}catch(e){alert('That file does not look like a valid My Little Wallet backup.')}};r.readAsText(f)}
 function render(){
@@ -974,6 +1173,300 @@ if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.ser
 // V2 add-ons; existing V1 records remain in place on this device.
 const $=id=>document.getElementById(id);
 db.bills=db.bills||[]; db.billPayments=db.billPayments||[];
+// Apartment upgrade data lists. Existing records are preserved.
+db.ownerExpenses=db.ownerExpenses||[];
+db.tenantExpenses=db.tenantExpenses||[];
+db.advanceApplications=db.advanceApplications||[];
+db.tenantExpenseApplications=db.tenantExpenseApplications||[];
+
+let selectedTenantIndex=-1;
+
+function apartmentTenant(name){
+  return db.tenants.find(t=>t.name===name);
+}
+
+function tenantAdvanceAvailable(t){
+  let applied=db.advanceApplications
+    .filter(x=>x.tenant===t.name)
+    .reduce((s,x)=>s+(+x.amount||0),0);
+  return Math.max(0,(+t.advance||0)-applied);
+}
+
+function tenantExpenseCreditAvailable(t){
+  let earned=db.tenantExpenses
+    .filter(x=>x.tenant===t.name&&x.eligibleForRentDeduction)
+    .reduce((s,x)=>s+(+x.amount||0),0);
+  let used=db.tenantExpenseApplications
+    .filter(x=>x.tenant===t.name)
+    .reduce((s,x)=>s+(+x.amount||0),0);
+  return Math.max(0,earned-used);
+}
+
+function tenantRentFigures(t,month){
+  let monthly=db.payments
+    .filter(x=>x.tenant===t.name&&x.purpose==='Monthly rent'&&x.month===month)
+    .reduce((s,x)=>s+(+x.amount||0),0);
+
+  let advance=db.advanceApplications
+    .filter(x=>x.tenant===t.name&&x.month===month)
+    .reduce((s,x)=>s+(+x.amount||0),0);
+
+  let credits=db.tenantExpenseApplications
+    .filter(x=>x.tenant===t.name&&x.month===month)
+    .reduce((s,x)=>s+(+x.amount||0),0);
+
+  let due=+t.rent||0;
+  let covered=monthly+advance+credits;
+
+  return {
+    rent:due,
+    monthly,
+    advance,
+    credits,
+    due:Math.max(0,due-covered),
+    overpaid:Math.max(0,covered-due)
+  };
+}
+
+function apartmentCashFigures(){
+  let collected=db.payments.reduce((s,x)=>s+(+x.amount||0),0);
+
+  // Legacy shared expenses are counted as cash outflows.
+  let shared=db.rentalExpenses
+  .filter(x=>x.deductFromApartmentCash!==false)
+  .reduce((s,x)=>s+(+x.amount||0),0);
+  let tenant=db.tenantExpenses
+    .filter(x=>x.deductFromApartmentCash===true)
+    .reduce((s,x)=>s+(+x.amount||0),0);
+
+  let owner=db.ownerExpenses
+    .filter(x=>x.deductFromApartmentCash===true)
+    .reduce((s,x)=>s+(+x.amount||0),0);
+
+  return {collected,shared,tenant,owner,totalExpenses:shared+tenant+owner,cash:collected-shared-tenant-owner};
+}
+
+function addTenantExpense(){
+  let t=db.tenants[ selectedTenantIndex ];
+  let amount=Number(val('teAmount'));
+  let desc=val('teDesc').trim();
+
+  if(!t)return alert('Open a tenant sheet first.');
+  if(!desc||!Number.isFinite(amount)||amount<=0)return alert('Enter an expense description and a valid amount.');
+
+  db.tenantExpenses.unshift({
+    tenant:t.name,
+    desc,
+    date:val('teDate'),
+    amount,
+    category:val('teCategory'),
+    paidBy:val('tePaidBy'),
+    deductFromApartmentCash:val('teDeductCash')==='yes',
+    eligibleForRentDeduction:val('teEligible')==='yes',
+    note:val('teNote')
+  });
+
+  save();
+  ['teDesc','teAmount','teNote'].forEach(id=>$(id).value='');
+}
+
+function addOwnerExpense(){
+  let desc=val('oeDesc').trim();
+  let amount=Number(val('oeAmount'));
+
+  if(!desc||!Number.isFinite(amount)||amount<=0)return alert('Enter a description and a valid amount.');
+
+  db.ownerExpenses.unshift({
+    desc,
+    date:val('oeDate'),
+    amount,
+    category:val('oeCategory'),
+    paidBy:val('oePaidBy'),
+    deductFromApartmentCash:val('oeDeductCash')==='yes',
+    note:val('oeNote')
+  });
+
+  save();
+  ['oeDesc','oeAmount','oeNote'].forEach(id=>$(id).value='');
+}
+
+function applyAdvance(){
+  let t=db.tenants[selectedTenantIndex];
+  let month=val('advMonth');
+  let amount=Number(val('advApplyAmount'));
+
+  if(!t)return alert('Open a tenant sheet first.');
+  if(!month)return alert('Choose the rent month.');
+  if(!Number.isFinite(amount)||amount<=0)return alert('Enter a valid amount.');
+
+  let available=tenantAdvanceAvailable(t);
+  let due=tenantRentFigures(t,month).due;
+
+  if(amount>available+0.001)return alert('The amount is greater than the available advance credit.');
+  if(amount>due+0.001)return alert('The amount is greater than the rent still due for that month.');
+
+  db.advanceApplications.unshift({
+    tenant:t.name,
+    date:today,
+    month,
+    amount,
+    note:val('advApplyNote')
+  });
+
+  save();
+  $('advApplyAmount').value='';
+  $('advApplyNote').value='';
+}
+
+function applyTenantExpenseCredit(){
+  let t=db.tenants[selectedTenantIndex];
+  let month=val('teApplyMonth');
+  let amount=Number(val('teApplyAmount'));
+
+  if(!t)return alert('Open a tenant sheet first.');
+  if(!month)return alert('Choose the rent month.');
+  if(!Number.isFinite(amount)||amount<=0)return alert('Enter a valid amount.');
+
+  let available=tenantExpenseCreditAvailable(t);
+  let due=tenantRentFigures(t,month).due;
+
+  if(amount>available+0.001)return alert('The amount is greater than the available tenant expense credit.');
+  if(amount>due+0.001)return alert('The amount is greater than the rent still due for that month.');
+
+  db.tenantExpenseApplications.unshift({
+    tenant:t.name,
+    date:today,
+    month,
+    amount,
+    note:val('teApplyNote')
+  });
+
+  save();
+  $('teApplyAmount').value='';
+  $('teApplyNote').value='';
+}
+
+function openTenantDetail(index){
+  if(!db.tenants[index])return;
+  selectedTenantIndex=index;
+  $('tenantDetail').style.display='block';
+  renderApartmentV3();
+  $('tenantDetail').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function closeTenantDetail(){
+  selectedTenantIndex=-1;
+  $('tenantDetail').style.display='none';
+  renderApartmentV3();
+}
+
+function editSelectedTenant(){
+  if(selectedTenantIndex<0)return;
+  recordMenu('tenants',selectedTenantIndex);
+}
+
+function renderApartmentV3(){
+  let cash=apartmentCashFigures();
+  let month=today.slice(0,7);
+
+  let expected=db.tenants.reduce((s,t)=>s+(+t.rent||0),0);
+  let collected=db.payments
+    .filter(x=>x.purpose==='Monthly rent'&&x.month===month)
+    .reduce((s,x)=>s+(+x.amount||0),0);
+
+  let old=db.tenants.reduce((s,t)=>s+(+t.old||0),0);
+  let advances=db.tenants.reduce((s,t)=>s+tenantAdvanceAvailable(t),0);
+  let credits=db.tenants.reduce((s,t)=>s+tenantExpenseCreditAvailable(t),0);
+
+  $('apExpected').textContent=money(expected);
+  $('apCollected').textContent=money(collected);
+  $('apOld').textContent=money(old);
+  $('apAdvance').textContent=money(advances);
+  $('apTenantCredits').textContent=money(credits);
+  $('apExpenses').textContent=money(cash.shared+cash.tenant);
+  $('apOwnerExpenses').textContent=money(cash.owner);
+  $('apCash').textContent=money(cash.cash);
+
+  $('tList').innerHTML=db.tenants.map((t,i)=>`
+    <div class="item" onclick="openTenantDetail(${i})" style="cursor:pointer">
+      <div>
+        <b>🏠 ${esc(t.name)}</b>
+        <div class="muted">Rent ${money(t.rent)} · Old balance ${money(t.old)} · Advance credit ${money(tenantAdvanceAvailable(t))}</div>
+      </div>
+      <b>View →</b>
+    </div>
+  `).join('')||'<span class="muted">Add your first tenant.</span>';
+
+  $('payTenant').innerHTML=db.tenants.map((t,i)=>
+    `<option value="${i}">${esc(t.name)}</option>`
+  ).join('');
+
+  $('eList').innerHTML=db.rentalExpenses.map((x,i)=>
+    line(x.desc,(x.date||'')+' · '+(x.paidBy||'Previous record')+' · '+(x.deductFromApartmentCash===false?'Not deducted':'Deducted from cash'),x.amount,'rentalExpenses',i)
+  ).join('')||'<span class="muted">No shared expenses yet.</span>';
+
+  $('oeList').innerHTML=db.ownerExpenses.map((x,i)=>
+    line(x.desc,(x.date||'')+' · '+(x.category||'Owner expense')+' · '+(x.paidBy||'')+' · '+(x.deductFromApartmentCash?'Deducted from cash':'Not deducted'),x.amount,'ownerExpenses',i)
+  ).join('')||'<span class="muted">No owner bills or withdrawals yet.</span>';
+
+  let detail=$('tenantDetail');
+  if(selectedTenantIndex<0||!db.tenants[selectedTenantIndex]){
+    detail.style.display='none';
+    return;
+  }
+
+  let t=db.tenants[selectedTenantIndex];
+  detail.style.display='block';
+
+  $('tdTitle').textContent='🏠 '+t.name;
+  $('tdSummary').innerHTML=`
+    <div class="grid">
+      <div class="metric"><small>Monthly rent</small><strong>${money(t.rent)}</strong></div>
+      <div class="metric"><small>Old balance</small><strong>${money(t.old)}</strong></div>
+      <div class="metric"><small>Available advance</small><strong>${money(tenantAdvanceAvailable(t))}</strong></div>
+      <div class="metric"><small>Expense credit available</small><strong>${money(tenantExpenseCreditAvailable(t))}</strong></div>
+    </div>
+    <h4>Rent status by month</h4>
+    <label>Check rent month</label>
+    <input id="tdCheckMonth" type="month" value="${month}" onchange="refreshTenantMonth()">
+    <div id="tdMonthStatus"></div>
+  `;
+
+  $('tdPayments').innerHTML=db.payments.map((p,i)=>
+    p.tenant===t.name?line(p.purpose+' '+(p.month||''),(p.date||'')+' · '+(p.note||''),p.amount,'payments',i):''
+  ).join('')||'<span class="muted">No payments yet.</span>';
+
+  $('tdExpenses').innerHTML=db.tenantExpenses.map((x,i)=>
+    x.tenant===t.name?line(x.desc,(x.date||'')+' · '+x.category+' · '+x.paidBy+' · '+(x.eligibleForRentDeduction?'Eligible for rent credit':'Not eligible')+' · '+(x.deductFromApartmentCash?'Deducted from apartment cash':'Not deducted'),x.amount,'tenantExpenses',i):''
+  ).join('')||'<span class="muted">No tenant expenses yet.</span>';
+
+  $('tdAdvanceApps').innerHTML=db.advanceApplications.map((x,i)=>
+    x.tenant===t.name?line('Advance applied to '+x.month,(x.date||'')+' · '+(x.note||''),x.amount,'advanceApplications',i):''
+  ).join('');
+
+  $('tdExpenseApps').innerHTML=db.tenantExpenseApplications.map((x,i)=>
+    x.tenant===t.name?line('Expense credit applied to '+x.month,(x.date||'')+' · '+(x.note||''),x.amount,'tenantExpenseApplications',i):''
+  ).join('');
+
+  refreshTenantMonth();
+}
+
+function refreshTenantMonth(){
+  let t=db.tenants[selectedTenantIndex];
+  if(!t||!$('tdCheckMonth'))return;
+
+  let f=tenantRentFigures(t,val('tdCheckMonth'));
+  $('tdMonthStatus').innerHTML=`
+    <div class="grid">
+      <div class="metric"><small>Rent</small><strong>${money(f.rent)}</strong></div>
+      <div class="metric"><small>Monthly payments</small><strong>${money(f.monthly)}</strong></div>
+      <div class="metric"><small>Advance applied</small><strong>${money(f.advance)}</strong></div>
+      <div class="metric"><small>Expense credits applied</small><strong>${money(f.credits)}</strong></div>
+      <div class="metric"><small>Rent still due</small><strong>${money(f.due)}</strong></div>
+      <div class="metric"><small>Overpayment</small><strong>${money(f.overpaid)}</strong></div>
+    </div>
+  `;
+             }
 const _oldRender=render;
 render=function(){_oldRender();renderV2();};
 function addBill(){let name=val('bName').trim(),total=+val('bTotal');if(!name||!total)return alert('Enter a bill name and total amount.');db.bills.push({name,type:val('bType'),total,paid:+val('bPaid')||0,due:val('bDue'),note:val('bNote')});save();$('bName').value='';$('bTotal').value='';}
@@ -996,7 +1489,8 @@ function renderV2(){
   }
 
   if($('repMonth'))renderReports();
-  if($('trashList'))renderTrash();
+if($('trashList'))renderTrash();
+if($('tenantDetail'))renderApartmentV3();
 }
 function renderTrash(){
   let box=$('trashList');
@@ -1038,7 +1532,7 @@ function restoreRecord(index){
     }
 
     if(x.record.purpose==='Old balance'){
-      tenant.old=Math.max(0,tenant.old-x.record.amount);
+  tenant.old=Math.max(0,tenant.old-(x.record.appliedOldAmount??x.record.amount));
     }
 
     if(x.record.purpose==='Advance rent'){
@@ -1126,9 +1620,14 @@ async function moveToTrash(key,index){
     return;
   }
 
-  if(key==='tenants'&&db.payments.some(p=>p.tenant===record.name)){
-    alert('This tenant has payment history and cannot be moved to Trash.');
-    return;
+  if(key==='tenants'&&(
+  db.payments.some(p=>p.tenant===record.name)||
+  db.tenantExpenses.some(p=>p.tenant===record.name)||
+  db.advanceApplications.some(p=>p.tenant===record.name)||
+  db.tenantExpenseApplications.some(p=>p.tenant===record.name)
+)){
+  alert('This tenant has linked records. Keep the tenant in your list so their history remains connected.');
+  return;
   }
 
   let message=key==='payments'&&record.purpose==='Monthly rent'
@@ -1143,7 +1642,7 @@ async function moveToTrash(key,index){
       alert('Tenant not found. Payment was not deleted.');
       return;
     }
-    if(record.purpose==='Old balance')tenant.old+=record.amount;
+    if(record.purpose==='Old balance')tenant.old+=(record.appliedOldAmount??record.amount);
     if(record.purpose==='Advance rent')tenant.advance=Math.max(0,tenant.advance-record.amount);
   }
 
@@ -1162,11 +1661,16 @@ async function moveToTrash(key,index){
 function editRecord(key,index){
   let x=db[key]?.[index];
   if(!x)return;
+
   let fields={
     personal:['desc','date','type','cat','amount','method','notes'],
     savings:['account','date','type','amount','goal','note'],
     repay:['ref','date','type','amount'],
-    rentalExpenses:['desc','date','amount'],
+    rentalExpenses:['desc','date','amount','paidBy','deductFromApartmentCash'],
+    ownerExpenses:['desc','date','amount','category','paidBy','deductFromApartmentCash','note'],
+    tenantExpenses:['desc','date','amount','category','paidBy','deductFromApartmentCash','eligibleForRentDeduction','note'],
+    advanceApplications:['date','month','amount','note'],
+    tenantExpenseApplications:['date','month','amount','note'],
     bills:['name','type','total','due','note'],
     goals:['name','target','deadline'],
     tenants:['name','rent','old','advance'],
@@ -1174,17 +1678,57 @@ function editRecord(key,index){
   }[key];
 
   if(!fields)return;
+
   let changes={};
+
   for(let field of fields){
-    let value=prompt('Edit '+field+':',x[field]??'');
+    let original=x[field];
+
+    if(field==='deductFromApartmentCash'||field==='eligibleForRentDeduction'){
+      let current=original===undefined
+        ? (field==='deductFromApartmentCash'?'Yes':'No')
+        : (original?'Yes':'No');
+
+      let value=prompt('Edit '+field+'? Type Yes or No:',current);
+      if(value===null)return;
+
+      value=value.trim().toLowerCase();
+      if(!['yes','no'].includes(value)){
+        alert('Please enter Yes or No.');
+        return;
+      }
+
+      changes[field]=value==='yes';
+      continue;
+    }
+
+    if(field==='paidBy'&&original===undefined){
+      original='Apartment rent';
+    }
+
+    let value=prompt('Edit '+field+':',original??'');
     if(value===null)return;
+
     if(['amount','total','target','rent','old','advance'].includes(field)){
       value=Number(value);
-      if(!Number.isFinite(value)||value<=0){
+      if(!Number.isFinite(value)||value<0){
         alert('Please enter a valid amount.');
         return;
       }
+      if(['amount','total','target'].includes(field)&&value===0){
+        alert('Amount must be greater than zero.');
+        return;
+      }
     }
+
+    if(field==='name'||field==='desc'||field==='account'||field==='ref'){
+      value=String(value).trim();
+      if(!value){
+        alert('This field cannot be empty.');
+        return;
+      }
+    }
+
     changes[field]=value;
   }
 
@@ -1194,25 +1738,63 @@ function editRecord(key,index){
   }
 
   if(key==='goals'&&changes.name!==x.name){
-  db.savings.forEach(s=>{
-    if(s.goal===x.name)s.goal=changes.name;
-  });
-}
+    db.savings.forEach(s=>{
+      if(s.goal===x.name)s.goal=changes.name;
+    });
+  }
+
+  if(key==='tenants'&&changes.name!==x.name){
+    let oldName=x.name;
+    let newName=changes.name;
+
+    let related=[
+      db.payments,
+      db.tenantExpenses,
+      db.advanceApplications,
+      db.tenantExpenseApplications
+    ];
+
+    related.forEach(list=>{
+      list.forEach(record=>{
+        if(record.tenant===oldName)record.tenant=newName;
+      });
+    });
+  }
+
   if(key==='payments'){
-  let tenant=db.tenants.find(t=>t.name===x.tenant);
+    let tenant=db.tenants.find(t=>t.name===x.tenant);
 
-  if(tenant){
-    if(x.purpose==='Old balance')tenant.old+=x.amount;
-    if(x.purpose==='Advance rent')tenant.advance=Math.max(0,tenant.advance-x.amount);
+    if(!tenant){
+      alert('Tenant not found. Payment was not changed.');
+      return;
+    }
 
-    if(changes.purpose==='Old balance')tenant.old=Math.max(0,tenant.old-changes.amount);
-    if(changes.purpose==='Advance rent')tenant.advance+=changes.amount;
+    if(x.purpose==='Old balance'){
+      tenant.old+=(x.appliedOldAmount??x.amount);
+    }
+
+    if(x.purpose==='Advance rent'){
+      tenant.advance=Math.max(0,tenant.advance-x.amount);
+    }
+
+    if(changes.purpose==='Old balance'){
+      let applied=Math.min(tenant.old,changes.amount);
+      tenant.old-=applied;
+      changes.appliedOldAmount=applied;
+    }else{
+      delete changes.appliedOldAmount;
+    }
+
+    if(changes.purpose==='Advance rent'){
+      tenant.advance+=changes.amount;
+    }
   }
-  }
-Object.assign(x,changes);
+
+  Object.assign(x,changes);
+
   document.getElementById('recordActionMenu')?.remove();
   save();
-}
+  }
 function renderReports(){
   let m=val('repMonth')||new Date().toISOString().slice(0,7);
   let y=String(val('repYear')||new Date().getFullYear());
