@@ -925,7 +925,7 @@ tList.innerHTML=db.tenants.map((t,i)=>{
       </div>
       <span>✏️</span>
     </div>
-    ${pays.map(p=>line(p.purpose+' '+(p.month||''),p.date+' · '+(p.note||''),p.amount)).join('')}
+    ${db.payments.map((p,i)=>p.tenant===t.name?line(p.purpose+' '+(p.month||''),p.date+' · '+(p.note||''),p.amount,'payments',i):'').join('')}
   </div>`;
 }).join('')||'<span class="muted">Add your first tenant.</span>';
 eList.innerHTML=db.rentalExpenses.map((x,i)=>
@@ -989,12 +989,32 @@ function renderTrash(){
 function restoreRecord(index){
   let x=db.trash[index];
   if(!x)return;
-  if(!Array.isArray(db[x.key]))return alert('Cannot restore this record.');
+
+  if(!Array.isArray(db[x.key])){
+    alert('Cannot restore this record.');
+    return;
+  }
+
+  if(x.key==='payments'){
+    let tenant=db.tenants.find(t=>t.name===x.record.tenant);
+    if(!tenant){
+      alert('Tenant not found. Restore the tenant first.');
+      return;
+    }
+
+    if(x.record.purpose==='Old balance'){
+      tenant.old=Math.max(0,tenant.old-x.record.amount);
+    }
+
+    if(x.record.purpose==='Advance rent'){
+      tenant.advance+=x.record.amount;
+    }
+  }
+
   db[x.key].splice(Math.min(x.index,db[x.key].length),0,x.record);
   db.trash.splice(index,1);
   save();
 }
-
 function permanentDelete(index){
   if(!confirm('Permanently delete this record? This cannot be undone.'))return;
   db.trash.splice(index,1);
@@ -1019,23 +1039,40 @@ function recordMenu(key,index){
 
 function moveToTrash(key,index){
   if(!confirm('Move this record to Trash? You can restore it later.'))return;
-  let record=db[key][index];
-  if(key==='bills'&&record&&record.paid>0){
-  alert('This bill has recorded payments, so it cannot be moved to Trash.');
-  return;
-  }
-  if(key==='tenants'&&db.payments.some(p=>p.tenant===record.name)){
-  alert('This tenant has payment history and cannot be moved to Trash.');
-  return;
-  }
+
+  let record=db[key]?.[index];
   if(!record)return;
+
+  if(key==='bills'&&record.paid>0){
+    alert('This bill has recorded payments, so it cannot be moved to Trash.');
+    return;
+  }
+
+  if(key==='tenants'&&db.payments.some(p=>p.tenant===record.name)){
+    alert('This tenant has payment history and cannot be moved to Trash.');
+    return;
+  }
+  if(key==='payments'&&record.purpose==='Monthly rent'){
+  if(!confirm('Move this monthly rent payment to Trash? Your rent payment history will be updated.'))return;
+ }
+  if(key==='payments'){
+    let tenant=db.tenants.find(t=>t.name===record.tenant);
+    if(!tenant){
+      alert('Tenant not found. Payment was not deleted.');
+      return;
+    }
+    if(record.purpose==='Old balance')tenant.old+=record.amount;
+    if(record.purpose==='Advance rent')tenant.advance=Math.max(0,tenant.advance-record.amount);
+  }
+
   db.trash.unshift({
     key:key,
     record:record,
     index:index,
-    title:record.desc||record.account||record.ref||record.name||'Deleted record',
+    title:record.desc||record.account||record.ref||record.name||record.tenant||'Deleted record',
     section:key
   });
+
   db[key].splice(index,1);
   document.getElementById('recordActionMenu')?.remove();
   save();
@@ -1050,7 +1087,8 @@ function editRecord(key,index){
     rentalExpenses:['desc','date','amount'],
     bills:['name','type','total','due','note'],
     goals:['name','target','deadline'],
-    tenants:['name','rent','old','advance']
+    tenants:['name','rent','old','advance'],
+    payments:['date','amount','purpose','month','note']
   }[key];
 
   if(!fields)return;
@@ -1078,6 +1116,17 @@ function editRecord(key,index){
     if(s.goal===x.name)s.goal=changes.name;
   });
 }
+  if(key==='payments'){
+  let tenant=db.tenants.find(t=>t.name===x.tenant);
+
+  if(tenant){
+    if(x.purpose==='Old balance')tenant.old+=x.amount;
+    if(x.purpose==='Advance rent')tenant.advance=Math.max(0,tenant.advance-x.amount);
+
+    if(changes.purpose==='Old balance')tenant.old=Math.max(0,tenant.old-changes.amount);
+    if(changes.purpose==='Advance rent')tenant.advance+=changes.amount;
+  }
+  }
 Object.assign(x,changes);
   document.getElementById('recordActionMenu')?.remove();
   save();
