@@ -1844,8 +1844,25 @@ drawBarChart('chartHomeYear', months, homeIncomes, homeExpenses);
 }
                                                                                                                                                                                                                                                                                                                    }
 function exportCSV(key){let rows=db[key]||[];if(!rows.length)return alert('No records in this section yet.');let cols=[...new Set(rows.flatMap(x=>Object.keys(x)))],quote=x=>'"'+String(x??'').replace(/"/g,'""')+'"';let csv=[cols.map(quote).join(','),...rows.map(r=>cols.map(c=>quote(r[c])).join(','))].join('\n');let blob=new Blob([csv],{type:'text/csv'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='my-little-wallet-'+key+'.csv';a.click();URL.revokeObjectURL(url);}
-if(!$('bpDate').value)$('bpDate').value=today;if(!$('repMonth').value)$('repMonth').value=today.slice(0,7);if(!$('repYear').value)$('repYear').value=today.slice(0,4);
+
+if(!$('bpDate').value)$('bpDate').value=today;
+if(!$('repMonth').value)$('repMonth').value=today.slice(0,7);
+if(!$('repYear').value)$('repYear').value=today.slice(0,4);
+
+// ONE-TIME SAMPLE DATA CLEANUP
+const DEMO_CLEANUP_FLAG='myLittleWalletDemoCleanupV1';
+
+if(localStorage.getItem(DEMO_CLEANUP_FLAG)!=='done'){
+  collectionKeys.forEach(k=>{
+    db[k]=[];
+  });
+
+  localStorage.setItem(KEY,JSON.stringify(db));
+  localStorage.setItem(DEMO_CLEANUP_FLAG,'done');
+}
+
 render();
+
 function drawHomeChartIfReady(){
   // renderReports owns the chart helpers and redraws the home chart too.
   renderReports();
