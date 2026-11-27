@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 420" role="img" aria-labelledby="title desc">
+<title id="title">Penny the panda</title>
+<desc id="desc">A fluffy round chibi panda with sparkling eyes, rosy cheeks, a pink flower bow and a heart wallet.</desc>
+<defs>
+  <radialGradient id="fur" cx="38%" cy="28%" r="75%"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#f7edf2"/></radialGradient>
+  <linearGradient id="pink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffb9d5"/><stop offset="1" stop-color="#e77eae"/></linearGradient>
+  <linearGradient id="wallet" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffb4d2"/><stop offset="1" stop-color="#e77baa"/></linearGradient>
+  <filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5"/></filter>
+  <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="8" stdDeviation="7" flood-color="#a66d8c" flood-opacity=".18"/></filter>
+</defs>
+<ellipse cx="211" cy="385" rx="126" ry="17" fill="#c99ab7" opacity=".18" filter="url(#soft)"/>
+<!-- ears and plush head silhouette -->
+<g filter="url(#shadow)">
+  <circle cx="104" cy="115" r="62" fill="#302936"/>
+  <circle cx="316" cy="115" r="62" fill="#302936"/>
+  <circle cx="104" cy="115" r="33" fill="#51404e"/>
+  <circle cx="316" cy="115" r="33" fill="#51404e"/>
+  <path d="M73 151 Q45 176 59 222 Q42 245 70 268 Q64 300 102 314 Q120 350 159 344 Q183 370 210 352 Q238 371 262 344 Q305 353 319 315 Q356 301 348 267 Q379 236 352 208 Q363 171 326 151 Q290 77 210 76 Q128 76 73 151Z" fill="url(#fur)" stroke="#eadde5" stroke-width="5"/>
+  <!-- tiny plush tufts -->
+  <g fill="#fff" stroke="#eadde5" stroke-width="3" stroke-linecap="round">
+    <path d="M101 105 Q87 88 100 77 Q112 91 113 103"/>
+    <path d="M145 83 Q137 65 153 58 Q164 74 159 88"/>
+    <path d="M205 73 Q196 54 211 47 Q226 63 219 78"/>
+    <path d="M264 84 Q264 64 282 61 Q290 79 278 92"/>
+    <path d="M319 112 Q335 94 348 107 Q340 125 322 129"/>
+    <path d="M70 205 Q49 194 47 213 Q60 229 78 222"/>
+    <path d="M347 205 Q369 193 373 212 Q360 229 343 221"/>
+    <path d="M83 284 Q63 292 75 309 Q94 311 102 294"/>
+    <path d="M328 286 Q349 290 341 309 Q322 314 312 296"/>
+  </g>
+</g>
+<!-- eye patches -->
+<ellipse cx="143" cy="202" rx="39" ry="53" fill="#302936" transform="rotate(16 143 202)"/>
+<ellipse cx="277" cy="202" rx="39" ry="53" fill="#302936" transform="rotate(-16 277 202)"/>
+<!-- sparkling eyes -->
+<ellipse cx="151" cy="205" rx="15" ry="19" fill="#fff"/>
+<ellipse cx="269" cy="205" rx="15" ry="19" fill="#fff"/>
+<circle cx="155" cy="208" r="10" fill="#302936"/>
+<circle cx="273" cy="208" r="10" fill="#302936"/>
+<circle cx="159" cy="201" r="4.5" fill="#fff"/>
+<circle cx="277" cy="201" r="4.5" fill="#fff"/>
+<circle cx="146" cy="215" r="2.5" fill="#fff" opacity=".8"/>
+<circle cx="264" cy="215" r="2.5" fill="#fff" opacity=".8"/>
+<!-- cheeks and nose -->
+<ellipse cx="101" cy="257" rx="27" ry="14" fill="#f4a9c4" opacity=".75"/>
+<ellipse cx="319" cy="257" rx="27" ry="14" fill="#f4a9c4" opacity=".75"/>
+<ellipse cx="210" cy="253" rx="15" ry="11" fill="#302936"/>
+<path d="M210 263 Q198 279 184 267 M210 263 Q222 279 236 267" fill="none" stroke="#5a4352" stroke-width="5" stroke-linecap="round"/>
+<path d="M192 287 Q210 300 228 287" fill="none" stroke="#e68caf" stroke-width="4" stroke-linecap="round"/>
+<!-- signature pink bow and flower -->
+<g stroke="#d56f9f" stroke-width="5" stroke-linejoin="round">
+  <path d="M112 102 Q56 48 55 93 Q52 132 115 123Z" fill="url(#pink)"/>
+  <path d="M119 104 Q159 42 178 79 Q193 113 124 127Z" fill="url(#pink)"/>
+  <circle cx="119" cy="113" r="15" fill="#ffd4e5"/>
+</g>
+<g transform="translate(85 76)">
+  <circle cx="0" cy="-13" r="9" fill="#fff1a8" stroke="#e8a9bd" stroke-width="2"/>
+  <circle cx="13" cy="-4" r="9" fill="#fff1a8" stroke="#e8a9bd" stroke-width="2"/>
+  <circle cx="8" cy="11" r="9" fill="#fff1a8" stroke="#e8a9bd" stroke-width="2"/>
+  <circle cx="-8" cy="11" r="9" fill="#fff1a8" stroke="#e8a9bd" stroke-width="2"/>
+  <circle cx="-13" cy="-4" r="9" fill="#fff1a8" stroke="#e8a9bd" stroke-width="2"/>
+  <circle cx="0" cy="0" r="7" fill="#f28eb6"/>
+</g>
+<!-- paws and heart wallet -->
+<ellipse cx="128" cy="338" rx="43" ry="27" fill="#302936"/>
+<ellipse cx="292" cy="338" rx="43" ry="27" fill="#302936"/>
+<g filter="url(#shadow)">
+  <rect x="143" y="306" width="134" height="83" rx="25" fill="url(#wallet)" stroke="#c95e91" stroke-width="5"/>
+  <path d="M146 328 Q210 311 274 328" fill="none" stroke="#ffd9e9" stroke-width="6"/>
+  <path d="M210 346 C187 320 163 347 210 376 C257 347 233 320 210 346Z" fill="#fff4fa" stroke="#d96d9f" stroke-width="3"/>
+  <circle cx="264" cy="352" r="7" fill="#fff1a8"/>
+</g>
+<!-- sparkles -->
+<g fill="#f0b3ce">
+  <path d="M42 155 l7 18 18 7 -18 7 -7 18 -7 -18 -18 -7 18 -7Z"/>
+  <path d="M371 151 l5 13 13 5 -13 5 -5 13 -5 -13 -13 -5 13 -5Z"/>
+  <path d="M343 48 l4 11 11 4 -11 4 -4 11 -4 -11 -11 -4 11 -4Z"/>
+</g>
+</svg>
