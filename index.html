@@ -1027,7 +1027,10 @@ async function permanentDelete(index){
     db.trash.splice(index,1);
   save();
 }
-
+function closeStuckOverlays(){
+  document.getElementById('recordActionMenu')?.remove();
+  document.getElementById('pennyConfirmBox')?.remove();
+}
 function recordMenu(key,index){
   let old=document.getElementById('recordActionMenu');
   if(old)old.remove();
