@@ -6,665 +6,159 @@
 <link rel="manifest" href="manifest.json"><link rel="icon" href="icon.svg">
 <title>My Little Wallet 🐼</title>
 <style>
-:root{--pink:#f7dce8;--rose:#d879a2;--cream:#fffaf4;--lav:#eee8fb;--ink:#51434b;--muted:#8b7d85;--line:#f0dce5}
-*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font:15px system-ui,-apple-system,Segoe UI,sans-serif}
-header{background:linear-gradient(120deg,#f8dce8,#eee8fb);padding:22px 17px 18px;border-radius:0 0 24px 24px}
-h1{margin:0;font-size:24px}header p{margin:5px 0 0;color:#755f6b;font-size:13px}
-main{max-width:760px;margin:auto;padding:14px 13px 90px}
-.nav{display:flex;gap:7px;overflow:auto;padding:5px 0 12px;position:sticky;top:0;background:var(--cream);z-index:2}
-.nav button{border:1px solid var(--line);background:white;border-radius:999px;padding:9px 13px;white-space:nowrap;color:var(--ink)}
-.nav button.active{background:var(--rose);color:white;border-color:var(--rose)}
-.card{background:white;border:1px solid var(--line);border-radius:18px;padding:15px;margin:10px 0;box-shadow:0 3px 12px #7b52600c}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.metric{background:#fff7fa;border-radius:14px;padding:12px}.metric small{color:var(--muted)}.metric strong{display:block;font-size:20px;margin-top:4px}
-h2{font-size:18px;margin:4px 0 12px}h3{font-size:15px;margin:0 0 8px}
-label{display:block;font-size:12px;color:var(--muted);margin:9px 0 4px}
-input,select,textarea{width:100%;border:1px solid var(--line);border-radius:11px;padding:11px;background:#fffdfd;color:var(--ink);font:inherit}
-textarea{min-height:65px}button.primary{background:var(--rose);color:white;border:0;border-radius:12px;padding:11px 15px;font-weight:650;margin-top:10px}
-button.secondary{background:var(--lav);border:0;border-radius:10px;padding:9px 12px;color:var(--ink);margin:4px 4px 4px 0}
-.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}
-.item{padding:10px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px}.item:last-child{border:0}
-.muted{color:var(--muted);font-size:12px}.hidden{display:none!important}.progress{height:9px;background:#f4eaf0;border-radius:99px;overflow:hidden;margin:7px 0}.progress span{display:block;height:100%;background:var(--rose)}
-.notice{background:#fff6dc;padding:11px;border-radius:12px;font-size:12px;line-height:1.5}
-footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
-@media(min-width:600px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.forms{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}}
 
-/* 🎀 PINK PANDA DREAMLAND THEME */ 
-  :root {--pink: #ffe0ed;--rose: #e887b0;--cream: #fff9f5;--lav: #f0e8ff;--ink: #594653;--muted: #a18b98;--line: #f6dce8;}
-body {background:radial-gradient(circle at 10% 10%, #ffe8f1 0, transparent 30%),radial-gradient(circle at 90% 30%, #f2eaff 0, transparent 28%),var(--cream);}
-header {background: linear-gradient(135deg, #ffd6e8, #f1e5ff, #fff0e7);padding: 28px 18px 25px;border-radius: 0 0 32px 32px;box-shadow: 0 6px 22px #d88bad25;
-  animation: pandaWelcome 0.8s ease both;
-}
-
-header h1 {
-  font-size: 27px;
-  letter-spacing: -0.7px;
-}
-
-header p::after {
-  content: " ✨";
-}
-
-.card {
-  border: 1px solid #f8dfeb;
-  border-radius: 23px;
-  padding: 17px;
-  box-shadow: 0 5px 18px #bd8da315;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  animation: cardAppear 0.5s ease both;
-}
-
-.card:active {
-  transform: scale(0.985);
-}
-
-.metric {
-  background: linear-gradient(145deg, #fff0f6, #fff9fc);
-  border: 1px solid #f9e1ec;
-  border-radius: 19px;
-  padding: 15px;
-  transition: transform 0.2s ease;
-}
-
-.metric:active {
-  transform: scale(0.97);
-}
-
-.metric strong {
-  color: #c65f91;
-  font-size: 19px;
-  overflow-wrap: anywhere;
-}
-
-.nav {
-  padding: 10px 2px 14px;
-  scrollbar-width: none;
-}
-
-.nav::-webkit-scrollbar {
-  display: none;
-}
-
-.nav button {
-  border: 1px solid #f4d8e5;
-  background: #ffffff;
-  border-radius: 20px;
-  padding: 11px 15px;
-  font-weight: 600;
-  box-shadow: 0 2px 7px #bd8da315;
-  transition: all 0.2s ease;
-}
-
-.nav button.active {
-  background: linear-gradient(135deg, #e887b0, #c99be9);
-  color: white;
-  border-color: transparent;
-  box-shadow: 0 4px 12px #d879a255;
-}
-
-button.primary {
-  background: linear-gradient(135deg, #e887b0, #c99be9);
-  border-radius: 16px;
-  padding: 13px 18px;
-  box-shadow: 0 4px 12px #d879a244;
-  transition: transform 0.2s ease;
-}
-
-button.primary:active,
-button.secondary:active {
-  transform: scale(0.96);
-}
-
-button.secondary {
-  border-radius: 14px;
-  background: #f4edff;
-  border: 1px solid #e8dcfa;
-}
-
-input, select, textarea {
-  border: 1px solid #f1d8e5;
-  border-radius: 15px;
-  background: #fffefe;
-  padding: 13px;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-input:focus, select:focus, textarea:focus {
-  outline: none;
-  border-color: #dc83ae;
-  box-shadow: 0 0 0 3px #f9ddeb;
-}
-
-.progress {
-  height: 12px;
-  background: #f7eaf1;
-  border-radius: 99px;
-}
-
-.progress span {
-  background: linear-gradient(90deg, #ed91b9, #bd9be9);
-  border-radius: 99px;
-  transition: width 0.6s ease;
-}
-
-.notice {
-  border: 1px solid #f5e2b9;
-  border-radius: 17px;
-}
-
-footer {
-  padding: 25px 12px;
-  color: #b17b98;
-}
-
-@keyframes pandaWelcome {
-  from { opacity: 0; transform: translateY(-12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes cardAppear {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-  }
-  }
-
-  
-/* 🐼 PENNY'S DREAMLAND DASHBOARD */
-
-.penny-hero {
-  background: linear-gradient(135deg, #ffe0ed, #eee3ff, #fff1e8);
-  border: 1px solid #f5d5e8;
-  border-radius: 28px;
-  padding: 22px 18px;
-  margin: 12px 0 18px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 7px 22px #d99aba20;
-}
-
-.penny-hero::after {
-  content: "♡ ✨ ♡";
-  position: absolute;
-  right: 14px;
-  top: 12px;
-  color: #d58bb5;
-  font-size: 20px;
-}
-
-.penny-welcome {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.penny-face {
-  width: 94px;
-  height: 94px;
-  min-width: 94px;
-  border-radius: 28px;
-  background: #fff9fc;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 59px;
-  box-shadow: 0 5px 15px #bd8da320;
-  animation: pennyBounce 2.5s ease-in-out infinite;
-}
-
-.penny-message h2 {
-  color: #a9507e;
-  font-size: 19px;
-  margin: 0 0 7px;
-}
-
-.penny-message p {
-  color: #816b83;
-  font-size: 12px;
-  line-height: 1.6;
-  margin: 0;
-}
-
-.dream-card {
-  background: linear-gradient(145deg, #fff, #fff4fa);
-  border: 1px solid #f5dce9;
-  border-radius: 23px;
-  padding: 17px;
-  margin: 12px 0;
-  box-shadow: 0 5px 16px #bd8da315;
-}
-
-.dream-card h3 {
-  color: #b75d8d;
-}
-
-.dream-label {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-  font-size: 12px;
-  color: #92758b;
-  margin: 12px 0 6px;
-}
-
-.dream-progress {
-  height: 13px;
-  background: #f5e6f0;
-  border-radius: 30px;
-  overflow: hidden;
-}
-
-.dream-progress span {
-  display: block;
-  height: 100%;
-  border-radius: 30px;
-  background: linear-gradient(90deg, #ed91b9, #bd9be9);
-}
-
-.dream-actions {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0,1fr));
-  gap: 10px;
-  margin: 14px 0;
-}
-
-.dream-action {
-  background: white;
-  border: 1px solid #f3dce9;
-  border-radius: 18px;
-  padding: 14px 8px;
-  text-align: center;
-  color: #87627d;
-  font-size: 12px;
-  font-weight: 650;
-}
-
-.dream-action span {
-  display: block;
-  font-size: 25px;
-  margin-bottom: 5px;
-}
-
-@keyframes pennyBounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
-}
-/* 🎀 PINK PANDA CLICKABLE TILES UPGRADE */
-
-.dream-action {
-  cursor: pointer;
-  min-height: 105px;
-  box-shadow: 0 4px 12px #d99aba18;
-  transition: transform 0.2s ease,
-              box-shadow 0.2s ease,
-              background 0.2s ease;
-}
-
-.dream-action:active {
-  transform: scale(0.94);
-  background: #fff0f7;
-  box-shadow: 0 2px 7px #d99aba25;
-}
-
-.dream-action small {
-  display: block;
-  margin-top: 5px;
-  color: #ad8a9f;
-  font-size: 10px;
-  font-weight: 500;
-}
-
-.dream-action span {
-  transition: transform 0.2s ease;
-}
-
-.dream-action:active span {
-  transform: scale(1.2);
-}
-
-/* 🐼 PINK PANDA SAVINGS ROOM */
-
-#savings .card {
-  background: linear-gradient(145deg, #ffffff, #fff3f9);
-  border: 1px solid #f3d5e6;
-  border-radius: 25px;
-  box-shadow: 0 6px 18px #d99aba18;
-  padding: 19px;
-}
-
-#savings h2 {
-  color: #b75d8d;
-  font-size: 20px;
-}
-
-#savings h3 {
-  color: #bd78a1;
-  font-size: 16px;
-}
-
-#savings label {
-  color: #a47791;
-  font-weight: 600;
-}
-
-#savings input,
-#savings select {
-  border: 1px solid #efd5e5;
-  border-radius: 15px;
-  background: #fffafd;
-}
-
-#savings input:focus,
-#savings select:focus {
-  border-color: #df8db5;
-  box-shadow: 0 0 0 3px #fbe4ef;
-}
-
-#savings button.primary {
-  width: 100%;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #e887b0, #c99be9);
-  box-shadow: 0 4px 12px #d879a244;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .penny-face { animation: none; }
-    }
-/* 🐼🏁 PINK PANDA RACE ROOM */
-
-#goals .card {
-  background: linear-gradient(145deg, #ffffff, #fff1f8);
-  border: 1px solid #f3d5e6;
-  border-radius: 25px;
-  box-shadow: 0 6px 18px #d99aba18;
-  padding: 19px;
-}
-
-#goals h2 {
-  color: #b75d8d;
-  font-size: 20px;
-}
-
-#goals h3 {
-  color: #bd78a1;
-  font-size: 16px;
-}
-
-#goals label {
-  color: #a47791;
-  font-weight: 600;
-}
-
-#goals input,
-#goals select {
-  border: 1px solid #efd5e5;
-  border-radius: 15px;
-  background: #fffafd;
-}
-
-#goals input:focus,
-#goals select:focus {
-  border-color: #df8db5;
-  box-shadow: 0 0 0 3px #fbe4ef;
-}
-
-#goals button.primary {
-  width: 100%;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #e887b0, #c99be9);
-  box-shadow: 0 4px 12px #d879a244;
-}  
-/* 💗🐼 PINK PANDA REPAYMENTS ROOM */
-
-#repay .card {
-  background: linear-gradient(145deg, #ffffff, #fff1f8);
-  border: 1px solid #f3d5e6;
-  border-radius: 25px;
-  box-shadow: 0 6px 18px #d99aba18;
-  padding: 19px;
-}
-
-#repay h2 {
-  color: #b75d8d;
-  font-size: 20px;
-}
-
-#repay h3 {
-  color: #bd78a1;
-  font-size: 16px;
-}
-
-#repay label {
-  color: #a47791;
-  font-weight: 600;
-}
-
-#repay input,
-#repay select {
-  border: 1px solid #efd5e5;
-  border-radius: 15px;
-  background: #fffafd;
-}
-
-#repay input:focus,
-#repay select:focus {
-  border-color: #df8db5;
-  box-shadow: 0 0 0 3px #fbe4ef;
-}
-
-#repay button.primary {
-  width: 100%;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #e887b0, #c99be9);
-  box-shadow: 0 4px 12px #d879a244;
-}
-
-#repay .metric {
-  background: #fff7fb;
-  border: 1px solid #f3dce9;
-  border-radius: 17px;
-  padding: 12px;
-}
-#repay .metric {
-  background: #fff7fb;
-  border: 1px solid #f3dce9;
-  border-radius: 17px;
-  padding: 12px;
-}
-/* 🏡🌸 PINK PANDA APARTMENT ROOM */
-
-#apartment .card {
-  background: linear-gradient(145deg, #ffffff, #fff1f8);
-  border: 1px solid #f3d5e6;
-  border-radius: 25px;
-  box-shadow: 0 6px 18px #d99aba18;
-  padding: 19px;
-}
-
-#apartment h2 {
-  color: #b75d8d;
-  font-size: 20px;
-}
-
-#apartment h3 {
-  color: #bd78a1;
-  font-size: 16px;
-}
-
-#apartment label {
-  color: #a47791;
-  font-weight: 600;
-}
-
-#apartment input,
-#apartment select {
-  border: 1px solid #efd5e5;
-  border-radius: 15px;
-  background: #fffafd;
-}
-
-#apartment input:focus,
-#apartment select:focus {
-  border-color: #df8db5;
-  box-shadow: 0 0 0 3px #fbe4ef;
-}
-
-#apartment button.primary {
-  width: 100%;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #e887b0, #c99be9);
-  box-shadow: 0 4px 12px #d879a244;
-}
-
-#apartment .notice {
-  background: linear-gradient(135deg, #fff6fb, #fff8e9);
-  border: 1px solid #f3dce9;
-  border-radius: 17px;
-  color: #92758b;
-}
-
-#apartment .item {
-  border-bottom: 1px solid #f3dce9;
-}
-
-/* 🧾💗 PINK PANDA BILLS & DEBTS ROOM */
-
-#bills .card {
-  background: linear-gradient(145deg, #ffffff, #fff1f8);
-  border: 1px solid #f3d5e6;
-  border-radius: 25px;
-  box-shadow: 0 6px 18px #d99aba18;
-  padding: 19px;
-}
-
-#bills h2,
-#reports h2 {
-  color: #b75d8d;
-  font-size: 20px;
-}
-
-#bills h3,
-#reports h3 {
-  color: #bd78a1;
-  font-size: 16px;
-}
-
-#bills label,
-#reports label {
-  color: #a47791;
-  font-weight: 600;
-}
-
-#bills input,
-#bills select,
-#reports input,
-#reports select {
-  border: 1px solid #efd5e5;
-  border-radius: 15px;
-  background: #fffafd;
-}
-
-#bills input:focus,
-#bills select:focus,
-#reports input:focus,
-#reports select:focus {
-  border-color: #df8db5;
-  box-shadow: 0 0 0 3px #fbe4ef;
-}
-
-#bills button.primary,
-#reports button.primary {
-  width: 100%;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #e887b0, #c99be9);
-  box-shadow: 0 4px 12px #d879a244;
-}
-
-#bills .item {
-  border-bottom: 1px solid #f3dce9;
-}
-
-/* 📊🌸 PINK PANDA REPORTS ROOM */
-
-#reports .card {
-  background: linear-gradient(145deg, #ffffff, #fff1f8);
-  border: 1px solid #f3d5e6;
-  border-radius: 25px;
-  box-shadow: 0 6px 18px #d99aba18;
-  padding: 19px;
-}
-
-#reports .metric {
-  background: linear-gradient(145deg, #fff7fb, #f5edff);
-  border: 1px solid #f3dce9;
-  border-radius: 18px;
-  padding: 14px;
-}
-
-#reports .metric small {
-  color: #a47791;
-}
-
-#reports .metric strong {
-  color: #bd6d9b;
-  overflow-wrap: anywhere;
-}
-
-#reports .item {
-  border-bottom: 1px solid #f3dce9;
-  }
-  /* 🎀 PINK PANDA REPORT CHARTS */
-#reports .chart-card {
-  background: linear-gradient(145deg,#fff,#fff2f8);
-  border: 1px solid #f3d5e6;
-  border-radius: 23px;
-  padding: 17px;
-  margin: 12px 0;
-  box-shadow: 0 6px 18px #d99aba18;
-}
-#reports .chart-card h3 {
-  color: #b75d8d;
-  margin-bottom: 5px;
-}
-#reports .chart-note {
-  color: #a18b98;
-  font-size: 11px;
-  margin: 0 0 12px;
-}
-#reports .report-chart {
-  display: block;
-  width: 100%;
-  height: 230px;
-}
-#reports #chartCats {
-  height: 280px;
-}
-/* 🐼 HOME YEARLY CHART */
-#home .chart-card {
-  background: linear-gradient(145deg,#fff,#fff2f8);
-  border: 1px solid #f3d5e6;
-  border-radius: 23px;
-  padding: 17px;
-  margin: 12px 0;
-  box-shadow: 0 6px 18px #d99aba18;
-}
-#home .chart-card h3 {
-  color: #b75d8d;
-  margin-bottom: 5px;
-}
-#home .chart-note {
-  color: #a18b98;
-  font-size: 11px;
-  margin: 0 0 12px;
-}
-#home .report-chart {
-  display: block;
-  width: 100%;
-  height: 230px;
+:root{
+  color-scheme:light;
+  --pink:#ffe1ed;--rose:#df83ad;--rose-deep:#b85f8c;--lav:#eee6ff;
+  --lav-deep:#a98bd6;--cream:#fffaf7;--ink:#574653;--muted:#987f90;
+  --line:#f2dce7;--white:#fff;--mint:#e8f5ef;--gold:#fff2d8;
+  --shadow:0 8px 24px rgba(183,111,151,.12);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;
+  background:
+    radial-gradient(circle at 8% 12%,rgba(255,218,234,.7),transparent 27rem),
+    radial-gradient(circle at 94% 35%,rgba(235,225,255,.65),transparent 25rem),
+    var(--cream);
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;touch-action:manipulation}
+header{
+  position:relative;overflow:hidden;padding:22px 18px 20px;
+  background:linear-gradient(130deg,#ffdce9 0%,#eee4ff 58%,#fff0e5 100%);
+  border-radius:0 0 32px 32px;box-shadow:0 7px 24px rgba(184,116,154,.16);
+}
+header:after{content:"♡  ✧  ♡";position:absolute;right:18px;top:10px;color:#d58ab1;font-size:20px;letter-spacing:8px}
+header>div{max-width:920px;margin:auto}
+header h1{margin:0;color:#9e527b;font-size:clamp(23px,5vw,30px);letter-spacing:-.7px}
+header p{margin:5px 0 0;color:#806a7d;font-size:13px}
+header p[style]{display:inline-block!important;margin-top:10px!important;box-shadow:0 3px 12px #d58ab122}
+header svg{filter:drop-shadow(0 8px 9px rgba(142,91,123,.15))}
+header .penny-header{width:clamp(112px,28vw,174px);height:auto;filter:drop-shadow(0 8px 12px rgba(142,91,123,.15))}
+main{width:min(100%,900px);margin:auto;padding:14px 13px 90px}
+.nav{
+  display:flex;gap:8px;overflow-x:auto;padding:10px 2px 14px;position:sticky;top:0;
+  background:rgba(255,250,247,.94);backdrop-filter:blur(12px);z-index:10;
+  scrollbar-width:none;border-radius:0 0 16px 16px
+}
+.nav::-webkit-scrollbar{display:none}
+.nav button{
+  flex:0 0 auto;border:1px solid #f0d6e4;background:#fff;border-radius:999px;
+  padding:10px 15px;color:#806779;font-weight:650;box-shadow:0 3px 9px #bd8da315;
+  transition:transform .18s,background .18s,box-shadow .18s
+}
+.nav button.active{color:#fff;border-color:transparent;background:linear-gradient(135deg,#e887b0,#b99be8);box-shadow:0 5px 14px #d879a244}
+.nav button:active,.dream-action:active,button.primary:active,button.secondary:active{transform:scale(.97)}
+.panel{animation:panelIn .28s ease both}
+.hidden{display:none!important}
+.card,.dream-card,.chart-card{
+  background:linear-gradient(145deg,#fff 0%,#fff8fc 100%);
+  border:1px solid var(--line);border-radius:24px;padding:17px;margin:11px 0;
+  box-shadow:var(--shadow)
+}
+.card h2,.card h3,.chart-card h3{color:#ad5e88}
+h2{font-size:19px;line-height:1.3;margin:2px 0 13px}
+h3{font-size:16px;line-height:1.35;margin:0 0 9px}
+h4{color:#a96089;margin:17px 0 8px}
+p{margin:7px 0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.metric{
+  min-width:0;background:linear-gradient(145deg,#fff0f6,#f8f2ff);
+  border:1px solid #f4dfeb;border-radius:18px;padding:13px;
+}
+.metric small{display:block;color:var(--muted);font-size:11px;line-height:1.35}
+.metric strong{display:block;color:#b75f8d;font-size:clamp(16px,4vw,20px);margin-top:5px;overflow-wrap:anywhere}
+label{display:block;font-size:12px;color:#98758e;font-weight:650;margin:10px 0 5px}
+input,select,textarea{
+  width:100%;min-width:0;border:1px solid #efd8e6;border-radius:14px;padding:12px 13px;
+  color:var(--ink);background:#fffdfd;outline:none;box-shadow:0 2px 6px #bd8da30a;
+  transition:border-color .18s,box-shadow .18s
+}
+input:focus,select:focus,textarea:focus{border-color:#d987b1;box-shadow:0 0 0 3px #f9e1ed}
+textarea{min-height:70px;resize:vertical}
+button.primary{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  border:0;border-radius:15px;padding:12px 17px;margin-top:11px;
+  color:#fff;font-weight:750;background:linear-gradient(135deg,#e887b0,#b99be8);
+  box-shadow:0 5px 13px #d879a244
+}
+button.secondary{
+  border:1px solid #e8dcfa;border-radius:13px;padding:10px 13px;margin:4px 4px 4px 0;
+  color:#806b91;background:#f4edff;font-weight:650
+}
+button:not(.primary):not(.secondary){border:1px solid #efd8e6;border-radius:12px;padding:9px 12px;background:#fff;color:#8f6480}
+.row{display:flex;gap:9px;align-items:flex-end}
+.row>*{flex:1;min-width:0}
+.forms{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+.item{
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+  padding:12px 2px;border-bottom:1px solid #f2e3eb
+}
+.item:last-child{border-bottom:0}
+.item b{overflow-wrap:anywhere}
+.muted{color:var(--muted);font-size:12px}
+.progress,.dream-progress{height:12px;background:#f4e8f0;border-radius:99px;overflow:hidden;margin:8px 0}
+.progress span,.dream-progress span{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#ed91b9,#b99be8);transition:width .45s ease}
+.notice{background:linear-gradient(120deg,#fff7e6,#fff2f8);border:1px solid #f1dfc2;border-radius:16px;padding:12px;color:#8c7480;font-size:12px;line-height:1.55}
+.divider{height:1px;background:#f0dce7;margin:17px 0}
+footer{text-align:center;padding:25px 12px;color:#b17b98;font-size:12px}
+.penny-hero{
+  display:flex;align-items:center;gap:15px;position:relative;overflow:hidden;
+  padding:17px;margin:10px 0 16px;border:1px solid #f3d5e6;border-radius:26px;
+  background:linear-gradient(130deg,#ffe2ed,#eee5ff 68%,#fff2e7);box-shadow:var(--shadow)
+}
+.penny-hero:after{content:"♡  ✨  ♡";position:absolute;right:13px;top:8px;color:#d68db3}
+.penny-hero img{width:104px;height:104px;object-fit:contain;flex:0 0 auto;filter:drop-shadow(0 6px 8px #a76f8b22);animation:pennyFloat 3s ease-in-out infinite}
+.penny-hero h2{color:#a9517f;margin:0 0 5px}
+.penny-hero p{font-size:12px;color:#806a83;margin:0;max-width:390px}
+.dream-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0}
+.dream-action{
+  min-height:105px;border:1px solid #f1d9e7;border-radius:20px;padding:13px 8px;
+  color:#89647f;background:linear-gradient(145deg,#fff,#fff3f9);font-weight:750;
+  box-shadow:0 5px 13px #bd8da315;transition:transform .18s,box-shadow .18s
+}
+.dream-action span{display:block;font-size:25px;margin-bottom:4px}
+.dream-action small{display:block;color:#a78b9c;font-size:10px;font-weight:500;margin-top:4px}
+.dream-action:active{background:#fff0f7}
+section.panel:not(#home)>.card:first-child h2:before{
+  content:"";display:inline-block;vertical-align:middle;width:39px;height:39px;margin-right:8px;
+  background:url("./penny.svg") center/contain no-repeat
+}
+#tenantDetail{border:2px solid #f0d6e7;background:linear-gradient(145deg,#fff,#fff5fa)}
+#tenantDetail>.item{overflow-wrap:anywhere}
+#tenantDetail .metric{padding:10px}
+#tenantDetail button{margin:5px 5px 5px 0}
+#apartment .notice{margin-top:8px}
+.chart-card{padding:17px}
+.chart-card h3{margin-bottom:5px}
+.chart-note{font-size:11px;color:var(--muted);margin:0 0 12px}
+.report-chart{display:block;width:100%;height:250px}
+#reports #chartCats{height:280px}
+#reports .metric{min-height:72px}
+#trashList .item{align-items:flex-start;flex-wrap:wrap}
+#trashList .item>div:last-child{display:flex;gap:6px;flex-wrap:wrap}
+#trashList button{font-size:12px}
+#recordActionMenu button,#pennyConfirmBox button{min-height:42px}
+#recordActionMenu h3,#pennyConfirmBox h3{color:#ad5e88}
+@keyframes pennyFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes panelIn{from{opacity:.6;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@media(min-width:620px){
+  main{padding-left:20px;padding-right:20px}
+  .grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .dream-actions{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .penny-hero{padding:20px 24px}
+}
+@media(max-width:390px){
+  .row{gap:6px}
+  .card{padding:14px}
+  .metric{padding:10px}
+  .metric strong{font-size:16px}
+  .penny-hero img{width:84px;height:84px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
 
 </style></head>
@@ -679,26 +173,7 @@ footer {
         Let's make your money dreams come true!
       </p>
     </div>
-    <svg viewBox="0 0 220 190" width="175" role="img" aria-label="Penny the panda holding a pink wallet">
-      <ellipse cx="55" cy="55" rx="37" ry="39" fill="#39283e"/>
-      <ellipse cx="165" cy="55" rx="37" ry="39" fill="#39283e"/>
-      <ellipse cx="110" cy="91" rx="82" ry="78" fill="#fffaf8" stroke="#e9c9dc" stroke-width="3"/>
-      <ellipse cx="75" cy="91" rx="22" ry="29" fill="#39283e" transform="rotate(25 75 91)"/>
-      <ellipse cx="145" cy="91" rx="22" ry="29" fill="#39283e" transform="rotate(-25 145 91)"/>
-      <circle cx="82" cy="91" r="7" fill="white"/>
-      <circle cx="138" cy="91" r="7" fill="white"/>
-      <ellipse cx="55" cy="119" rx="13" ry="7" fill="#f5a9c5" opacity=".7"/>
-      <ellipse cx="165" cy="119" rx="13" ry="7" fill="#f5a9c5" opacity=".7"/>
-      <path d="M103 111 Q110 120 117 111 Q114 130 110 130 Q106 130 103 111" fill="#e887b0"/>
-      <path d="M110 126 Q100 138 91 127 M110 126 Q120 138 129 127" fill="none" stroke="#493344" stroke-width="3" stroke-linecap="round"/>
-      <path d="M44 40 Q17 4 48 12 Q67 15 74 34 Q94 4 104 20 Q111 39 77 55 Z" fill="#ff9fc9" stroke="#d96eaa" stroke-width="4"/>
-      <circle cx="73" cy="39" r="10" fill="#ffd1e4" stroke="#d96eaa" stroke-width="3"/>
-      <rect x="65" y="145" width="90" height="38" rx="12" fill="#f59bc5" stroke="#c75d96" stroke-width="4"/>
-      <path d="M65 155 Q110 145 155 155" fill="none" stroke="#ffd9e9" stroke-width="4"/>
-      <path d="M110 155 C94 140 86 160 110 174 C134 160 126 140 110 155" fill="#fff5fa"/>
-      <ellipse cx="48" cy="157" rx="18" ry="12" fill="#39283e"/>
-      <ellipse cx="172" cy="157" rx="18" ry="12" fill="#39283e"/>
-    </svg>
+    <img class="penny-header" src="./penny.svg" alt="Penny the fluffy panda with her pink bow and heart wallet">
   </div>
 </header>
   
@@ -707,6 +182,10 @@ footer {
 <button class="active" data-tab="home">Home</button><button data-tab="personal">Personal</button><button data-tab="savings">Savings</button><button data-tab="goals">Panda Race</button><button data-tab="repay">Repayments</button><button data-tab="apartment">Apartment</button><button data-tab="bills">Bills & Debts</button><button data-tab="reports">Reports</button><button data-tab="backup">Backup</button><button data-tab="trash">Trash</button>
 </div>
 <section id="home" class="panel">
+<div class="penny-hero">
+  <img src="./penny.svg" alt="Penny the panda">
+  <div><h2>Welcome to Pink Panda Dreamland! 🎀</h2><p>Penny is here to help you care for your money, celebrate little wins, and keep your dreams moving forward.</p></div>
+</div>
 <div class="card"><h2>Welcome back! 🌷</h2><div class="grid">
 <div class="metric"><small>Personal income</small><strong id="mIncome">₱0.00</strong></div>
 <div class="metric"><small>Personal spending</small><strong id="mSpend">₱0.00</strong></div>
@@ -756,7 +235,7 @@ footer {
   </button>
 </div>
 
-<div class="notice">🔒 Your records are stored in this browser on this device. They are not automatically uploaded or synced. Export a backup regularly. Clearing browser data can erase your records.</div>
+<div class="notice">🔒 Your records are stored in this browser on this device. They are not automatically uploaded or synced. Export a backup regularly. Keep this device and browser profile safe, and download backups regularly.</div>
 <div class="card"><h2>Recent activity</h2><div id="recent" class="muted">No entries yet. Add your first record in a section above.</div></div>
 
 <div class="chart-card home-yearly-chart">
@@ -1052,10 +531,13 @@ footer {
 });
 const KEY='myLittleWalletDataV1';
 let db=JSON.parse(localStorage.getItem(KEY)||'{"personal":[],"savings":[],"goals":[],"repay":[],"tenants":[],"payments":[],"rentalExpenses":[]}');
-if(!Array.isArray(db.trash)) db.trash=[];
+const collectionKeys=['personal','savings','goals','repay','tenants','payments','rentalExpenses','trash','bills','billPayments','ownerExpenses','tenantExpenses','advanceApplications','tenantExpenseApplications'];
+collectionKeys.forEach(k=>{if(!Array.isArray(db[k]))db[k]=[];});
+db.tenants.forEach(t=>{if(!Number.isFinite(Number(t.advance)))t.advance=0;if(!Number.isFinite(Number(t.old)))t.old=0;});
 const money=n=>'₱'+Number(n||0).toLocaleString('en-PH',{minimumFractionDigits:2,maximumFractionDigits:2});
 const val=id=>document.getElementById(id).value;
-const today=new Date().toISOString().slice(0,10);
+const localNow=new Date();
+const today=localNow.getFullYear()+'-'+String(localNow.getMonth()+1).padStart(2,'0')+'-'+String(localNow.getDate()).padStart(2,'0');
 ['pDate','sDate','rDate','payDate','eDate','teDate','oeDate'].forEach(id=>{
   let el=document.getElementById(id);
   if(el)el.value=today;
@@ -1118,7 +600,7 @@ function addRentalExpense(){
   let a=Number(val('eAmount'));
   let desc=val('eDesc').trim();
 
-  if(!a||!desc)return alert('Enter an expense description and amount.');
+  if(!desc||!Number.isFinite(a)||a<=0)return alert('Enter an expense description and a valid positive amount.');
 
   db.rentalExpenses.unshift({
     desc,
@@ -1133,7 +615,22 @@ function addRentalExpense(){
   $('eAmount').value='';
 }
 function exportData(){let b=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download='my-little-wallet-backup-'+today+'.json';a.click();URL.revokeObjectURL(u)}
-function importData(){let f=document.getElementById('importFile').files[0];if(!f)return alert('Choose a backup file first.');let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result);if(!d.personal||!d.savings||!d.tenants)throw 0;if(!confirm('Replace the records currently on this device with this backup?'))return;db=d;save();alert('Backup restored.')}catch(e){alert('That file does not look like a valid My Little Wallet backup.')}};r.readAsText(f)}
+function importData(){
+  let f=document.getElementById('importFile').files[0];
+  if(!f)return alert('Choose a backup file first.');
+  let r=new FileReader();
+  r.onload=()=>{
+    try{
+      let d=JSON.parse(r.result);
+      if(!d||!Array.isArray(d.personal)||!Array.isArray(d.savings)||!Array.isArray(d.tenants))throw new Error('Invalid backup');
+      collectionKeys.forEach(k=>{if(!Array.isArray(d[k]))d[k]=[];});
+      d.tenants.forEach(t=>{if(!Number.isFinite(Number(t.advance)))t.advance=0;if(!Number.isFinite(Number(t.old)))t.old=0;});
+      if(!confirm('Replace the records currently on this device with this backup? Make sure your current backup is safely stored.'))return;
+      db=d;save();alert('Backup restored successfully. 💗');
+    }catch(e){alert('That file does not look like a valid My Little Wallet backup. Your current records were not replaced.');}
+  };
+  r.readAsText(f);
+}
 function render(){
 let inc=db.personal.filter(x=>x.type==='Income').reduce((s,x)=>s+x.amount,0),sp=db.personal.filter(x=>x.type==='Expense').reduce((s,x)=>s+x.amount,0);
 let bal={};db.savings.forEach(x=>{bal[x.account]=(bal[x.account]||0)+((x.type==='Deposit'||x.type==='Transfer in')?x.amount:-x.amount)});
@@ -1174,7 +671,15 @@ eList.innerHTML=db.rentalExpenses.map((x,i)=>
 ).join('')||'<span class="muted">No rental expenses yet.</span>';
 recent.innerHTML=[...db.personal.slice(0,3).map(x=>line(x.desc,x.date+' · Personal',x.amount)),...db.savings.slice(0,2).map(x=>line(x.account,x.date+' · Savings '+x.type,x.amount))].join('')||'No entries yet.';
 }
-document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.panel').forEach(x=>x.classList.add('hidden'));document.getElementById(b.dataset.tab).classList.remove('hidden')}));
+document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  document.querySelectorAll('.panel').forEach(x=>x.classList.add('hidden'));
+  document.getElementById(b.dataset.tab).classList.remove('hidden');
+  if(b.dataset.tab==='reports')requestAnimationFrame(()=>renderReports());
+  if(b.dataset.tab==='home')requestAnimationFrame(()=>drawHomeChartIfReady());
+}));
+
 if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 
 // V2 add-ons; existing V1 records remain in place on this device.
@@ -1476,8 +981,14 @@ function refreshTenantMonth(){
              }
 const _oldRender=render;
 render=function(){_oldRender();renderV2();};
-function addBill(){let name=val('bName').trim(),total=+val('bTotal');if(!name||!total)return alert('Enter a bill name and total amount.');db.bills.push({name,type:val('bType'),total,paid:+val('bPaid')||0,due:val('bDue'),note:val('bNote')});save();$('bName').value='';$('bTotal').value='';}
-function payBill(){let b=db.bills[+val('bSelect')],a=+val('bpAmount');if(!b||!a)return alert('Choose a bill and enter a payment.');if(a>b.total-b.paid+0.001)return alert('Payment is greater than the remaining balance.');b.paid+=a;db.billPayments.unshift({name:b.name,date:val('bpDate'),amount:a});db.personal.unshift({type:'Expense',date:val('bpDate'),desc:'Payment: '+b.name,cat:'Bills / subscriptions',cut:'Other',amount:a,method:'',notes:'Added from Bills & Debts'});save();$('bpAmount').value='';}
+function addBill(){
+  let name=val('bName').trim(),total=Number(val('bTotal')),paid=Number(val('bPaid'))||0;
+  if(!name||!Number.isFinite(total)||total<=0)return alert('Enter a bill name and a valid total amount.');
+  if(paid<0||paid>total)return alert('Already paid must be between ₱0 and the total amount.');
+  db.bills.push({name,type:val('bType'),total,paid,due:val('bDue'),note:val('bNote')});
+  save();$('bName').value='';$('bTotal').value='';$('bPaid').value='0';
+}
+function payBill(){let b=db.bills[+val('bSelect')],a=+val('bpAmount');if(!b||!Number.isFinite(a)||a<=0)return alert('Choose a bill and enter a valid positive payment.');if(a>b.total-b.paid+0.001)return alert('Payment is greater than the remaining balance.');b.paid+=a;db.billPayments.unshift({name:b.name,date:val('bpDate'),amount:a});db.personal.unshift({type:'Expense',date:val('bpDate'),desc:'Payment: '+b.name,cat:'Bills / subscriptions',cut:'Other',amount:a,method:'',notes:'Added from Bills & Debts'});save();$('bpAmount').value='';}
 function renderV2(){
   if($('bSelect')){
     $('bSelect').innerHTML=db.bills.map((b,i)=>
@@ -1819,12 +1330,19 @@ function renderReports(){
   $('rmNet').textContent=money(inc-sp);
 
   let rents=db.payments.filter(x=>(x.date||'').startsWith(m))
-    .reduce((s,x)=>s+x.amount,0);
+    .reduce((s,x)=>s+(+x.amount||0),0);
 
-  let costs=db.rentalExpenses.filter(x=>(x.date||'').startsWith(m))
-    .reduce((s,x)=>s+x.amount,0);
+  let sharedCosts=db.rentalExpenses
+    .filter(x=>(x.date||'').startsWith(m)&&x.deductFromApartmentCash!==false)
+    .reduce((s,x)=>s+(+x.amount||0),0);
+  let tenantCosts=db.tenantExpenses
+    .filter(x=>(x.date||'').startsWith(m)&&x.deductFromApartmentCash===true)
+    .reduce((s,x)=>s+(+x.amount||0),0);
+  let ownerCosts=db.ownerExpenses
+    .filter(x=>(x.date||'').startsWith(m)&&x.deductFromApartmentCash===true)
+    .reduce((s,x)=>s+(+x.amount||0),0);
 
-  $('rmApartment').textContent=money(rents-costs);
+  $('rmApartment').textContent=money(rents-sharedCosts-tenantCosts-ownerCosts);
 
   let cats={};
 
@@ -2114,11 +1632,12 @@ drawBarChart('chartHomeYear', months, homeIncomes, homeExpenses);
 function exportCSV(key){let rows=db[key]||[];if(!rows.length)return alert('No records in this section yet.');let cols=[...new Set(rows.flatMap(x=>Object.keys(x)))],quote=x=>'"'+String(x??'').replace(/"/g,'""')+'"';let csv=[cols.map(quote).join(','),...rows.map(r=>cols.map(c=>quote(r[c])).join(','))].join('\n');let blob=new Blob([csv],{type:'text/csv'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='my-little-wallet-'+key+'.csv';a.click();URL.revokeObjectURL(url);}
 if(!$('bpDate').value)$('bpDate').value=today;if(!$('repMonth').value)$('repMonth').value=today.slice(0,7);if(!$('repYear').value)$('repYear').value=today.slice(0,4);
 render();
+function drawHomeChartIfReady(){
+  // renderReports owns the chart helpers and redraws the home chart too.
+  renderReports();
+}
 if ($('homeChartYear')) {
   $('homeChartYear').value = new Date().getFullYear();
-
-  $('homeChartYear').addEventListener('change', () => {
-    renderReports();
-  });
+  $('homeChartYear').addEventListener('change', drawHomeChartIfReady);
 }
 </script></body></html>
