@@ -1056,8 +1056,11 @@ const today=new Date().toISOString().slice(0,10);
   let el=document.getElementById(id);
   if(el)el.value=today;
 });
-  if($('advMonth'))$('advMonth').value=today.slice(0,7);
-if($('teApplyMonth'))$('teApplyMonth').value=today.slice(0,7);
+ let advMonthEl=document.getElementById('advMonth');
+if(advMonthEl)advMonthEl.value=today.slice(0,7);
+
+let teApplyMonthEl=document.getElementById('teApplyMonth');
+if(teApplyMonthEl)teApplyMonthEl.value=today.slice(0,7);
 function save(){localStorage.setItem(KEY,JSON.stringify(db));render()}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function line(title,sub,amount,key,index){
