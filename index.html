@@ -236,6 +236,106 @@ main{width:min(100%,980px);padding:8px 10px 82px}
 @media(min-width:620px){.dream-actions{grid-template-columns:repeat(4,minmax(0,1fr))}.dreamland-banner{aspect-ratio:2.6/1}.banner-greeting{right:18px;bottom:18px;padding:13px 17px}.metric{padding:13px}}
 @media(max-width:390px){.brand-inner img{width:42px;height:42px}.dreamland-banner{aspect-ratio:1.9/1}.banner-greeting{right:7px;bottom:7px;max-width:52%;padding:7px 8px}.banner-greeting span{display:none}.dream-action{min-height:82px}.metric{padding:8px}.metric-icon{font-size:19px}}
 
+/* PINK PANDA DREAMLAND - CLEAN PASTEL UPDATE */
+
+.penny-welcome {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  overflow: hidden;
+  margin: 9px 0 13px;
+  padding: 13px 16px;
+  border: 1px solid #f2c9df;
+  border-radius: 23px;
+  background:
+    radial-gradient(circle at 92% 12%, #fff 0 2px, transparent 3px),
+    radial-gradient(circle at 84% 78%, #fff8 0 3px, transparent 4px),
+    linear-gradient(120deg, #fff0f6, #f0e8ff 68%, #fff6e9);
+  box-shadow: 0 5px 16px #ad4a8f1c;
+}
+
+.penny-welcome img {
+  width: 78px;
+  height: 78px;
+  object-fit: contain;
+  flex: 0 0 auto;
+  filter: drop-shadow(0 5px 7px #8e557533);
+}
+
+.penny-welcome h2 {
+  margin: 0 0 4px;
+  color: #a83275;
+  font-size: 16px;
+}
+
+.penny-welcome p {
+  margin: 0;
+  color: #896d84;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.welcome-sparkles {
+  position: absolute;
+  right: 12px;
+  top: 7px;
+  color: #d58ab1;
+  font-size: 16px;
+  letter-spacing: 5px;
+  pointer-events: none;
+}
+
+.metric-icon,
+.dream-action span {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 15px;
+  background: linear-gradient(145deg, #fff, #ffe8f3 55%, #eee5ff);
+  border: 1px solid #f3cce1;
+  box-shadow: inset 0 2px #fff, 0 4px 9px #a94b9820;
+  filter: drop-shadow(0 2px 2px #c66a9b22);
+}
+
+.metric-icon {
+  font-size: 23px;
+  margin-bottom: 7px;
+}
+
+.dream-action span {
+  font-size: 25px;
+  margin: 0 auto 7px;
+}
+
+.nav button .nav-emoji {
+  display: inline-block;
+  margin-right: 5px;
+  font-size: 16px;
+  filter: drop-shadow(0 2px 2px #c66a9b30);
+}
+
+@media (max-width: 390px) {
+  .penny-welcome {
+    gap: 9px;
+    padding: 11px;
+  }
+
+  .penny-welcome img {
+    width: 66px;
+    height: 66px;
+  }
+
+  .penny-welcome h2 {
+    font-size: 14px;
+  }
+
+  .welcome-sparkles {
+    font-size: 13px;
+  }
+}
+  
 </style></head>
 <body>
 <header class="brand-header">
@@ -247,12 +347,27 @@ main{width:min(100%,980px);padding:8px 10px 82px}
   
 <main>
 <div class="nav" id="nav">
+<button class="active" data-tab="home"><span class="nav-emoji">🏠</span>Home</button>
+<button data-tab="personal"><span class="nav-emoji">👛</span>Personal</button>
+<button data-tab="savings"><span class="nav-emoji">🐷</span>Savings</button>
+<button data-tab="goals"><span class="nav-emoji">🏁</span>Panda Race</button>
+<button data-tab="repay"><span class="nav-emoji">💝</span>Repayments</button>
+<button data-tab="apartment"><span class="nav-emoji">🏡</span>Apartment</button>
+<button data-tab="bills"><span class="nav-emoji">🧾</span>Bills & Debts</button>
+<button data-tab="reports"><span class="nav-emoji">📊</span>Reports</button>
+<button data-tab="backup"><span class="nav-emoji">🛡️</span>Backup</button>
+<button data-tab="trash"><span class="nav-emoji">🧺</span>Trash</button>
+</div>
 <button class="active" data-tab="home">Home</button><button data-tab="personal">Personal</button><button data-tab="savings">Savings</button><button data-tab="goals">Panda Race</button><button data-tab="repay">Repayments</button><button data-tab="apartment">Apartment</button><button data-tab="bills">Bills & Debts</button><button data-tab="reports">Reports</button><button data-tab="backup">Backup</button><button data-tab="trash">Trash</button>
 </div>
 <section id="home" class="panel">
-<div class="dreamland-banner">
-  <img src="./dreamland-banner.jpg" alt="Penny in her pink cloud kingdom beside the fairytale castle">
-  <div class="banner-greeting"><strong>Hi! Let's make your money dreams come true! 🌻</strong><span>Penny is cheering you on, one little step at a time.</span></div>
+<div class="penny-welcome">
+  <img src="./penny.png" alt="Penny the fluffy panda">
+  <div>
+    <h2>Hi! Eca🌻,Let's make your money dreams come true!✨</h2>
+    <p>Penny is cheering you on, one little step at a time.</p>
+  </div>
+  <span class="welcome-sparkles" aria-hidden="true">♡ ✧ ♡</span>
 </div>
 <div class="card snapshot-card"><h2>💗 Your Financial Snapshot</h2><div class="grid">
 <div class="metric"><span class="metric-icon">🪙</span><small>Personal income</small><strong id="mIncome">₱0.00</strong></div>
