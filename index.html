@@ -1031,6 +1031,8 @@ function closeStuckOverlays(){
   document.getElementById('recordActionMenu')?.remove();
   document.getElementById('pennyConfirmBox')?.remove();
 }
+
+window.addEventListener('load',closeStuckOverlays);
 function recordMenu(key,index){
   let old=document.getElementById('recordActionMenu');
   if(old)old.remove();
