@@ -1015,10 +1015,18 @@ function restoreRecord(index){
   db.trash.splice(index,1);
   save();
 }
-function permanentDelete(index){
-  if(!confirm('Permanently delete this record? This cannot be undone.'))return;
+async function permanentDelete(index){
+  let x=db.trash[index];
+  if(!x)return;
+
+  if(!await pennyConfirm(
+    'This record will be permanently deleted and cannot be restored. Are you sure?',
+    'Delete Forever'
+  ))return;
+
   db.trash.splice(index,1);
   save();
+}
                                                                                                                               }
 function recordMenu(key,index){
   let old=document.getElementById('recordActionMenu');
@@ -1036,10 +1044,39 @@ function recordMenu(key,index){
     </div>`;
   document.body.appendChild(menu);
 }
+function pennyConfirm(message,yesText){
+  return new Promise(resolve=>{
+    let old=document.getElementById('pennyConfirmBox');
+    if(old)old.remove();
 
-function moveToTrash(key,index){
-  if(!confirm('Move this record to Trash? You can restore it later.'))return;
+    let box=document.createElement('div');
+    box.id='pennyConfirmBox';
+    box.style='position:fixed;inset:0;background:#0007;z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px';
 
+    box.innerHTML=`
+      <div style="background:#fff5fa;border:2px solid #f2c6dc;border-radius:25px;padding:24px;width:100%;max-width:320px;text-align:center;box-shadow:0 10px 35px #0003">
+        <div style="font-size:42px">🐼💗</div>
+        <h3 style="color:#b75d8d">Penny says...</h3>
+        <p id="pennyConfirmMessage" style="color:#8e6680"></p>
+        <button id="pennyConfirmYes" style="width:100%;background:linear-gradient(135deg,#e887b0,#c99be9);color:white;border:0;border-radius:15px;padding:13px;margin:6px 0;font-weight:bold"></button>
+        <button id="pennyConfirmNo" style="width:100%;background:white;color:#b75d8d;border:1px solid #efd5e5;border-radius:15px;padding:13px;margin:6px 0">Cancel</button>
+      </div>`;
+
+    document.body.appendChild(box);
+    box.querySelector('#pennyConfirmMessage').textContent=message;
+    box.querySelector('#pennyConfirmYes').textContent=yesText||'Yes, continue';
+
+    function finish(answer){
+      box.remove();
+      resolve(answer);
+    }
+
+    box.querySelector('#pennyConfirmYes').onclick=()=>finish(true);
+    box.querySelector('#pennyConfirmNo').onclick=()=>finish(false);
+    box.onclick=e=>{if(e.target===box)finish(false)};
+  });
+  }
+async function moveToTrash(key,index){
   let record=db[key]?.[index];
   if(!record)return;
 
@@ -1052,9 +1089,13 @@ function moveToTrash(key,index){
     alert('This tenant has payment history and cannot be moved to Trash.');
     return;
   }
-  if(key==='payments'&&record.purpose==='Monthly rent'){
-  if(!confirm('Move this monthly rent payment to Trash? Your rent payment history will be updated.'))return;
- }
+
+  let message=key==='payments'&&record.purpose==='Monthly rent'
+    ?'Move this monthly rent payment to Trash? Your rent payment history will be updated.'
+    :'Move this record to Trash? You can restore it later.';
+
+  if(!await pennyConfirm(message,'Move to Trash'))return;
+
   if(key==='payments'){
     let tenant=db.tenants.find(t=>t.name===record.tenant);
     if(!tenant){
