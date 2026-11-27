@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#f7dce8"><meta name="description" content="My Little Wallet - private offline money tracker">
-<link rel="manifest" href="manifest.json"><link rel="icon" href="icon.svg">
+<link rel="manifest" href="manifest.json"><link rel="icon" type="image/png" sizes="64x64" href="favicon.png"><link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>My Little Wallet 🐼</title>
 <style>
 
@@ -124,7 +124,7 @@ footer{text-align:center;padding:25px 12px;color:#b17b98;font-size:12px}
 .dream-action:active{background:#fff0f7}
 section.panel:not(#home)>.card:first-child h2:before{
   content:"";display:inline-block;vertical-align:middle;width:39px;height:39px;margin-right:8px;
-  background:url("./penny.svg") center/contain no-repeat
+  background:url("./penny.png") center/contain no-repeat
 }
 #tenantDetail{border:2px solid #f0d6e7;background:linear-gradient(145deg,#fff,#fff5fa)}
 #tenantDetail>.item{overflow-wrap:anywhere}
@@ -161,19 +161,87 @@ section.panel:not(#home)>.card:first-child h2:before{
   *,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
 
+
+/* Pink Panda Dreamland — sunflower Penny edition */
+:root{
+  --pink:#ffd8e9;--rose:#ed79ad;--rose-deep:#b92f79;--lav:#e8dcff;
+  --lav-deep:#9b73d1;--cream:#fff9f1;--ink:#633653;--muted:#9a718c;
+  --line:#f4cfe2;--white:#fff;--gold:#ffe49a;
+  --shadow:0 7px 20px rgba(190,91,145,.15);
+}
+body{
+ background:radial-gradient(ellipse at 8% 5%,#ffe0ee 0,transparent 34%),
+ radial-gradient(ellipse at 92% 20%,#e8dcff 0,transparent 33%),
+ linear-gradient(180deg,#fff4f8 0%,#fffaf4 48%,#f9f1ff 100%);
+}
+header{
+ background:linear-gradient(125deg,#ffcee3 0%,#e8d9ff 55%,#fff0cf 100%);
+ border-radius:0 0 28px 28px;padding:18px 15px 16px;
+ box-shadow:0 8px 25px rgba(178,91,145,.18);
+}
+header h1{color:#a52d70;text-shadow:0 1px 0 #fff;font-size:clamp(23px,6vw,30px)}
+header p{color:#80536f}
+header .penny-header{width:clamp(104px,27vw,158px);border-radius:24px;}
+main{width:min(100%,960px);padding:10px 11px 76px}
+.nav{gap:7px;padding:8px 2px 11px;background:rgba(255,247,251,.94)}
+.nav button{border:1px solid #efc7dc;padding:9px 13px;border-radius:15px;background:linear-gradient(145deg,#fff,#fff0f7);color:#87506f;box-shadow:0 3px 9px #b95f8c18}
+.nav button.active{background:linear-gradient(135deg,#ed78ad,#a984df);color:#fff}
+.card,.dream-card,.chart-card{border:1px solid #f2cfe0;border-radius:22px;box-shadow:var(--shadow);padding:15px;margin:9px 0;background:linear-gradient(145deg,#fff 0%,#fff6fb 65%,#f8f2ff 100%)}
+.card h2,.card h3,.chart-card h3{color:#ad3e7d}
+.metric{background:linear-gradient(145deg,#fff0f6,#f1eaff);border:1px solid #f3d5e7;border-radius:18px;padding:12px}
+.metric strong{color:#b43b7b}
+.penny-hero{gap:12px;padding:13px;margin:9px 0 12px;border:1px solid #edc4dc;border-radius:23px;background:linear-gradient(120deg,#ffdce9,#e8ddff 68%,#fff0d9);box-shadow:var(--shadow)}
+.penny-hero img{width:clamp(88px,26vw,126px);height:auto;border-radius:18px;filter:drop-shadow(0 5px 7px #8e557533)}
+.penny-hero h2{font-size:17px;color:#a83275}
+.penny-hero p{font-size:12px;line-height:1.55}
+.dream-actions{gap:9px;margin:11px 0}
+.dream-action{min-height:88px;padding:10px 7px;border:1px solid #efc8df;border-radius:19px;background:linear-gradient(145deg,#fff,#ffeef6 55%,#f2eaff);box-shadow:0 4px 12px #b95f8c1c;color:#8d3e70}
+.dream-action span{font-size:27px;margin-bottom:2px}
+.dream-action small{font-size:10px;color:#a27893}
+.notice{border:1px solid #f0d7a4;background:linear-gradient(120deg,#fff8df,#fff0f7);color:#805d70}
+footer{color:#a75a86}
+@media(min-width:620px){main{padding-left:18px;padding-right:18px}.penny-hero{padding:17px 20px}.dream-action{min-height:96px}}
+@media(max-width:390px){main{padding-left:9px;padding-right:9px}.card{padding:12px}.metric{padding:9px}.metric small{font-size:10px}.metric strong{font-size:15px}.penny-hero{gap:9px;padding:11px}.penny-hero img{width:88px}.penny-hero h2{font-size:15px}.dream-action{min-height:82px}}
+
+
+/* Faithful Pink Panda Dreamland dashboard — full scene, glossy tiles, sunflower Penny */
+:root{--pink:#ffb9d8;--rose:#e84f9b;--rose-deep:#9d1768;--lav:#d9c1ff;--lav-deep:#7541b4;--cream:#fff8ee;--ink:#65245d;--muted:#98668e;--line:#f6b9df;--shadow:0 8px 22px rgba(175,62,139,.18)}
+body{background:radial-gradient(ellipse at 8% 8%,#ffd5e9 0,transparent 32%),radial-gradient(ellipse at 94% 25%,#e5d4ff 0,transparent 34%),linear-gradient(180deg,#fff0f8,#fff9f1 50%,#f6edff)}
+.brand-header{padding:12px 15px;background:linear-gradient(100deg,#ffcee5,#e7d5ff 60%,#fff0d9);border-radius:0 0 24px 24px;box-shadow:0 5px 18px #b84d941f}
+.brand-inner{max-width:980px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand-inner h1{font-size:clamp(20px,5vw,27px);color:#a51d70;margin:0;text-shadow:0 1px #fff}
+.brand-inner p{font-size:11px;color:#895477;margin:2px 0 0}
+.brand-inner img{width:48px;height:48px;border-radius:14px;box-shadow:0 3px 10px #a04d8c35}
+main{width:min(100%,980px);padding:8px 10px 82px}
+.nav{gap:7px;padding:9px 2px 12px;background:rgba(255,244,251,.94);border-radius:0 0 17px 17px}
+.nav button{border:1px solid #efb7d9;border-radius:14px;background:linear-gradient(145deg,#fff,#ffe7f3);color:#8d3975;padding:9px 13px;font-weight:750;box-shadow:0 3px 8px #a83d831c}
+.nav button.active{background:linear-gradient(135deg,#ed55a0,#a978e4);color:white;border-color:#e9a5d3;box-shadow:0 4px 12px #b94a9a45}
+.dreamland-banner{position:relative;overflow:hidden;margin:8px 0 13px;border:3px solid #fff;border-radius:23px;box-shadow:0 7px 22px #a94a8d32;background:#e8caff;aspect-ratio:2.15/1}
+.dreamland-banner>img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 43%}
+.banner-greeting{position:absolute;right:10px;bottom:10px;max-width:48%;padding:9px 12px;border:2px solid #fff;border-radius:16px;background:linear-gradient(135deg,#fff5fbeb,#f5eaffeb);box-shadow:0 3px 12px #8e4c9430;color:#92256e;display:flex;flex-direction:column;gap:2px;font-size:clamp(10px,2.6vw,14px);line-height:1.35}
+.banner-greeting span{font-size:.82em;color:#845c85}
+.card,.dream-card,.chart-card{border:2px solid #fff;border-radius:21px;background:linear-gradient(145deg,#fff9ff,#ffeaf5 58%,#f1e8ff);box-shadow:0 5px 17px #ad4a8f20;padding:14px;margin:9px 0}
+.card h2,.card h3,.chart-card h3{color:#a31d72}
+.snapshot-card{background:linear-gradient(135deg,#fff3fa,#f1e5ff);border:2px solid #fff}
+.snapshot-card h2{font-size:18px;margin-bottom:10px}
+.grid{gap:8px}
+.metric{position:relative;min-width:0;padding:10px 11px 12px;border:1.5px solid #f7c2e2;border-radius:17px;background:linear-gradient(145deg,#fff8fb,#f9eaff);box-shadow:inset 0 2px #fff,0 3px 7px #a54c9014}
+.metric-icon{display:block;font-size:21px;line-height:1.1;margin-bottom:4px;filter:drop-shadow(0 2px 2px #c66a9b2b)}
+.metric small{font-size:10px;color:#98638b}.metric strong{font-size:clamp(15px,4vw,19px);color:#a61d70}
+.dream-actions{gap:8px;margin:11px 0;grid-template-columns:repeat(2,minmax(0,1fr))}
+.dream-action{position:relative;min-height:90px;padding:10px 7px;border:2px solid #fff;border-radius:19px;background:linear-gradient(145deg,#fff8ff,#f5e6ff 55%,#ffe8f4);box-shadow:inset 0 2px #fff,0 4px 12px #a94b9824;color:#8d2770;font-weight:800}
+.dream-action span{font-size:29px;display:block;line-height:1.1;margin-bottom:5px;filter:drop-shadow(0 2px 2px #9b4d8c2b)}
+.dream-action small{font-size:10px;color:#98658e;font-weight:600}
+.notice{border:1px solid #edc5e0;background:linear-gradient(120deg,#fff6df,#fff0f8);color:#815b79}
+@media(min-width:620px){.dream-actions{grid-template-columns:repeat(4,minmax(0,1fr))}.dreamland-banner{aspect-ratio:2.6/1}.banner-greeting{right:18px;bottom:18px;padding:13px 17px}.metric{padding:13px}}
+@media(max-width:390px){.brand-inner img{width:42px;height:42px}.dreamland-banner{aspect-ratio:1.9/1}.banner-greeting{right:7px;bottom:7px;max-width:52%;padding:7px 8px}.banner-greeting span{display:none}.dream-action{min-height:82px}.metric{padding:8px}.metric-icon{font-size:19px}}
+
 </style></head>
 <body>
-<header>
-  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
-    <div style="flex:1;min-width:170px">
-      <h1>🎀 My Little Wallet 💗</h1>
-      <p>Your little money buddy · private · offline-first ✨</p>
-      <p style="background:#fff0f7;padding:10px 13px;border-radius:18px;color:#984b79;font-weight:600">
-        Hi! Erica!🐼💕
-        Let's make your money dreams come true!
-      </p>
-    </div>
-    <img class="penny-header" src="./penny.svg" alt="Penny the fluffy panda with her pink bow and heart wallet">
+<header class="brand-header">
+  <div class="brand-inner">
+    <div><h1>🌻 My Little Wallet 💗</h1><p>Your little money buddy · private · offline-first ✨</p></div>
+    <img src="./icon-192.png" alt="Penny sunflower panda app icon">
   </div>
 </header>
   
@@ -182,25 +250,25 @@ section.panel:not(#home)>.card:first-child h2:before{
 <button class="active" data-tab="home">Home</button><button data-tab="personal">Personal</button><button data-tab="savings">Savings</button><button data-tab="goals">Panda Race</button><button data-tab="repay">Repayments</button><button data-tab="apartment">Apartment</button><button data-tab="bills">Bills & Debts</button><button data-tab="reports">Reports</button><button data-tab="backup">Backup</button><button data-tab="trash">Trash</button>
 </div>
 <section id="home" class="panel">
-<div class="penny-hero">
-  <img src="./penny.svg" alt="Penny the panda">
-  <div><h2>Welcome to Pink Panda Dreamland! 🎀</h2><p>Penny is here to help you care for your money, celebrate little wins, and keep your dreams moving forward.</p></div>
+<div class="dreamland-banner">
+  <img src="./dreamland-banner.jpg" alt="Penny in her pink cloud kingdom beside the fairytale castle">
+  <div class="banner-greeting"><strong>Hi! Let's make your money dreams come true! 🌻</strong><span>Penny is cheering you on, one little step at a time.</span></div>
 </div>
-<div class="card"><h2>Welcome back! 🌷</h2><div class="grid">
-<div class="metric"><small>Personal income</small><strong id="mIncome">₱0.00</strong></div>
-<div class="metric"><small>Personal spending</small><strong id="mSpend">₱0.00</strong></div>
-<div class="metric"><small>Total savings</small><strong id="mSavings">₱0.00</strong></div>
-<div class="metric"><small>Apartment collected</small><strong id="mRent">₱0.00</strong></div>
+<div class="card snapshot-card"><h2>💗 Your Financial Snapshot</h2><div class="grid">
+<div class="metric"><span class="metric-icon">🪙</span><small>Personal income</small><strong id="mIncome">₱0.00</strong></div>
+<div class="metric"><span class="metric-icon">🛍️</span><small>Personal spending</small><strong id="mSpend">₱0.00</strong></div>
+<div class="metric"><span class="metric-icon">🐷</span><small>Total savings</small><strong id="mSavings">₱0.00</strong></div>
+<div class="metric"><span class="metric-icon">🏡</span><small>Apartment collected</small><strong id="mRent">₱0.00</strong></div>
 </div></div>
 
 <div class="dream-actions">
   <button type="button" class="dream-action" onclick="document.querySelector('.nav button[data-tab=personal]').click()">
-    <span>💗</span>Personal
+    <span>👛</span>Personal
     <small>Income & expenses</small>
   </button>
 
   <button type="button" class="dream-action" onclick="document.querySelector('.nav button[data-tab=savings]').click()">
-    <span>🐷</span>Savings
+    <span>🪙</span>Savings
     <small>Banks & cooperatives</small>
   </button>
 
@@ -210,27 +278,27 @@ section.panel:not(#home)>.card:first-child h2:before{
   </button>
 
   <button type="button" class="dream-action" onclick="document.querySelector('.nav button[data-tab=repay]').click()">
-    <span>💌</span>Repayments
+    <span>💝</span>Repayments
     <small>Track repayments</small>
   </button>
 
   <button type="button" class="dream-action" onclick="document.querySelector('.nav button[data-tab=apartment]').click()">
-    <span>🏠</span>Apartment
+    <span>🏡</span>Apartment
     <small>Rental records</small>
   </button>
 
   <button type="button" class="dream-action" onclick="document.querySelector('.nav button[data-tab=bills]').click()">
-    <span>🧾</span>Bills & Debts
+    <span>📋</span>Bills & Debts
     <small>Upcoming payments</small>
   </button>
 
   <button type="button" class="dream-action" onclick="document.querySelector('.nav button[data-tab=reports]').click()">
-    <span>📊</span>Reports
+    <span>📈</span>Reports
     <small>Financial summaries</small>
   </button>
 
   <button type="button" class="dream-action" onclick="document.querySelector('.nav button[data-tab=backup]').click()">
-    <span>🎁</span>Backup
+    <span>🛡️</span>Backup
     <small>Protect your records</small>
   </button>
 </div>
