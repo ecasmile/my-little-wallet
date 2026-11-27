@@ -1024,10 +1024,10 @@ async function permanentDelete(index){
     'Delete Forever'
   ))return;
 
-  db.trash.splice(index,1);
+    db.trash.splice(index,1);
   save();
 }
-                                                                                                                              }
+
 function recordMenu(key,index){
   let old=document.getElementById('recordActionMenu');
   if(old)old.remove();
@@ -1075,7 +1075,8 @@ function pennyConfirm(message,yesText){
     box.querySelector('#pennyConfirmNo').onclick=()=>finish(false);
     box.onclick=e=>{if(e.target===box)finish(false)};
   });
-  }
+}
+
 async function moveToTrash(key,index){
   let record=db[key]?.[index];
   if(!record)return;
