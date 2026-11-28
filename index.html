@@ -575,6 +575,98 @@ main{width:min(100%,980px);padding:8px 10px 82px}
   font-weight: bold;
   }
   
+/* Pink Panda Dreamland dashboard polish */
+#nav:has(button[data-tab="home"].active) {
+  display: flex !important;
+}
+
+#home .snapshot-card .metric-icon {
+  display: inline-grid !important;
+}
+
+#home .snapshot-card .metric:nth-child(1) small::before {
+  content: "💰 ";
+}
+#home .snapshot-card .metric:nth-child(2) small::before {
+  content: "🛍️ ";
+}
+#home .snapshot-card .metric:nth-child(3) small::before {
+  content: "🐷 ";
+}
+#home .snapshot-card .metric:nth-child(4) small::before {
+  content: "🏡 ";
+}
+
+#home .penny-hero {
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  text-align: left !important;
+  gap: 13px !important;
+  padding: 15px !important;
+  min-height: 0 !important;
+}
+
+#home .penny-hero img {
+  width: clamp(82px, 24vw, 112px) !important;
+  height: 112px !important;
+  max-width: 32% !important;
+  object-fit: contain !important;
+  flex: 0 0 auto !important;
+}
+
+#home .penny-welcome-text {
+  min-width: 0;
+  flex: 1;
+}
+
+#home .penny-welcome-text h2 {
+  font-size: clamp(15px, 4vw, 19px);
+  line-height: 1.35;
+  margin: 0 0 5px;
+}
+
+#home .penny-welcome-text p {
+  font-size: 12px;
+  line-height: 1.45;
+  margin: 0;
+}
+
+#home .welcome-sparkles {
+  right: 10px;
+  top: 6px;
+  font-size: 14px;
+}
+
+#home .snapshot-card .metric {
+  min-height: 112px;
+}
+
+#home .dream-action {
+  min-height: 94px;
+}
+
+@media (max-width: 390px) {
+  #home .penny-hero {
+    gap: 9px !important;
+    padding: 11px !important;
+  }
+
+  #home .penny-hero img {
+    width: 76px !important;
+    height: 76px !important;
+  }
+
+  #home .penny-welcome-text h2 {
+    font-size: 14px;
+  }
+
+  #home .penny-welcome-text p {
+    font-size: 11px;
+  }
+}
+  
+  
 </style></head>
 <body>
   
