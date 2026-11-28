@@ -766,6 +766,24 @@ main{width:min(100%,980px);padding:8px 10px 82px}
   
 </style></head>
 <body>
+
+<div id="walletOpeningWelcome">
+  <div class="penny-welcome-card">
+    <img src="./Penny%20for%20mean%20time.gif?v=3" alt="Penny welcoming you">
+    <h1>Welcome to Pink Panda Dreamland!</h1>
+    <p>I'm Penny! Let's take care of your little money dreams together.</p>
+    <button type="button" onclick="walletContinueToPin()">Continue to PIN</button>
+  </div>
+</div>
+
+<div id="walletAfterPinWelcome">
+  <div class="penny-welcome-card">
+    <img src="./Penny%20for%20mean%20time.gif?v=3" alt="Penny celebrating your return">
+    <h1>Welcome back!</h1>
+    <p>Penny is happy to see you! Your little money world is ready.</p>
+    <button type="button" onclick="walletGoToDashboard()">Let's go to my dashboard!</button>
+  </div>
+</div>
   
 <div id="walletLockScreen">
   <div class="wallet-lock-card">
@@ -2681,29 +2699,29 @@ function walletStartRecovery() {
   walletShowScreen('recovery');
 }
 
+
 function walletUnlock() {
   document.getElementById('walletLockScreen').style.display = 'none';
+  document.getElementById('walletWelcomeToast').style.display = 'none';
 
-  const toast = document.getElementById('walletWelcomeToast');
-  toast.style.display = 'block';
-
-  setTimeout(() => {
-    toast.style.display = 'none';
-  }, 2800);
+  document.getElementById('walletAfterPinWelcome').style.display = 'flex';
 }
 
-document.addEventListener('visibilitychange', () => {
-  if (document.hidden) walletLock();
-});
+function walletShowOpeningWelcome() {
+  document.getElementById('walletOpeningWelcome').style.display = 'flex';
+}
 
-window.addEventListener('pagehide', walletLock);
+function walletContinueToPin() {
+  document.getElementById('walletOpeningWelcome').style.display = 'none';
+  document.getElementById('walletLockScreen').style.display = 'flex';
+}
 
-window.addEventListener('pageshow', () => {
+function walletGoToDashboard() {
+  document.getElementById('walletAfterPinWelcome').style.display = 'none';
+  document.querySelector('.nav button[data-tab="home"]').click();
+}
+
   walletLock();
-});
-
-/* Start with the wallet locked */
-walletLock();
-
+walletShowOpeningWelcome();
   
 </script></body></html>
