@@ -764,6 +764,67 @@ main{width:min(100%,980px);padding:8px 10px 82px}
   }
 }
   
+ 
+/* Penny welcome screens */
+#walletOpeningWelcome,
+#walletAfterPinWelcome {
+  position: fixed;
+  inset: 0;
+  z-index: 1000001;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+  text-align: center;
+  background:
+    radial-gradient(circle at 15% 15%,#fff 0,transparent 28%),
+    linear-gradient(145deg,#ffd9eb,#e8dcff,#fff2dc);
+}
+
+.penny-welcome-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 25px 20px;
+  background: linear-gradient(145deg,#fffaff,#fff0f8,#f3ecff);
+  border: 3px solid white;
+  border-radius: 26px;
+  box-shadow: 0 12px 35px #a75b9530;
+}
+
+.penny-welcome-card img {
+  display: block;
+  width: min(76%,260px);
+  height: 230px;
+  object-fit: contain;
+  margin: 0 auto 12px;
+  filter: drop-shadow(0 7px 10px #a75b9530);
+}
+
+.penny-welcome-card h1 {
+  color: #a83d7b;
+  font-size: clamp(23px,6vw,30px);
+  line-height: 1.25;
+  margin: 8px 0;
+}
+
+.penny-welcome-card p {
+  color: #806183;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 8px 0 20px;
+}
+
+.penny-welcome-card button {
+  width: 100%;
+  padding: 14px;
+  border: 0;
+  border-radius: 16px;
+  background: linear-gradient(120deg,#ed82b5,#ae91e5);
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  }
+  
 </style></head>
 <body>
 
