@@ -1,4 +1,4 @@
-const CACHE='my-little-wallet-v25';
+const CACHE='my-little-wallet-v26';
 const FILES=['./','./index.html','./manifest.json','./icon-192.png','./icon-512.png','./apple-touch-icon.png','./favicon.png','./penny.png','./dreamland-banner.jpg'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('my-little-wallet-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
