@@ -497,6 +497,84 @@ main{width:min(100%,980px);padding:8px 10px 82px}
   }
 }
   
+/* MY LITTLE WALLET - PIN LOCK */
+#walletLockScreen {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+  background: linear-gradient(145deg, #ffe5f1, #eee5ff, #fff7ed);
+  text-align: center;
+}
+
+.wallet-lock-card {
+  width: 100%;
+  max-width: 380px;
+  padding: 28px 22px;
+  border-radius: 28px;
+  background: rgba(255,255,255,.94);
+  box-shadow: 0 12px 35px rgba(160,100,150,.18);
+}
+
+.wallet-lock-card h2 {
+  color: #bd6598;
+  margin: 12px 0 6px;
+}
+
+.wallet-lock-card p {
+  color: #806b83;
+}
+
+.wallet-lock-card input {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 14px 0;
+  padding: 15px;
+  border: 2px solid #edc5df;
+  border-radius: 15px;
+  background: #fff8fc;
+  text-align: center;
+  font-size: 25px;
+  letter-spacing: 12px;
+}
+
+.wallet-lock-card button {
+  width: 100%;
+  padding: 13px;
+  border: 0;
+  border-radius: 15px;
+  background: #d98fba;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+#walletLockMessage {
+  min-height: 24px;
+  color: #bd6598;
+}
+
+#walletWelcomeToast {
+  display: none;
+  position: fixed;
+  z-index: 999998;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 85%;
+  padding: 13px 20px;
+  border-radius: 20px;
+  background: #ffe5f1;
+  color: #9d5485;
+  box-shadow: 0 5px 20px #0002;
+  text-align: center;
+  font-weight: bold;
+  }
+  
 </style></head>
 <body>
 <header class="brand-header">
