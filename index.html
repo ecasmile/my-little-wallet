@@ -577,6 +577,38 @@ main{width:min(100%,980px);padding:8px 10px 82px}
   
 </style></head>
 <body>
+  
+<div id="walletLockScreen">
+  <div class="wallet-lock-card">
+    <div style="font-size:75px">🐼</div>
+    <h2 id="walletLockTitle">Welcome to Pink Panda Dreamland!</h2>
+    <p id="walletLockDescription">
+      Create your private 4-digit wallet PIN.
+    </p>
+
+    <input
+      id="walletPinInput"
+      type="password"
+      inputmode="numeric"
+      pattern="[0-9]*"
+      maxlength="4"
+      autocomplete="off"
+      placeholder="••••"
+      aria-label="Four digit PIN"
+    >
+
+    <p id="walletLockMessage"></p>
+
+    <button type="button" onclick="walletLockSubmit()">
+      Continue
+    </button>
+  </div>
+</div>
+
+<div id="walletWelcomeToast">
+  Welcome back! I missed you!
+</div>
+  
 <header class="brand-header">
   <div class="brand-inner">
     <div><h1>🌻 My Little Wallet 💗</h1><p>Your little money buddy · private · offline-first ✨</p></div>
@@ -2096,4 +2128,174 @@ if ($('homeChartYear')) {
   $('homeChartYear').value = new Date().getFullYear();
   $('homeChartYear').addEventListener('change', drawHomeChartIfReady);
 }
+  
+/* MY LITTLE WALLET - PRIVATE PIN LOCK */
+
+const WALLET_PIN_HASH = 'myLittleWalletPinHashV1';
+const WALLET_PIN_SALT = 'myLittleWalletPinSaltV1';
+
+let walletPinStep = 'setup';
+let walletFirstPin = '';
+
+function walletHex(buffer) {
+  return Array.from(new Uint8Array(buffer))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+
+async function walletHashPin(pin, salt) {
+  const encoder = new TextEncoder();
+
+  const key = await crypto.subtle.importKey(
+    'raw',
+    encoder.encode(pin),
+    'PBKDF2',
+    false,
+    ['deriveBits']
+  );
+
+  const result = await crypto.subtle.deriveBits(
+    {
+      name: 'PBKDF2',
+      salt: encoder.encode(salt),
+      iterations: 210000,
+      hash: 'SHA-256'
+    },
+    key,
+    256
+  );
+
+  return walletHex(result);
+}
+
+function walletShowScreen(mode) {
+  walletPinStep = mode;
+
+  const title = document.getElementById('walletLockTitle');
+  const description = document.getElementById('walletLockDescription');
+  const input = document.getElementById('walletPinInput');
+  const message = document.getElementById('walletLockMessage');
+
+  input.value = '';
+  message.textContent = '';
+
+  if (mode === 'setup') {
+    title.textContent = 'Create your wallet PIN';
+    description.textContent = 'Choose a private 4-digit PIN.';
+  } else if (mode === 'confirm') {
+    title.textContent = 'Confirm your PIN';
+    description.textContent = 'Enter your PIN one more time.';
+  } else {
+    title.textContent = 'Welcome back!';
+    description.textContent = 'Enter your 4-digit PIN to unlock your wallet.';
+  }
+
+  setTimeout(() => input.focus(), 100);
+}
+
+function walletLock() {
+  const screen = document.getElementById('walletLockScreen');
+  if (!screen) return;
+
+  screen.style.display = 'flex';
+
+  if (localStorage.getItem(WALLET_PIN_HASH)) {
+    walletShowScreen('unlock');
+  } else {
+    walletShowScreen('setup');
+  }
+}
+
+async function walletLockSubmit() {
+  const input = document.getElementById('walletPinInput');
+  const message = document.getElementById('walletLockMessage');
+  const pin = input.value;
+
+  if (!/^[0-9]{4}$/.test(pin)) {
+    message.textContent = 'Please enter exactly 4 numbers.';
+    input.value = '';
+    return;
+  }
+
+  try {
+    if (walletPinStep === 'setup') {
+      walletFirstPin = pin;
+      walletShowScreen('confirm');
+      return;
+    }
+
+    if (walletPinStep === 'confirm') {
+      if (pin !== walletFirstPin) {
+        walletFirstPin = '';
+        message.textContent = 'The PINs did not match. Please start again.';
+        walletShowScreen('setup');
+        return;
+      }
+
+      const saltBytes = crypto.getRandomValues(new Uint8Array(16));
+      const salt = walletHex(saltBytes);
+      const hash = await walletHashPin(pin, salt);
+
+      localStorage.setItem(WALLET_PIN_SALT, salt);
+      localStorage.setItem(WALLET_PIN_HASH, hash);
+
+      walletFirstPin = '';
+      walletUnlock();
+      return;
+    }
+
+    if (walletPinStep === 'unlock') {
+      const salt = localStorage.getItem(WALLET_PIN_SALT);
+      const savedHash = localStorage.getItem(WALLET_PIN_HASH);
+
+      if (!salt || !savedHash) {
+        message.textContent = 'PIN setup needs to be repeated.';
+        localStorage.removeItem(WALLET_PIN_HASH);
+        walletShowScreen('setup');
+        return;
+      }
+
+      const enteredHash = await walletHashPin(pin, salt);
+
+      if (enteredHash !== savedHash) {
+        message.textContent = 'Incorrect PIN. Please try again.';
+        input.value = '';
+        return;
+      }
+
+      walletUnlock();
+    }
+  } catch (error) {
+    message.textContent =
+      'Security setup is unavailable. Please open the app using HTTPS in Chrome.';
+    console.error(error);
+  }
+}
+
+function walletUnlock() {
+  document.getElementById('walletLockScreen').style.display = 'none';
+
+  const toast = document.getElementById('walletWelcomeToast');
+  toast.style.display = 'block';
+
+  setTimeout(() => {
+    toast.style.display = 'none';
+  }, 2800);
+}
+
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    walletLock();
+  }
+});
+
+window.addEventListener('pagehide', walletLock);
+
+window.addEventListener('pageshow', () => {
+  walletLock();
+});
+
+/* Start with the wallet locked */
+walletLock();
+  
 </script></body></html>
