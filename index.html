@@ -602,6 +602,14 @@ main{width:min(100%,980px);padding:8px 10px 82px}
     <button type="button" onclick="walletLockSubmit()">
       Continue
     </button>
+    <button
+  type="button"
+  id="walletForgotButton"
+  onclick="walletStartRecovery()"
+  style="display:none;margin-top:10px;width:100%;padding:13px;border:0;border-radius:15px;background:#eee5ff;color:#805a91;font-weight:bold"
+>
+  Forgot my PIN?
+    </button>
   </div>
 </div>
 
@@ -628,6 +636,7 @@ main{width:min(100%,980px);padding:8px 10px 82px}
 <button data-tab="reports"><span class="nav-emoji">📊</span>Reports</button>
 <button data-tab="backup"><span class="nav-emoji">🛡️</span>Backup</button>
 <button data-tab="trash"><span class="nav-emoji">🧺</span>Trash</button>
+<button data-tab="security"><span class="nav-emoji">🔐</span>Security</button>
 </div>
 
 <section id="home" class="panel">
@@ -981,6 +990,66 @@ main{width:min(100%,980px);padding:8px 10px 82px}
 <button onclick="exportCSV('advanceApplications')">Advance Applications</button>
 <button onclick="exportCSV('tenantExpenseApplications')">Tenant Expense Credits</button>
   </div>
+</section>
+  
+<section id="security" class="panel hidden">
+
+  <div class="card">
+    <h2>🔐 Security Settings</h2>
+    <p class="muted">Manage your private wallet PIN.</p>
+
+    <h3>Change my PIN</h3>
+
+    <label>Current PIN</label>
+    <input id="changeCurrentPin" type="password"
+      inputmode="numeric" maxlength="4" placeholder="Current PIN">
+
+    <label>New PIN</label>
+    <input id="changeNewPin" type="password"
+      inputmode="numeric" maxlength="4" placeholder="New PIN">
+
+    <label>Confirm new PIN</label>
+    <input id="changeConfirmPin" type="password"
+      inputmode="numeric" maxlength="4" placeholder="Confirm PIN">
+
+    <button class="primary" onclick="walletChangePin()" style="width:100%">
+      Change my PIN
+    </button>
+
+    <p id="changePinMessage" class="muted"></p>
+  </div>
+
+  <div class="card">
+    <h3>🗝️ Forgot-PIN Recovery</h3>
+    <p class="muted">
+      Generate a recovery code in case you forget your PIN.
+      Keep it somewhere private and safe.
+    </p>
+
+    <button class="primary" onclick="walletCreateRecoveryCode()" style="width:100%">
+      Generate recovery code
+    </button>
+
+    <p id="recoveryStatus" class="muted"></p>
+    <p id="recoveryCodeDisplay"
+      style="font-size:18px;overflow-wrap:anywhere;font-weight:bold">
+    </p>
+
+    <p class="muted">
+      Save your code somewhere safe. It will be displayed only when generated.
+      Anyone with this code can reset your PIN.
+    </p>
+  </div>
+
+  <div class="card">
+    <h3>Important reminder</h3>
+    <p class="muted">
+      Your PIN is an app screen lock, not encryption.
+      Keep a separate JSON backup of your wallet records.
+      Erasing browser storage may erase your PIN and recovery code.
+    </p>
+  </div>
+
 </section>
   
 <section id="trash" class="panel hidden">
@@ -2297,5 +2366,476 @@ window.addEventListener('pageshow', () => {
 
 /* Start with the wallet locked */
 walletLock();
+  
+/* MY LITTLE WALLET - PIN CHANGE AND RECOVERY */
+
+const WALLET_PIN_HASH = 'myLittleWalletPinHashV1';
+const WALLET_PIN_SALT = 'myLittleWalletPinSaltV1';
+const WALLET_RECOVERY_HASH = 'myLittleWalletRecoveryHashV1';
+const WALLET_RECOVERY_SALT = 'myLittleWalletRecoverySaltV1';
+
+let walletPinStep = 'setup';
+let walletPinFlow = 'initial';
+let walletFirstPin = '';
+
+function walletHex(buffer) {
+  return Array.from(new Uint8Array(buffer))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+
+async function walletHashPin(value, salt) {
+  const encoder = new TextEncoder();
+
+  const key = await crypto.subtle.importKey(
+    'raw',
+    encoder.encode(value),
+    'PBKDF2',
+    false,
+    ['deriveBits']
+  );
+
+  const result = await crypto.subtle.deriveBits({
+    name: 'PBKDF2',
+    salt: encoder.encode(salt),
+    iterations: 210000,
+    hash: 'SHA-256'
+  }, key, 256);
+
+  return walletHex(result);
+}
+
+function walletShowScreen(mode) {
+  walletPinStep = mode;
+
+  const title = document.getElementById('walletLockTitle');
+  const description = document.getElementById('walletLockDescription');
+  const input = document.getElementById('walletPinInput');
+  const message = document.getElementById('walletLockMessage');
+  const forgot = document.getElementById('walletForgotButton');
+
+  input.value = '';
+  message.textContent = '';
+
+  const isRecovery = mode === 'recovery';
+
+  input.type = isRecovery ? 'text' : 'password';
+  input.maxLength = isRecovery ? 32 : 4;
+  input.inputMode = isRecovery ? 'text' : 'numeric';
+  input.placeholder = isRecovery ? 'Recovery code' : '••••';
+  input.style.letterSpacing = isRecovery ? '1px' : '12px';
+
+  if (forgot) {
+    forgot.style.display = mode === 'unlock' ? 'block' : 'none';
+  }
+
+  if (mode === 'setup') {
+    title.textContent = 'Create your wallet PIN';
+    description.textContent = 'Choose a private 4-digit PIN.';
+  } else if (mode === 'confirm') {
+    title.textContent = 'Confirm your PIN';
+    description.textContent = 'Enter your PIN one more time.';
+  } else if (mode === 'recovery') {
+    title.textContent = 'Recover your wallet';
+    description.textContent = 'Enter your 32-character recovery code.';
+  } else {
+    title.textContent = 'Welcome back!';
+    description.textContent = 'Enter your 4-digit PIN to unlock your wallet.';
+  }
+
+  setTimeout(() => input.focus(), 100);
+}
+
+function walletLock() {
+  const screen = document.getElementById('walletLockScreen');
+  if (!screen) return;
+
+  screen.style.display = 'flex';
+  walletPinFlow = 'initial';
+
+  if (localStorage.getItem(WALLET_PIN_HASH)) {
+    walletShowScreen('unlock');
+  } else {
+    walletShowScreen('setup');
+  }
+}
+
+async function walletSaveNewPin(pin) {
+  const salt = walletHex(crypto.getRandomValues(new Uint8Array(16)));
+  const hash = await walletHashPin(pin, salt);
+
+  localStorage.setItem(WALLET_PIN_SALT, salt);
+  localStorage.setItem(WALLET_PIN_HASH, hash);
+}
+
+async function walletLockSubmit() {
+  const input = document.getElementById('walletPinInput');
+  const message = document.getElementById('walletLockMessage');
+  const value = input.value.trim();
+
+  try {
+    if (walletPinStep === 'recovery') {
+      if (!/^[0-9a-fA-F]{32}$/.test(value)) {
+        message.textContent = 'Enter your complete recovery code.';
+        return;
+      }
+
+      const salt = localStorage.getItem(WALLET_RECOVERY_SALT);
+      const saved = localStorage.getItem(WALLET_RECOVERY_HASH);
+
+      if (!salt || !saved) {
+        message.textContent = 'Recovery code is unavailable.';
+        return;
+      }
+
+      const entered = await walletHashPin(value.toLowerCase(), salt);
+
+      if (entered !== saved) {
+        message.textContent = 'Incorrect recovery code. Try again.';
+        input.value = '';
+        return;
+      }
+
+      walletPinFlow = 'recovery';
+      walletFirstPin = '';
+      walletShowScreen('setup');
+
+      document.getElementById('walletLockDescription').textContent =
+        'Recovery accepted! Choose your new PIN.';
+
+      return;
+    }
+
+    if (!/^[0-9]{4}$/.test(value)) {
+      message.textContent = 'Please enter exactly 4 numbers.';
+      input.value = '';
+      return;
+    }
+
+    if (walletPinStep === 'setup') {
+      walletFirstPin = value;
+      walletShowScreen('confirm');
+      return;
+    }
+
+
+/* MY LITTLE WALLET - PIN CHANGE AND RECOVERY */
+
+const WALLET_PIN_HASH = 'myLittleWalletPinHashV1';
+const WALLET_PIN_SALT = 'myLittleWalletPinSaltV1';
+const WALLET_RECOVERY_HASH = 'myLittleWalletRecoveryHashV1';
+const WALLET_RECOVERY_SALT = 'myLittleWalletRecoverySaltV1';
+
+let walletPinStep = 'setup';
+let walletPinFlow = 'initial';
+let walletFirstPin = '';
+
+function walletHex(buffer) {
+  return Array.from(new Uint8Array(buffer))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+
+async function walletHashPin(value, salt) {
+  const encoder = new TextEncoder();
+
+  const key = await crypto.subtle.importKey(
+    'raw',
+    encoder.encode(value),
+    'PBKDF2',
+    false,
+    ['deriveBits']
+  );
+
+  const result = await crypto.subtle.deriveBits({
+    name: 'PBKDF2',
+    salt: encoder.encode(salt),
+    iterations: 210000,
+    hash: 'SHA-256'
+  }, key, 256);
+
+  return walletHex(result);
+}
+
+function walletShowScreen(mode) {
+  walletPinStep = mode;
+
+  const title = document.getElementById('walletLockTitle');
+  const description = document.getElementById('walletLockDescription');
+  const input = document.getElementById('walletPinInput');
+  const message = document.getElementById('walletLockMessage');
+  const forgot = document.getElementById('walletForgotButton');
+
+  input.value = '';
+  message.textContent = '';
+
+  const isRecovery = mode === 'recovery';
+
+  input.type = isRecovery ? 'text' : 'password';
+  input.maxLength = isRecovery ? 32 : 4;
+  input.inputMode = isRecovery ? 'text' : 'numeric';
+  input.placeholder = isRecovery ? 'Recovery code' : '••••';
+  input.style.letterSpacing = isRecovery ? '1px' : '12px';
+
+  if (forgot) {
+    forgot.style.display = mode === 'unlock' ? 'block' : 'none';
+  }
+
+  if (mode === 'setup') {
+    title.textContent = 'Create your wallet PIN';
+    description.textContent = 'Choose a private 4-digit PIN.';
+  } else if (mode === 'confirm') {
+    title.textContent = 'Confirm your PIN';
+    description.textContent = 'Enter your PIN one more time.';
+  } else if (mode === 'recovery') {
+    title.textContent = 'Recover your wallet';
+    description.textContent = 'Enter your 32-character recovery code.';
+  } else {
+    title.textContent = 'Welcome back!';
+    description.textContent = 'Enter your 4-digit PIN to unlock your wallet.';
+  }
+
+  setTimeout(() => input.focus(), 100);
+}
+
+function walletLock() {
+  const screen = document.getElementById('walletLockScreen');
+  if (!screen) return;
+
+  screen.style.display = 'flex';
+  walletPinFlow = 'initial';
+
+  if (localStorage.getItem(WALLET_PIN_HASH)) {
+    walletShowScreen('unlock');
+  } else {
+    walletShowScreen('setup');
+  }
+}
+
+async function walletSaveNewPin(pin) {
+  const salt = walletHex(crypto.getRandomValues(new Uint8Array(16)));
+  const hash = await walletHashPin(pin, salt);
+
+  localStorage.setItem(WALLET_PIN_SALT, salt);
+  localStorage.setItem(WALLET_PIN_HASH, hash);
+}
+
+async function walletLockSubmit() {
+  const input = document.getElementById('walletPinInput');
+  const message = document.getElementById('walletLockMessage');
+  const value = input.value.trim();
+
+  try {
+    if (walletPinStep === 'recovery') {
+      if (!/^[0-9a-fA-F]{32}$/.test(value)) {
+        message.textContent = 'Enter your complete recovery code.';
+        return;
+      }
+
+      const salt = localStorage.getItem(WALLET_RECOVERY_SALT);
+      const saved = localStorage.getItem(WALLET_RECOVERY_HASH);
+
+      if (!salt || !saved) {
+        message.textContent = 'Recovery code is unavailable.';
+        return;
+      }
+
+      const entered = await walletHashPin(value.toLowerCase(), salt);
+
+      if (entered !== saved) {
+        message.textContent = 'Incorrect recovery code. Try again.';
+        input.value = '';
+        return;
+      }
+
+      walletPinFlow = 'recovery';
+      walletFirstPin = '';
+      walletShowScreen('setup');
+
+      document.getElementById('walletLockDescription').textContent =
+        'Recovery accepted! Choose your new PIN.';
+
+      return;
+    }
+
+    if (!/^[0-9]{4}$/.test(value)) {
+      message.textContent = 'Please enter exactly 4 numbers.';
+      input.value = '';
+      return;
+    }
+
+    if (walletPinStep === 'setup') {
+      walletFirstPin = value;
+      walletShowScreen('confirm');
+      return;
+    }
+
+    if (walletPinStep === 'confirm') {
+      if (value !== walletFirstPin) {
+        walletFirstPin = '';
+        walletShowScreen('setup');
+        document.getElementById('walletLockMessage').textContent =
+          'PINs did not match. Please start again.';
+        return;
+      }
+
+      await walletSaveNewPin(value);
+      walletFirstPin = '';
+      walletUnlock();
+      return;
+    }
+
+    if (walletPinStep === 'unlock') {
+      const salt = localStorage.getItem(WALLET_PIN_SALT);
+      const saved = localStorage.getItem(WALLET_PIN_HASH);
+
+      if (!salt || !saved) {
+        message.textContent = 'PIN setup needs to be repeated.';
+        return;
+      }
+
+      const entered = await walletHashPin(value, salt);
+
+      if (entered !== saved) {
+        message.textContent = 'Incorrect PIN. Please try again.';
+        input.value = '';
+        return;
+      }
+
+      walletUnlock();
+    }
+  } catch (error) {
+    message.textContent =
+      'Security operation failed. Please try again using HTTPS in Chrome.';
+    console.error(error);
+  }
+}
+
+async function walletChangePin() {
+  const current = document.getElementById('changeCurrentPin').value;
+  const next = document.getElementById('changeNewPin').value;
+  const confirm = document.getElementById('changeConfirmPin').value;
+  const message = document.getElementById('changePinMessage');
+
+  message.textContent = '';
+
+  try {
+    if (!await walletVerifyPin(current)) {
+      message.textContent = 'Your current PIN is incorrect.';
+      return;
+    }
+
+    if (!/^[0-9]{4}$/.test(next)) {
+      message.textContent = 'Your new PIN must have exactly 4 numbers.';
+      return;
+    }
+
+    if (next !== confirm) {
+      message.textContent = 'Your new PIN entries do not match.';
+      return;
+    }
+
+    await walletSaveNewPin(next);
+
+    document.getElementById('changeCurrentPin').value = '';
+    document.getElementById('changeNewPin').value = '';
+    document.getElementById('changeConfirmPin').value = '';
+
+    message.textContent = 'Your PIN has been changed successfully.';
+  } catch (error) {
+    message.textContent = 'Unable to change PIN. Please try again.';
+    console.error(error);
+  }
+}
+
+async function walletVerifyPin(pin) {
+  if (!/^[0-9]{4}$/.test(pin)) return false;
+
+  const salt = localStorage.getItem(WALLET_PIN_SALT);
+  const saved = localStorage.getItem(WALLET_PIN_HASH);
+
+  if (!salt || !saved) return false;
+
+  return (await walletHashPin(pin, salt)) === saved;
+}
+
+async function walletCreateRecoveryCode() {
+  const status = document.getElementById('recoveryStatus');
+  const display = document.getElementById('recoveryCodeDisplay');
+
+  try {
+    const bytes = crypto.getRandomValues(new Uint8Array(16));
+    const code = walletHex(bytes);
+    const salt = walletHex(crypto.getRandomValues(new Uint8Array(16)));
+    const hash = await walletHashPin(code, salt);
+
+    localStorage.setItem(WALLET_RECOVERY_SALT, salt);
+    localStorage.setItem(WALLET_RECOVERY_HASH, hash);
+
+    display.textContent = code.toUpperCase();
+    status.textContent =
+      'New recovery code generated. Save it somewhere safe now.';
+
+  } catch (error) {
+    status.textContent = 'Unable to generate recovery code.';
+    console.error(error);
+  }
+}
+
+function walletUpdateRecoveryStatus() {
+  const status = document.getElementById('recoveryStatus');
+  const display = document.getElementById('recoveryCodeDisplay');
+
+  if (!status || !display) return;
+
+  display.textContent = '';
+
+  const exists =
+    localStorage.getItem(WALLET_RECOVERY_HASH) &&
+    localStorage.getItem(WALLET_RECOVERY_SALT);
+
+  status.textContent = exists
+    ? 'A recovery code is saved. Generate a new one if you need to replace it.'
+    : 'No recovery code yet. Generate one and keep it safe.';
+}
+
+function walletStartRecovery() {
+  if (
+    !localStorage.getItem(WALLET_RECOVERY_HASH) ||
+    !localStorage.getItem(WALLET_RECOVERY_SALT)
+  ) {
+    document.getElementById('walletLockMessage').textContent =
+      'No recovery code has been created. You need your PIN to create one.';
+    return;
+  }
+
+  walletPinFlow = 'recovery';
+  walletShowScreen('recovery');
+}
+
+function walletUnlock() {
+  document.getElementById('walletLockScreen').style.display = 'none';
+
+  const toast = document.getElementById('walletWelcomeToast');
+  toast.style.display = 'block';
+
+  setTimeout(() => {
+    toast.style.display = 'none';
+  }, 2800);
+}
+
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) walletLock();
+});
+
+window.addEventListener('pagehide', walletLock);
+
+window.addEventListener('pageshow', () => {
+  walletLock();
+});
+
+/* Start with the wallet locked */
+walletLock();
+
   
 </script></body></html>
