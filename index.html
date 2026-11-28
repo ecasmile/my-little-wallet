@@ -1089,7 +1089,57 @@ main{width:min(100%,980px);padding:8px 10px 82px}
  .dream-action span { width:49px !important; height:54px !important; }
 }
 
-  
+ /* Penny 3D icons */
+.nav button .nav-emoji {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  background: transparent !important;
+  filter: none !important;
+}
+
+.nav button .nav-emoji img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 2px 3px #8f4b7a30);
+}
+
+#home .metric-icon {
+  display: block !important;
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 5px;
+  background: none !important;
+  font-size: 0 !important;
+}
+
+#home .metric-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 3px 4px #a94b9828);
+}
+
+#home .metric small::before {
+  content: none !important;
+}
+
+@media(max-width:390px) {
+  .nav button .nav-emoji {
+    width: 36px;
+    height: 36px;
+  }
+
+  #home .metric-icon {
+    width: 46px;
+    height: 46px;
+  }
+} 
 </style></head>
 <body>
 
@@ -1159,17 +1209,14 @@ main{width:min(100%,980px);padding:8px 10px 82px}
   
 <main>
 <div class="nav" id="nav">
-<button class="active" data-tab="home"><span class="nav-emoji">🏠</span>Home</button>
-<button data-tab="personal"><span class="nav-emoji">👛</span>Personal</button>
-<button data-tab="savings"><span class="nav-emoji">🐷</span>Savings</button>
-<button data-tab="goals"><span class="nav-emoji">🏁</span>Panda Race</button>
-<button data-tab="repay"><span class="nav-emoji">💝</span>Repayments</button>
-<button data-tab="apartment"><span class="nav-emoji">🏡</span>Apartment</button>
-<button data-tab="bills"><span class="nav-emoji">🧾</span>Bills & Debts</button>
-<button data-tab="reports"><span class="nav-emoji">📊</span>Reports</button>
-<button data-tab="backup"><span class="nav-emoji">🛡️</span>Backup</button>
-<button data-tab="trash"><span class="nav-emoji">🧺</span>Trash</button>
-<button data-tab="security"><span class="nav-emoji">🔐</span>Security</button>
+<button data-tab="personal"><span class="nav-emoji"><img src="./icons/personal.png" alt=""></span>Personal</button>
+<button data-tab="savings"><span class="nav-emoji"><img src="./icons/savings.png" alt=""></span>Savings</button>
+<button data-tab="goals"><span class="nav-emoji"><img src="./icons/panda-race.png" alt=""></span>Panda Race</button>
+<button data-tab="repay"><span class="nav-emoji"><img src="./icons/repayments.png" alt=""></span>Repayments</button>
+<button data-tab="apartment"><span class="nav-emoji"><img src="./icons/apartment.png" alt=""></span>Apartment</button>
+<button data-tab="bills"><span class="nav-emoji"><img src="./icons/bills-debts.png" alt=""></span>Bills & Debts</button>
+<button data-tab="reports"><span class="nav-emoji"><img src="./icons/reports.png" alt=""></span>Reports</button>
+<button data-tab="backup"><span class="nav-emoji"><img src="./icons/backup.png" alt=""></span>Backup</button>
 </div>
 
 <section id="home" class="panel">
@@ -1194,25 +1241,25 @@ main{width:min(100%,980px);padding:8px 10px 82px}
   <div class="grid">
 
     <div class="metric">
-      <span class="metric-icon">💰</span>
+      <span class="metric-icon"><img src="./icons/personal.png" alt=""></span>
       <small>Personal income</small>
       <strong id="mIncome">₱0.00</strong>
     </div>
 
     <div class="metric">
-      <span class="metric-icon">🛍️</span>
+      <span class="metric-icon"><img src="./icons/savings.png" alt=""></span>
       <small>Personal spending</small>
       <strong id="mSpend">₱0.00</strong>
     </div>
 
     <div class="metric">
-      <span class="metric-icon">🐷</span>
+      <span class="metric-icon"><img src="./icons/apartment.png" alt=""></span>
       <small>Total savings</small>
       <strong id="mSavings">₱0.00</strong>
     </div>
 
     <div class="metric">
-      <span class="metric-icon">🏡</span>
+      <span class="metric-icon"><img src="./icons/apartment.png" alt=""></span>
       <small>Apartment collected</small>
       <strong id="mRent">₱0.00</strong>
     </div>
