@@ -1032,17 +1032,22 @@ main{width:min(100%,980px);padding:8px 10px 82px}
   --petal3: #ffb8d8;
 }
 
+
 /* Keep icons comfortable on smaller phones */
 @media (max-width: 390px) {
   .nav button .nav-emoji {
-    width: 42px !important;
-    height: 42px !important;
-    font-size: 18px !important;
+    width: 42px;
+    height: 42px;
   }
 
-  #home .snapshot-card .metric-icon {
-    width: 44px !important;
+  #home .metric-icon {
+    width: 44px;
+    height: 44px;
+  }
+}
+
 /* PINK PANDA DREAMLAND — plush sunflower icon artwork */
+
 #home .snapshot-card .metric-icon,
 .nav button .nav-emoji,
 .dream-action span {
@@ -1220,7 +1225,7 @@ main{width:min(100%,980px);padding:8px 10px 82px}
   content: none !important;
 }
 
-#home .snapshot-card .metric-icon {
+#home .metric-icon {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -1232,7 +1237,7 @@ main{width:min(100%,980px);padding:8px 10px 82px}
   font-size: 0 !important;
 }
 
-#home .snapshot-card .metric-icon img {
+#home .metric-icon img {
   width: 100% !important;
   height: 100% !important;
   max-width: 36px !important;
@@ -1243,7 +1248,7 @@ main{width:min(100%,980px);padding:8px 10px 82px}
   z-index: 1 !important;
 }
 
-#home .snapshot-card .metric-icon::before {
+#home .metric-icon::before {
   content: none !important;
 }
 
@@ -1260,13 +1265,13 @@ main{width:min(100%,980px);padding:8px 10px 82px}
     max-height: 28px !important;
   }
 
-  #home .snapshot-card .metric-icon {
+#home .metric-icon{
     width: 32px !important;
     height: 32px !important;
     min-width: 32px !important;
   }
 
-  #home .snapshot-card .metric-icon img {
+  #home .metric-icon img {
     max-width: 32px !important;
     max-height: 32px !important;
   }
