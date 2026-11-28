@@ -1139,6 +1139,7 @@ main{width:min(100%,980px);padding:8px 10px 82px}
     width: 46px;
     height: 46px;
   }
+}  
 /* Penny 3D icons - compact mobile sizing */
 .nav button .nav-emoji {
   display: inline-flex !important;
@@ -1189,6 +1190,88 @@ main{width:min(100%,980px);padding:8px 10px 82px}
     height: 36px;
   }
 }
+    
+/* FINAL PENNY ICON FIX */
+.nav button .nav-emoji {
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
+  padding: 0 !important;
+  margin: 0 4px 0 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 32px !important;
+}
+
+.nav button .nav-emoji img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 32px !important;
+  max-height: 32px !important;
+  object-fit: contain !important;
+  display: block !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Remove the old flower artwork behind the new icons */
+.nav button .nav-emoji::before {
+  content: none !important;
+}
+
+#home .snapshot-card .metric-icon {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  padding: 0 !important;
+  margin: 0 auto 5px !important;
+  font-size: 0 !important;
+}
+
+#home .snapshot-card .metric-icon img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 36px !important;
+  max-height: 36px !important;
+  object-fit: contain !important;
+  display: block !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+#home .snapshot-card .metric-icon::before {
+  content: none !important;
+}
+
+@media (max-width: 390px) {
+  .nav button .nav-emoji {
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    flex-basis: 28px !important;
+  }
+
+  .nav button .nav-emoji img {
+    max-width: 28px !important;
+    max-height: 28px !important;
+  }
+
+  #home .snapshot-card .metric-icon {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+  }
+
+  #home .snapshot-card .metric-icon img {
+    max-width: 32px !important;
+    max-height: 32px !important;
+  }
+}
+    
 </style></head>
 <body>
 
