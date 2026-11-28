@@ -1046,6 +1046,64 @@ main{width:min(100%,980px);padding:8px 10px 82px}
   }
 }
   
+/* FINAL SUNFLOWER SUMMARY ICONS */
+#home .snapshot-card .metric-icon {
+  display: inline-grid !important;
+  visibility: visible !important;
+  place-items: center !important;
+  position: relative !important;
+  width: 54px !important;
+  height: 54px !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  font-size: 22px !important;
+  background:
+    radial-gradient(ellipse 7px 13px at 50% 12%,var(--p1),transparent 98%),
+    radial-gradient(ellipse 7px 13px at 72% 19%,var(--p2),transparent 98%),
+    radial-gradient(ellipse 7px 13px at 88% 38%,var(--p3),transparent 98%),
+    radial-gradient(ellipse 7px 13px at 88% 62%,var(--p1),transparent 98%),
+    radial-gradient(ellipse 7px 13px at 72% 81%,var(--p2),transparent 98%),
+    radial-gradient(ellipse 7px 13px at 50% 88%,var(--p3),transparent 98%),
+    radial-gradient(ellipse 7px 13px at 28% 81%,var(--p1),transparent 98%),
+    radial-gradient(ellipse 7px 13px at 12% 62%,var(--p2),transparent 98%),
+    radial-gradient(ellipse 7px 13px at 12% 38%,var(--p3),transparent 98%),
+    radial-gradient(ellipse 7px 13px at 28% 19%,var(--p1),transparent 98%),
+    radial-gradient(circle,#9b603c 0 8px,#dba35d 9px 11px,transparent 12px) !important;
+  filter: drop-shadow(0 3px 3px #a96d9c35);
+}
+
+#home .snapshot-card .metric:nth-child(1) {
+  --p1:#ffd66f; --p2:#ffc4df; --p3:#ffe9a8;
+}
+#home .snapshot-card .metric:nth-child(2) {
+  --p1:#ffb8d8; --p2:#ffd66f; --p3:#f7c9eb;
+}
+#home .snapshot-card .metric:nth-child(3) {
+  --p1:#d8c2ff; --p2:#ffe09a; --p3:#c9b4f4;
+}
+#home .snapshot-card .metric:nth-child(4) {
+  --p1:#ffc49e; --p2:#ffe08a; --p3:#f5b8d8;
+}
+
+/* Clean Penny GIF edges */
+.penny-hero img,
+.penny-welcome-card img,
+.snapshot-heading img,
+.penny-welcome img,
+.penny-welcome-picture img {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 18px !important;
+}
+
+@media(max-width:390px) {
+  #home .snapshot-card .metric-icon {
+    width:48px !important;
+    height:48px !important;
+  }
+}
+  
 </style></head>
 <body>
 
