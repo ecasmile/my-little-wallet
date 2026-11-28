@@ -889,13 +889,39 @@ main{width:min(100%,980px);padding:8px 10px 82px}
     height: 38px;
   }
 }
+  .snapshot-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.snapshot-heading h2 {
+  margin: 0;
+}
+
+.snapshot-heading img {
+  width: 76px;
+  height: 76px;
+  object-fit: contain;
+  flex-shrink: 0;
+  animation: pennyFloat 3s ease-in-out infinite;
+}
+
+@media (max-width: 390px) {
+  .snapshot-heading img {
+    width: 62px;
+    height: 62px;
+  }
+}
   
 </style></head>
 <body>
 
 <div id="walletOpeningWelcome">
   <div class="penny-welcome-card">
-    <img src="./Penny%20for%20mean%20time.gif?v=3" alt="Penny welcoming you">
+    <img src="./penny-welcome.gif?v=1" alt="Penny welcoming you">
     <h1>Welcome Eca 🐼!🌻</h1>
     <p>I'm Penny! Let's take care of your little money dreams together.✨✨</p>
     <button type="button" onclick="walletContinueToPin()">Continue to PIN</button>
@@ -904,7 +930,7 @@ main{width:min(100%,980px);padding:8px 10px 82px}
 
 <div id="walletAfterPinWelcome">
   <div class="penny-welcome-card">
-    <img src="./Penny%20for%20mean%20time.gif?v=3" alt="Penny celebrating your return">
+    <img src="./penny-waving.gif?v=1" alt="Penny waving hello">
     <h1>Welcome back!</h1>
     <p>Penny is happy to see you 🐼! Your little money world is ready. 💕</p>
     <button type="button" onclick="walletGoToDashboard()">Let's go to my dashboard!</button>
@@ -986,8 +1012,10 @@ main{width:min(100%,980px);padding:8px 10px 82px}
 <span class="welcome-sparkles" aria-hidden="true">♡ ✧ ♡</span>
 </div>
 
-<div class="card snapshot-card">
+<div class="snapshot-heading">
   <h2>🌻 Your Financial Snapshot</h2>
+  <img src="./penny-welcome.gif?v=1" alt="Penny welcoming you to your financial summary">
+</div>
 
   <div class="grid">
 
