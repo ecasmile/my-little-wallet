@@ -3064,7 +3064,9 @@ function walletContinueToPin() {
 
 function walletGoToDashboard() {
   document.getElementById('walletAfterPinWelcome').style.display = 'none';
-  document.querySelector('.nav button[data-tab="home"]').click();
+  document.querySelectorAll('.panel').forEach(panel => panel.classList.add('hidden'));
+  document.getElementById('home').classList.remove('hidden');
+  document.querySelectorAll('.nav button').forEach(button => button.classList.remove('active'));
 }
 
   walletLock();
