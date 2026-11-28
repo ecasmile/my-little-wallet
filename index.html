@@ -1042,67 +1042,53 @@ main{width:min(100%,980px);padding:8px 10px 82px}
 
   #home .snapshot-card .metric-icon {
     width: 44px !important;
-    height: 44px !important;
-  }
+/* PINK PANDA DREAMLAND — plush sunflower icon artwork */
+#home .snapshot-card .metric-icon,
+.nav button .nav-emoji,
+.dream-action span {
+  position:relative !important; isolation:isolate !important;
+  display:inline-grid !important; place-items:center !important;
+  vertical-align:middle !important; background:none !important;
+  border:0 !important; border-radius:0 !important; filter:none !important;
+  padding:0 0 13px !important; box-sizing:border-box !important;
 }
-  
-/* FINAL SUNFLOWER SUMMARY ICONS */
-#home .snapshot-card .metric-icon {
-  display: inline-grid !important;
-  visibility: visible !important;
-  place-items: center !important;
-  position: relative !important;
-  width: 54px !important;
-  height: 54px !important;
-  border: 0 !important;
-  border-radius: 50% !important;
-  font-size: 22px !important;
-  background:
-    radial-gradient(ellipse 7px 13px at 50% 12%,var(--p1),transparent 98%),
-    radial-gradient(ellipse 7px 13px at 72% 19%,var(--p2),transparent 98%),
-    radial-gradient(ellipse 7px 13px at 88% 38%,var(--p3),transparent 98%),
-    radial-gradient(ellipse 7px 13px at 88% 62%,var(--p1),transparent 98%),
-    radial-gradient(ellipse 7px 13px at 72% 81%,var(--p2),transparent 98%),
-    radial-gradient(ellipse 7px 13px at 50% 88%,var(--p3),transparent 98%),
-    radial-gradient(ellipse 7px 13px at 28% 81%,var(--p1),transparent 98%),
-    radial-gradient(ellipse 7px 13px at 12% 62%,var(--p2),transparent 98%),
-    radial-gradient(ellipse 7px 13px at 12% 38%,var(--p3),transparent 98%),
-    radial-gradient(ellipse 7px 13px at 28% 19%,var(--p1),transparent 98%),
-    radial-gradient(circle,#9b603c 0 8px,#dba35d 9px 11px,transparent 12px) !important;
-  filter: drop-shadow(0 3px 3px #a96d9c35);
+#home .snapshot-card .metric-icon { width:58px !important; height:62px !important; margin:0 auto 5px !important; font-size:23px !important; line-height:1 !important; }
+.nav button .nav-emoji { width:42px !important; height:46px !important; margin:0 5px 0 0 !important; font-size:18px !important; }
+.dream-action span { width:54px !important; height:59px !important; margin:0 auto 5px !important; font-size:26px !important; }
+#home .snapshot-card .metric-icon::before,
+.nav button .nav-emoji::before,
+.dream-action span::before {
+  content:"" !important; position:absolute !important; z-index:-1 !important;
+  left:50% !important; bottom:0 !important; width:100% !important; height:100% !important;
+  transform:translateX(-50%) !important; background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22p%22%20x2%3D%22.8%22%20y2%3D%221%22%3E%3Cstop%20stop-color%3D%22%23fffbd7%22%2F%3E%3Cstop%20offset%3D%22.34%22%20stop-color%3D%22%23ffe18a%22%2F%3E%3Cstop%20offset%3D%22.72%22%20stop-color%3D%22%23f5b84f%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23c77c37%22%2F%3E%3C%2FlinearGradient%3E%3CradialGradient%20id%3D%22c%22%20cx%3D%22.3%22%20cy%3D%22.22%22%20r%3D%22.85%22%3E%3Cstop%20stop-color%3D%22%23f7d99b%22%2F%3E%3Cstop%20offset%3D%22.4%22%20stop-color%3D%22%23a96c43%22%2F%3E%3Cstop%20offset%3D%22.82%22%20stop-color%3D%22%2375422f%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23492b27%22%2F%3E%3C%2FradialGradient%3E%3Cfilter%20id%3D%22s%22%20x%3D%22-30%25%22%20y%3D%22-30%25%22%20width%3D%22160%25%22%20height%3D%22160%25%22%3E%3CfeGaussianBlur%20in%3D%22SourceAlpha%22%20stdDeviation%3D%222%22%2F%3E%3CfeOffset%20dy%3D%222.5%22%2F%3E%3CfeComponentTransfer%3E%3CfeFuncA%20type%3D%22linear%22%20slope%3D%22.28%22%2F%3E%3C%2FfeComponentTransfer%3E%3CfeMerge%3E%3CfeMergeNode%2F%3E%3CfeMergeNode%20in%3D%22SourceGraphic%22%2F%3E%3C%2FfeMerge%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%3Cg%20filter%3D%22url%28%23s%29%22%20stroke%3D%22%23d9953e%22%20stroke-opacity%3D%22.4%22%20stroke-width%3D%221%22%3E%3Cg%20fill%3D%22url%28%23p%29%22%3E%3Cellipse%20cx%3D%2250%22%20cy%3D%2217%22%20rx%3D%2210.5%22%20ry%3D%2219%22%20transform%3D%22rotate%280%2050%2050%29%22%2F%3E%3Cellipse%20cx%3D%2250%22%20cy%3D%2217%22%20rx%3D%2210.5%22%20ry%3D%2219%22%20transform%3D%22rotate%2836%2050%2050%29%22%2F%3E%3Cellipse%20cx%3D%2250%22%20cy%3D%2217%22%20rx%3D%2210.5%22%20ry%3D%2219%22%20transform%3D%22rotate%2872%2050%2050%29%22%2F%3E%3Cellipse%20cx%3D%2250%22%20cy%3D%2217%22%20rx%3D%2210.5%22%20ry%3D%2219%22%20transform%3D%22rotate%28108%2050%2050%29%22%2F%3E%3Cellipse%20cx%3D%2250%22%20cy%3D%2217%22%20rx%3D%2210.5%22%20ry%3D%2219%22%20transform%3D%22rotate%28144%2050%2050%29%22%2F%3E%3Cellipse%20cx%3D%2250%22%20cy%3D%2217%22%20rx%3D%2210.5%22%20ry%3D%2219%22%20transform%3D%22rotate%28180%2050%2050%29%22%2F%3E%3Cellipse%20cx%3D%2250%22%20cy%3D%2217%22%20rx%3D%2210.5%22%20ry%3D%2219%22%20transform%3D%22rotate%28216%2050%2050%29%22%2F%3E%3Cellipse%20cx%3D%2250%22%20cy%3D%2217%22%20rx%3D%2210.5%22%20ry%3D%2219%22%20transform%3D%22rotate%28252%2050%2050%29%22%2F%3E%3Cellipse%20cx%3D%2250%22%20cy%3D%2217%22%20rx%3D%2210.5%22%20ry%3D%2219%22%20transform%3D%22rotate%28288%2050%2050%29%22%2F%3E%3Cellipse%20cx%3D%2250%22%20cy%3D%2217%22%20rx%3D%2210.5%22%20ry%3D%2219%22%20transform%3D%22rotate%28324%2050%2050%29%22%2F%3E%3C%2Fg%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2219%22%20fill%3D%22url%28%23c%29%22%20stroke%3D%22%23f3c77d%22%20stroke-width%3D%222%22%2F%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2215%22%20fill%3D%22none%22%20stroke%3D%22%23f8d79a%22%20stroke-opacity%3D%22.55%22%20stroke-width%3D%221.2%22%20stroke-dasharray%3D%221%203%22%2F%3E%3Cellipse%20cx%3D%2243%22%20cy%3D%2242%22%20rx%3D%227%22%20ry%3D%223.5%22%20fill%3D%22%23fff%22%20opacity%3D%22.25%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") !important;
+  background-repeat:no-repeat !important; background-position:center bottom !important;
+  background-size:contain !important; filter:drop-shadow(0 3px 2px #89566b45) !important;
 }
-
-#home .snapshot-card .metric:nth-child(1) {
-  --p1:#ffd66f; --p2:#ffc4df; --p3:#ffe9a8;
+#home .snapshot-card .metric-icon::before { width:56px !important; height:56px !important; }
+/* Pastel variations: warm yellow, pink, lavender, peach */
+#home .snapshot-card .metric:nth-child(2) .metric-icon::before,
+.nav button:nth-child(2) .nav-emoji::before,
+.dream-action:nth-child(2) span::before { filter:drop-shadow(0 3px 2px #89566b45) hue-rotate(285deg) saturate(.92) !important; }
+#home .snapshot-card .metric:nth-child(3) .metric-icon::before,
+.nav button:nth-child(3) .nav-emoji::before,
+.dream-action:nth-child(3) span::before { filter:drop-shadow(0 3px 2px #89566b45) hue-rotate(225deg) saturate(.82) !important; }
+#home .snapshot-card .metric:nth-child(4) .metric-icon::before,
+.nav button:nth-child(4) .nav-emoji::before,
+.dream-action:nth-child(4) span::before { filter:drop-shadow(0 3px 2px #89566b45) hue-rotate(25deg) saturate(.95) !important; }
+/* Clean GIF edges: remove the white frame and outer backing */
+.penny-hero img, .penny-welcome-card img, .snapshot-heading img,
+.penny-welcome img, .penny-welcome-picture img {
+  display:block !important; border:0 !important; outline:0 !important;
+  background:transparent !important; box-shadow:none !important;
+  border-radius:18px !important; overflow:hidden !important; padding:0 !important;
 }
-#home .snapshot-card .metric:nth-child(2) {
-  --p1:#ffb8d8; --p2:#ffd66f; --p3:#f7c9eb;
-}
-#home .snapshot-card .metric:nth-child(3) {
-  --p1:#d8c2ff; --p2:#ffe09a; --p3:#c9b4f4;
-}
-#home .snapshot-card .metric:nth-child(4) {
-  --p1:#ffc49e; --p2:#ffe08a; --p3:#f5b8d8;
-}
-
-/* Clean Penny GIF edges */
-.penny-hero img,
-.penny-welcome-card img,
-.snapshot-heading img,
-.penny-welcome img,
-.penny-welcome-picture img {
-  border: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  border-radius: 18px !important;
-}
-
 @media(max-width:390px) {
-  #home .snapshot-card .metric-icon {
-    width:48px !important;
-    height:48px !important;
-  }
+ #home .snapshot-card .metric-icon { width:50px !important; height:54px !important; }
+ #home .snapshot-card .metric-icon::before { width:49px !important; height:49px !important; }
+ .nav button .nav-emoji { width:37px !important; height:41px !important; }
+ .dream-action span { width:49px !important; height:54px !important; }
 }
+
   
 </style></head>
 <body>
