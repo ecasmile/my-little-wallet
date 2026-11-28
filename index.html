@@ -2465,59 +2465,6 @@ async function walletSaveNewPin(pin) {
   const hash = await walletHashPin(pin, salt);
 
   localStorage.setItem(WALLET_PIN_SALT, salt);
-  localStorage.setItem(WALLET_PIN_HASH, hash);
-}
-
-async function walletLockSubmit() {
-  const input = document.getElementById('walletPinInput');
-  const message = document.getElementById('walletLockMessage');
-  const value = input.value.trim();
-
-  try {
-    if (walletPinStep === 'recovery') {
-      if (!/^[0-9a-fA-F]{32}$/.test(value)) {
-        message.textContent = 'Enter your complete recovery code.';
-        return;
-      }
-
-      const salt = localStorage.getItem(WALLET_RECOVERY_SALT);
-      const saved = localStorage.getItem(WALLET_RECOVERY_HASH);
-
-      if (!salt || !saved) {
-        message.textContent = 'Recovery code is unavailable.';
-        return;
-      }
-
-      const entered = await walletHashPin(value.toLowerCase(), salt);
-
-      if (entered !== saved) {
-        message.textContent = 'Incorrect recovery code. Try again.';
-        input.value = '';
-        return;
-      }
-
-      walletPinFlow = 'recovery';
-      walletFirstPin = '';
-      walletShowScreen('setup');
-
-      document.getElementById('walletLockDescription').textContent =
-        'Recovery accepted! Choose your new PIN.';
-
-      return;
-    }
-
-    if (!/^[0-9]{4}$/.test(value)) {
-      message.textContent = 'Please enter exactly 4 numbers.';
-      input.value = '';
-      return;
-    }
-
-    if (walletPinStep === 'setup') {
-      walletFirstPin = value;
-      walletShowScreen('confirm');
-      return;
-    }
-
 
 /* MY LITTLE WALLET - PIN CHANGE AND RECOVERY */
 
