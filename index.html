@@ -958,6 +958,94 @@ main{width:min(100%,980px);padding:8px 10px 82px}
   filter: hue-rotate(-18deg) drop-shadow(0 2px 3px #c66a9b30);
 }
   
+/* PINK PANDA DREAMLAND — CLOUD + PUFFY SUNFLOWER ICONS */
+
+/* Shared cloud and flower layers */
+.nav button .nav-emoji,
+#home .snapshot-card .metric-icon,
+.dream-action span {
+  position: relative !important;
+  display: inline-grid !important;
+  place-items: center !important;
+  width: 48px !important;
+  height: 48px !important;
+  box-sizing: border-box !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background:
+    /* Sunflower petals */
+    radial-gradient(ellipse 5px 9px at 50% 23%, var(--petal1) 96%, transparent 100%),
+    radial-gradient(ellipse 5px 9px at 72% 32%, var(--petal2) 96%, transparent 100%),
+    radial-gradient(ellipse 9px 5px at 78% 50%, var(--petal3) 96%, transparent 100%),
+    radial-gradient(ellipse 5px 9px at 72% 68%, var(--petal1) 96%, transparent 100%),
+    radial-gradient(ellipse 5px 9px at 50% 77%, var(--petal2) 96%, transparent 100%),
+    radial-gradient(ellipse 9px 5px at 28% 68%, var(--petal3) 96%, transparent 100%),
+    radial-gradient(ellipse 9px 5px at 22% 50%, var(--petal1) 96%, transparent 100%),
+    radial-gradient(ellipse 5px 9px at 28% 32%, var(--petal2) 96%, transparent 100%),
+    /* Sunflower center */
+    radial-gradient(circle at 50% 50%, #a96843 0 6px, #e9b86d 6.5px 8px, transparent 8.5px),
+    /* Soft fluffy cloud */
+    radial-gradient(circle at 28% 65%, #ffffff 0 9px, transparent 9.5px),
+    radial-gradient(circle at 50% 57%, #ffffff 0 12px, transparent 12.5px),
+    radial-gradient(circle at 72% 65%, #ffffff 0 9px, transparent 9.5px),
+    linear-gradient(145deg, #fcecff, #e9e2ff) !important;
+  box-shadow:
+    inset 0 2px 4px #ffffffd9,
+    0 4px 9px #a94b9828 !important;
+  filter: drop-shadow(0 2px 3px #c66a9b25);
+}
+
+/* Original emoji stays visible above the decoration */
+.nav button .nav-emoji,
+#home .snapshot-card .metric-icon,
+.dream-action span {
+  font-size: 20px !important;
+  line-height: 1 !important;
+  margin-bottom: 5px !important;
+}
+
+/* Different gentle pastel sunflower colors */
+.nav button,
+#home .snapshot-card .metric {
+  --petal1: #ffd66f;
+  --petal2: #ffb8d8;
+  --petal3: #d8c2ff;
+}
+
+.nav button:nth-child(3n+2),
+#home .snapshot-card .metric:nth-child(2) {
+  --petal1: #ffb8d8;
+  --petal2: #ffd66f;
+  --petal3: #d8c2ff;
+}
+
+.nav button:nth-child(3n),
+#home .snapshot-card .metric:nth-child(3) {
+  --petal1: #d8c2ff;
+  --petal2: #ffd66f;
+  --petal3: #ffb8d8;
+}
+
+#home .snapshot-card .metric:nth-child(4) {
+  --petal1: #ffd66f;
+  --petal2: #d8c2ff;
+  --petal3: #ffb8d8;
+}
+
+/* Keep icons comfortable on smaller phones */
+@media (max-width: 390px) {
+  .nav button .nav-emoji {
+    width: 42px !important;
+    height: 42px !important;
+    font-size: 18px !important;
+  }
+
+  #home .snapshot-card .metric-icon {
+    width: 44px !important;
+    height: 44px !important;
+  }
+}
+  
 </style></head>
 <body>
 
