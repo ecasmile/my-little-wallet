@@ -667,6 +667,103 @@ main{width:min(100%,980px);padding:8px 10px 82px}
 }
   
   
+/* Pink Panda Dreamland - fluffy cloud navigation */
+.nav {
+  gap: 5px !important;
+  padding: 17px 5px 15px !important;
+  overflow-x: auto !important;
+}
+
+.nav button {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: visible !important;
+  flex: 0 0 82px !important;
+  min-width: 82px !important;
+  height: 70px !important;
+  padding: 19px 4px 5px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 1px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #895477 !important;
+  font-size: 10px !important;
+  font-weight: 750 !important;
+  line-height: 1.15 !important;
+  white-space: normal !important;
+  text-align: center !important;
+}
+
+.nav button::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  height: 39px;
+  border-radius: 22px;
+  background: linear-gradient(145deg,#fff,#ffeaf5);
+  box-shadow: 0 3px 8px #b95f8c25;
+}
+
+.nav button::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 29px;
+  height: 29px;
+  top: 5px;
+  left: calc(50% - 14px);
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: -15px 10px 0 -2px #fff,
+               15px 10px 0 -2px #fff;
+  filter: drop-shadow(0 2px 2px #b95f8c18);
+}
+
+.nav button .nav-emoji {
+  margin: 0 !important;
+  font-size: 19px !important;
+  line-height: 1.1 !important;
+  filter: drop-shadow(0 1px 2px #c66a9b30);
+}
+
+.nav button.active {
+  color: #fff !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.nav button.active::before {
+  background: linear-gradient(145deg,#f18cbd,#b99be8);
+  box-shadow: 0 4px 10px #bd69ae55;
+}
+
+.nav button.active::after {
+  background: #f9d7ed;
+  box-shadow: -15px 10px 0 -2px #f9d7ed,
+               15px 10px 0 -2px #f9d7ed;
+}
+
+.nav button:active {
+  transform: translateY(2px) !important;
+}
+
+@media(max-width:390px) {
+  .nav button {
+    flex-basis: 76px !important;
+    min-width: 76px !important;
+    font-size: 9px !important;
+  }
+}
+  
 </style></head>
 <body>
   
